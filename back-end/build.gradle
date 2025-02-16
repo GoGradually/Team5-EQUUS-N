@@ -57,6 +57,13 @@ dependencies {
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    // reactor 관련 의존성 추가
+    implementation 'io.projectreactor:reactor-core'
+    testImplementation 'io.projectreactor:reactor-test'
+
+    // ai 모듈 연결 의존성 추가
+    implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
 }
 
 tasks.named('test') {
