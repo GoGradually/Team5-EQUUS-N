@@ -33,10 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -206,12 +203,12 @@ public class InAppNotificationService {
     }
 
     private void createNotification(FeedbackReceiveNotification unreadNotification) {
-        // 이미 안읽은 피드백 알림이 있다면 새로 생성하지 않음
-        if (inAppNotificationRepository.findByReceiverIdAndType(
+        // 이미 안읽은 미확인 피드백 알림이 있다면 새로 생성하지 않음
+        Optional<InAppNotification> exists = inAppNotificationRepository.findByReceiverIdAndType(
                 unreadNotification.getReceiverId(),
-                NotificationType.UNREAD_FEEDBACK_EXIST).isPresent()) {
+                NotificationType.UNREAD_FEEDBACK_EXIST);
+        if (exists.isPresent() && !exists.get().isRead())
             return;
-        }
 
         InAppNotification notification = new UnreadFeedbackExistNotification(unreadNotification);
         inAppNotificationRepository.save(notification);
