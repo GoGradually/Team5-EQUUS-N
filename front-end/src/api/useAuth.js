@@ -1,6 +1,6 @@
 import { api } from './baseApi';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { replace, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { showToast } from '../utility/handleToast';
 import { useUser } from '../useUser';
 import { useJoinTeam } from './useTeamspace';

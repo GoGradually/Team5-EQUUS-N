@@ -23,9 +23,9 @@ export default function FeedbackComplete() {
           viewBox='0 0 24 24'
           fill='none'
           stroke='currentColor'
-          stroke-width='6'
-          stroke-linecap='round'
-          stroke-linejoin='round'
+          strokeWidth='6'
+          strokeLinecap='round'
+          strokeLinejoin='round'
           className='size-full stroke-white'
         >
           <polyline points='20 6 11 17 4 12' />
