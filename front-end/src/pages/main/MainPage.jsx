@@ -99,7 +99,7 @@ export default function MainPage() {
   };
 
   return (
-    <div className='flex w-full flex-col'>
+    <div className='relative flex h-full w-full flex-col overflow-hidden'>
       <StickyWrapper className='px-5'>
         {teams && (
           <Accordion
