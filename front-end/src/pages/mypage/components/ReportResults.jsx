@@ -56,10 +56,13 @@ export default function ReportResults({ results }) {
   });
 
   return (
-    <div className='rounded-400 flex flex-col gap-6 bg-gray-800 p-5'>
-      {resultsWithPercentage.map((result, i) => (
-        <Result key={i} result={result} />
-      ))}
+    <div className='flex flex-col gap-3'>
+      <h2 className='header-4 ml-1 text-gray-100'>한눈에 보기</h2>
+      <div className='rounded-400 flex flex-col gap-6 bg-gray-800 p-5'>
+        {resultsWithPercentage.map((result, i) => (
+          <Result key={i} result={result} />
+        ))}
+      </div>
     </div>
   );
 }

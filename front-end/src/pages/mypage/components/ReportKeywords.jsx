@@ -36,10 +36,13 @@ function Keyword({ report }) {
 export default function ReportKeywords({ reports }) {
   // TODO: 데이터 형식 추후 확인 필요
   return (
-    <div className='rounded-400 flex flex-col gap-3 bg-gray-800 p-5'>
-      {reports.map((report, i) => (
-        <Keyword key={i} report={report} />
-      ))}
+    <div className='flex flex-col gap-3'>
+      <h2 className='header-4 ml-1 text-gray-100'>전체 보기</h2>
+      <div className='rounded-400 flex flex-col gap-3 bg-gray-800 p-5'>
+        {reports.map((report, i) => (
+          <Keyword key={i} report={report} />
+        ))}
+      </div>
     </div>
   );
 }

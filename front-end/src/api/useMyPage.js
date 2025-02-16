@@ -50,3 +50,17 @@ export const useEditMember = () => {
     mutationFn: (data) => api.post({ url: '/api/member', body: data }),
   });
 };
+
+/**
+ * 피드백 리포트 조회
+ */
+export const useGetFeedbackReport = () => {
+  return useQuery({
+    queryKey: ['feedback-report'],
+    queryFn: () => {
+      return api.get({
+        url: '/api/feedbacks/report',
+      });
+    },
+  });
+};
