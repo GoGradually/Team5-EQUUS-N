@@ -82,14 +82,9 @@ export const useFeedbackFavorite = () => {
 };
 
 export const useEditFavorite = () => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data) =>
       api.post({ url: '/api/member/feedback-prefer', body: data }),
-    onSuccess: () => {
-      // TODO: 사용자 선호 피드백 정보 조회할때 캐시를 지우도록 수정
-      // queryClient.invalidateQueries({ queryKey: ['feedback-favorite'] });
-    },
   });
 };
 
