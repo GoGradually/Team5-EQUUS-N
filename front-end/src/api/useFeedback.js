@@ -78,6 +78,7 @@ export const useFeedbackFavorite = () => {
   return useQuery({
     queryKey: ['feedback-preference'],
     queryFn: () => api.get({ url: '/api/feedback/preference' }),
+    gcTime: 1000 * 60 * 60, // 바뀔 일이 거의 없는 데이터라서 1시간으로 설정
   });
 };
 
@@ -93,6 +94,7 @@ export const useFeedbackFavoriteByUser = (data) => {
     queryKey: ['feedback-favorite-by-user'],
     queryFn: () =>
       api.get({ url: `/api/member/feedback-prefer?findMemberId=${data}` }),
+    gcTime: 0, // 지난번 거랑 바뀌는게 보기 좋지 않아서 그냥 캐싱 X
   });
 };
 
