@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/feedback-refinement")
@@ -31,7 +31,7 @@ public class FeedbackRefinementController {
             @ApiResponse(responseCode = "502", description = "외부 API 서버 오류", content = @Content)
     })
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Flux<ResponseEntity<FeedbackRefineDto>> refineFeedback(@Login Long callerId, @Valid @RequestBody FeedbackRefineRequest request) {
+    public Mono<ResponseEntity<FeedbackRefineDto>> refineFeedback(@Login Long callerId, @Valid @RequestBody FeedbackRefineRequest request) {
         return feedbackRefineService.refineFeedback(callerId, request.receiverId(), request.subjectiveFeedback())
                 .map(ResponseEntity::ok);
     }
