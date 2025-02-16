@@ -34,11 +34,7 @@ export default function Report() {
             <MediumButton
               text='피드백 요청하러 가기'
               isOutlined={false}
-<<<<<<< HEAD
               onClick={() => navigate('/main')}
-=======
-              onClick={navigate('/main')}
->>>>>>> 21810ee2cdad3cbd83059f43f8593359956ae857
             />
           </>
         : <div className='flex flex-col gap-8 py-6'>
