@@ -24,4 +24,9 @@ public class ExternalApiControllerAdvice {
         eventPublisher.publishEvent(new FeedbackRefineCountCompensationEvent(e.getCallerId()));
         return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(e.getMessage());
     }
+
+    @ExceptionHandler(AiRefineChanceAlreadyUsedException.class)
+    public ResponseEntity<String> handleAiRefineChanceAlreadyUsedException(AiRefineChanceAlreadyUsedException e) {
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(e.getMessage());
+    }
 }
