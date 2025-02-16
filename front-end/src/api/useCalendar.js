@@ -64,6 +64,7 @@ export const useEditSchedule = (teamId) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['schedules'] });
+      queryClient.invalidateQueries({ queryKey: ['mainCard', teamId] });
     },
     onError: (error) => {
       showToast(error.message);

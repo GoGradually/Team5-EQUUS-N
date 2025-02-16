@@ -216,13 +216,7 @@ export default function MainPage() {
       {recentScheduleData && (
         <TodoAdd
           isOpen={isTodoAddOpen}
-          onSubmit={() => {
-            toggleTodoAdd();
-            // TODO: 할일 조회
-          }}
-          onClose={() => {
-            toggleTodoAdd();
-          }}
+          onClose={() => toggleTodoAdd()}
           selectedSchedule={recentScheduleData}
         />
       )}
