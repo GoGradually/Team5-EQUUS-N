@@ -6,7 +6,6 @@ const useBlockPop = (pathname, options = { replace: true }) => {
 
   useEffect(() => {
     const handlePopState = (event) => {
-      console.log(event);
       navigate(pathname, options);
     };
 

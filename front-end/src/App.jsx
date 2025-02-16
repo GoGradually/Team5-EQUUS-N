@@ -32,6 +32,7 @@ import MyPageHome from './pages/mypage/MyPageHome';
 import ProtectedRoute from './ProtectedRoute';
 import SplashForOAuth from './pages/auth/SplashForOAuth';
 import PushNotiManager from './PushNotiManager';
+import FeedbackSendFreq from './pages/feedback/FeedbackSendFreq';
 
 const queryClient = new QueryClient();
 
@@ -53,6 +54,7 @@ export default function App() {
                   <Route path='request' element={<FeedbackRequest />} />
                   <Route path='send' element={<FeedbackSendLayout />}>
                     <Route index element={<FeedbackSend />} />
+                    <Route path='frequent' element={<FeedbackSendFreq />} />
                     <Route path=':step' element={<FeedbackSendStep />} />
                   </Route>
                   <Route path='self' element={<FeedbackSelf />} />

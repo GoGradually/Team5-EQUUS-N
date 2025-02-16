@@ -11,8 +11,11 @@ export default defineConfig({
     tailwindcss(),
     svgr(),
     VitePWA({
+      strategies: 'injectManifest',
+      filename: 'service-worker.js',
       injectManifest: {
         swSrc: '/service-worker.js',
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
       },
       manifest: {
         name: '피드한줌',

@@ -103,3 +103,14 @@ export const useRegularFeedback = (scheduleId) => {
 
   return { data, mutation };
 };
+
+export const useWhoNeedFreqFeedback = (teamId) => {
+  return useQuery({
+    queryKey: ['check-frequent', teamId],
+    queryFn: () =>
+      api.get({
+        url: `/api/feedbacks/frequent/request`,
+        params: { teamId },
+      }),
+  });
+};

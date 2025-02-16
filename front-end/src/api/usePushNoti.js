@@ -8,12 +8,6 @@ export const useSubscribe = () => {
         url: '/api/push-notification/subscribe',
         body: subscription,
       }),
-    onSuccess: (data) => {
-      console.log(data);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
   });
 };
 
