@@ -31,7 +31,6 @@ public class RedisConfig {
         template.setHashKeySerializer(new StringRedisSerializer());
         template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
 
-        template.afterPropertiesSet();
         return template;
     }
 }
