@@ -20,7 +20,7 @@ export default function Report() {
         title='피드백 리포트'
       />
       {report &&
-        (report.feedbackCount < 200 ?
+        (report.feedbackCount < report.requiredFeedbackCount ?
           <>
             <h1 className='header-2 text-gray-0 mt-3 break-keep'>
               {`피드백이 ${report.requiredFeedbackCount}개 이상 모이면 리포트를 확인할 수 있어요`}
