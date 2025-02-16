@@ -73,6 +73,11 @@ public class FeedbackRefineService {
         redisTemplate.opsForValue().increment(redisKey, 1L);
     }
 
+    public void resetRefineCount(Long callerId) {
+        String redisKey = buildKey(callerId);
+        redisTemplate.delete(redisKey);
+    }
+
     private String buildKey(Long callerId) {
         return FEEDBACK_REFINE_COUNT_PREFIX + callerId;
     }
