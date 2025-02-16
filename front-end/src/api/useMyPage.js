@@ -1,7 +1,5 @@
 import { api } from './baseApi';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
-import { showToast } from '../utility/handleToast';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 /**
  * 피드백 요청 커스텀 훅
@@ -31,15 +29,37 @@ export const useGetSelfFeedback = (userId, params) => {
 
 /**
  * 특정 유저 조회 커스텀 훅
- * @param {number} memberId
- * @returns {object} - 특정 유저 조회 결과
+ * @returns {Member} - 특정 유저 조회 결과
  */
-export const useSearchMember = (memberId) => {
+export const useSearchMember = () => {
   return useQuery({
-    queryKey: ['search-member', memberId],
+    queryKey: ['search-member'],
     queryFn: () => {
       return api.get({
-        url: `/api/member/${memberId}`,
+        url: `/api/member`,
+      });
+    },
+  });
+};
+
+/**
+ * 회원 정보 변경 훅
+ */
+export const useEditMember = () => {
+  return useMutation({
+    mutationFn: (data) => api.post({ url: '/api/member', body: data }),
+  });
+};
+
+/**
+ * 피드백 리포트 조회
+ */
+export const useGetFeedbackReport = () => {
+  return useQuery({
+    queryKey: ['feedback-report'],
+    queryFn: () => {
+      return api.get({
+        url: '/api/feedbacks/report',
       });
     },
   });
