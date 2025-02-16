@@ -6,7 +6,7 @@ import org.springframework.ai.chat.model.Generation;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
@@ -15,12 +15,12 @@ import java.util.Optional;
 public class ChatGPTClient {
     private final OpenAiChatModel openAiChatModel;
 
-    public Flux<String> callAiRefining(String message) {
+    public Mono<String> callAiRefining(String message) {
         return openAiChatModel.stream(new Prompt(message))
                 .map(chatResponse -> Optional.ofNullable(chatResponse.getResult())
                         .map(Generation::getOutput)
                         .map(AssistantMessage::getText))
                 .filter(Optional::isPresent)
-                .map(Optional::get);
+                .map(Optional::get).single();
     }
 }
