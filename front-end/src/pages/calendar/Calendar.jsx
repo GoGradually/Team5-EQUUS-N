@@ -122,6 +122,8 @@ export default function Calendar() {
           selectedScheduleFromParent={selectedSchedule}
           onClose={() => setDoingAction(false)}
           actionInfo={actionInfo}
+          dateFixed={actionType === ScheduleActionType.ADD}
+          setParentDate={setSelectedDate}
         />
       )}
     </div>
