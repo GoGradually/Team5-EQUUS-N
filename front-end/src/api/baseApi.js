@@ -38,7 +38,8 @@ const request = async (method, url, params = {}, body) => {
   try {
     const response = await fetch(fullUrl, options);
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      // TODO: 커스텀 에러 객체 만들어서 처리
+      throw new Error(`${await response.text()}`);
     }
     const text = await response.text();
     if (!text) {
@@ -47,7 +48,7 @@ const request = async (method, url, params = {}, body) => {
       return JSON.parse(text);
     }
   } catch (error) {
-    console.error('API Request Error:', error);
+    console.error('API Request', error);
     throw error;
   }
 };

@@ -7,12 +7,11 @@
  */
 export default function FeedBackButton({ currentFeedback, onClick }) {
   return (
-    <div className='flex gap-3'>
+    <div className='flex w-full gap-3'>
       <div
-        className={`rounded-400 flex cursor-pointer flex-col items-center justify-center gap-7 bg-gray-800 px-6.5 py-9 outline-lime-500 select-none ${
-          currentFeedback === '칭찬해요' ? 'outline-2' : ''
+        className={`rounded-400 flex flex-1 cursor-pointer flex-col items-center justify-center gap-7 bg-gray-800 px-6.5 py-9 ring-lime-500 transition duration-200 ${
+          currentFeedback === '칭찬해요' && 'ring-2'
         }`}
-        style={{ width: '170px' }}
         onClick={() => {
           onClick('칭찬해요');
         }}
@@ -28,10 +27,9 @@ export default function FeedBackButton({ currentFeedback, onClick }) {
         </div>
       </div>
       <div
-        className={`rounded-400 flex cursor-pointer flex-col items-center justify-center gap-7 bg-gray-800 px-6.5 py-9 outline-lime-500 select-none ${
-          currentFeedback === '아쉬워요' ? 'outline-2' : ''
+        className={`rounded-400 flex flex-1 cursor-pointer flex-col items-center justify-center gap-7 bg-gray-800 px-6.5 py-9 ring-lime-500 transition duration-200 ${
+          currentFeedback === '아쉬워요' && 'ring-2'
         }`}
-        style={{ width: '170px' }}
         onClick={() => {
           onClick('아쉬워요');
         }}

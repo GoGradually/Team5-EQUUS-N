@@ -15,12 +15,10 @@ export default function FeedbackSend1() {
       <h1 className='header-2 text-gray-0 mt-3 whitespace-pre-line'>
         {`${locationState.receiver.name}님에게\n어떤 피드백을 보낼까요?`}
       </h1>
-      <div className='flex gap-3'>
-        <FeedBackButton
-          currentFeedback={feedbackFeeling}
-          onClick={(feeling) => setFeedbackFeeling(feeling)}
-        />
-      </div>
+      <FeedBackButton
+        currentFeedback={feedbackFeeling}
+        onClick={(feeling) => setFeedbackFeeling(feeling)}
+      />
       <FooterWrapper>
         <LargeButton
           isOutlined={false}

@@ -140,6 +140,25 @@ export function timePickerToDate(date, time) {
   );
 }
 
+export function toYMD(date) {
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  const formattedDate = `${year}-${month}-${day}`;
+  return formattedDate;
+}
+
+export function combineDateTime(date1, date2) {
+  const year = date1.getFullYear();
+  const month = date1.getMonth();
+  const day = date1.getDate();
+
+  const hours = date2.getHours();
+  const minutes = date2.getMinutes();
+
+  return new Date(year, month, day, hours, minutes);
+}
+
 export function toKST(date) {
   let kst = new Date(date);
   kst.setTime(new Date(date).getTime() + 1000 * 60 * 60 * 9);

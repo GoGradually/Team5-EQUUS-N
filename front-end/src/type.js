@@ -24,3 +24,22 @@
  * @property {string} profileImage.backgroundColor - 프로필 이미지 배경색
  * @property {string} profileImage.image - 프로필 이미지 이름
  */
+
+/**
+ * @typedef {Object} ReportType - 리포트 정보
+ * @property {object} data
+ * @property {number} data.feedbackCount - 피드백 수
+ * @property {number} data.requiredFeedbackCount - 필요한 피드백 수
+ * @property {Object[]} data.topKeywords - 상위 키워드 리스트
+ * @property {string} data.topKeywords.keyword - 키워드
+ * @property {string} data.topKeywords.feeling - 감정
+ * @property {number} data.topKeywords.count - 횟수
+ * @property {Object[]} data.overviews - 개요 리스트
+ * @property {string} data.overviews.category - 카테고리
+ * @property {number} data.overviews.goodCount - 좋아요 수
+ * @property {number} data.overviews.badCount - 싫어요 수
+ * @property {Object[]} data.allKeywords - 전체 키워드 리스트
+ * @property {string} data.allKeywords.keyword - 키워드
+ * @property {string} data.allKeywords.feeling - 감정
+ * @property {number} data.allKeywords.count - 횟수
+ */

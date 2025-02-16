@@ -7,6 +7,7 @@ export const ModalType = Object.freeze({
   SINGLE: 'SINGLE',
   SINGLE_DELETE: 'SINGLE_DELETE',
   EXIT: 'EXIT',
+  SKIP: 'SKIP',
 });
 
 /**
@@ -76,6 +77,20 @@ export default function Modal({
             {subButton ?
               '계정 탈퇴 시 피드백 보관함에 기록된 모든 피드백이 삭제되며, 탈퇴하고자 하는 계정에 재접근이 불가해요. 그래도 탈퇴하시겠어요?'
             : '새로운 팀장에게 팀장 권한을 이전해 주세요. \n 팀장 변경 방법: 마이페이지 > 팀 스페이스 관리'
+            }
+          </p>
+          <div className='flex gap-3'>
+            {subButton}
+            {mainButton}
+          </div>
+        </>
+      )}
+      {type === ModalType.SKIP && (
+        <>
+          <h2 className='subtitle-2 mx-auto mt-6'>{content}</h2>
+          <p className='caption-1 my-5 text-center break-keep whitespace-pre-line text-gray-200'>
+            {
+              '피드백을 건너뛰면, 이번 일정에 관한 피드백을 더이상 작성할 수 없어요.'
             }
           </p>
           <div className='flex gap-3'>

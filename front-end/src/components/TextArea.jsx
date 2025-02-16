@@ -33,19 +33,17 @@ export default function TextArea({
     setTextContent(e.target.value);
   };
 
-  const Spinner = () => {
-    return (
-      <div className='absolute inset-0 flex flex-col items-center justify-center'>
-        <div className='relative mt-6 mb-10 flex items-center justify-center'>
-          <div className='absolute size-10 animate-spin rounded-full bg-conic from-transparent from-5% to-lime-600' />
-          <div className='absolute size-[30px] rounded-full bg-gray-800' />
-        </div>
-        <p className='body-1 animate-pulse text-gray-300'>
-          AI가 글을 다듬는 중...
-        </p>
+  const spinner = (
+    <div className='absolute inset-0 flex flex-col items-center justify-center'>
+      <div className='relative mt-6 mb-10 flex items-center justify-center'>
+        <div className='absolute size-10 animate-spin rounded-full bg-conic from-transparent from-5% to-lime-600' />
+        <div className='absolute size-[30px] rounded-full bg-gray-800' />
       </div>
-    );
-  };
+      <p className='body-1 animate-pulse text-gray-300'>
+        AI가 글을 다듬는 중...
+      </p>
+    </div>
+  );
 
   return (
     <div
@@ -76,7 +74,7 @@ export default function TextArea({
           className={`caption-1 text-gray-300 ${isGptLoading && 'invisible'}`}
         >{`${textLength}/400 byte`}</p>
       </div>
-      {isGptLoading && Spinner()}
+      {isGptLoading && spinner}
     </div>
   );
 }

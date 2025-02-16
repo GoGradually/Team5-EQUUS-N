@@ -19,12 +19,16 @@ export default function FeedbackSendLayout() {
         <ProgressBar
           currentStep={parseInt(lastPath) ?? 1}
           totalStep={3}
-          isVisible={lastPath !== 'send'}
+          isVisible={lastPath !== 'send' && lastPath !== 'frequent'}
         />
         <NavBar2
           canPop={true}
           onClickPop={() => navigate(-1)}
-          title={lastPath === 'send' && '피드백 작성하기'}
+          title={
+            lastPath === 'send' ? '피드백 작성하기' : (
+              lastPath === 'frequent' && '요청한 피드백'
+            )
+          }
         />
       </StickyWrapper>
       <Outlet />

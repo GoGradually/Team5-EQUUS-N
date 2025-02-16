@@ -168,7 +168,7 @@ function renderMyRole(recentSchedule, onButtonClick, userId) {
   return (
       recentSchedule.scheduleMemberNestedDtoList.find(
         (role) => role.memberId === userId,
-      )?.todoList[0] !== null
+      )?.todoList.length > 0
     ) ?
       <div className='flex flex-col gap-3'>
         <Tag type={TagType.MY_ROLE} />
@@ -217,7 +217,7 @@ function renderTeamRole(recentSchedule, contentRef, currentHeight, userId) {
         filteredTeamTodos.map((role, index) => (
           <li key={index} className='flex flex-col gap-3 first:mt-3'>
             <Tag type={TagType.MEMBER_ROLE}>{role.memberName}</Tag>
-            {role.todoList[0] === null ?
+            {role.todoList.length === 0 ?
               <p className='body-1 mb-2 ml-1 text-gray-500'>
                 아직 담당 업무를 입력하지 않았어요
               </p>

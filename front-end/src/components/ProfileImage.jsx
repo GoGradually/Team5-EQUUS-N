@@ -13,12 +13,10 @@ import Icon from './Icon';
 export function ProfileImageWithText({ text, iconName, color, onClick }) {
   return (
     <div
-      className='flex cursor-pointer flex-col items-center gap-2'
+      className='flex max-w-[64px] cursor-pointer flex-col items-center gap-2'
       onClick={onClick}
     >
-      <div className='h-14 w-14'>
-        <ProfileImage iconName={iconName} color={color} isButton={true} />
-      </div>
+      <ProfileImage iconName={iconName} color={color} isButton={true} />
       <p className='caption-1 text-white'>{text}</p>
     </div>
   );
@@ -36,8 +34,8 @@ export default function ProfileImage({ iconName, color, isButton }) {
   // iconName이 없을 때 기본 아이콘 표시
   if (!iconName) {
     return (
-      <div className='flex aspect-square items-center justify-center rounded-full bg-gray-700'>
-        <Icon name='plusM' color={'var(--color-gray-100)'} />
+      <div className='flex size-full items-center justify-center rounded-full bg-gray-700 text-2xl'>
+        🔗
       </div>
     );
   }
@@ -58,7 +56,7 @@ export default function ProfileImage({ iconName, color, isButton }) {
   // 동물 아이콘 처리
   if (iconName.includes('@animals')) {
     return (
-      <div className='relative h-full w-full overflow-hidden rounded-full'>
+      <div className='relative w-full overflow-hidden rounded-full'>
         <div
           className={`h-full ${isButton ? 'p-2.5' : 'p-1.5'}`}
           style={{ backgroundColor: color }}
