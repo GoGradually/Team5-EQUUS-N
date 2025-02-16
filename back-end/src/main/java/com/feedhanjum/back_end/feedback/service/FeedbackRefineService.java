@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
@@ -29,11 +30,11 @@ public class FeedbackRefineService {
     private final RedisTemplate<String, Object> redisTemplate;
 
     @Transactional(readOnly = true)
-    public Mono<FeedbackRefineDto> refineFeedback(Long callerId, Long receiverId, String message) {
+    public Flux<FeedbackRefineDto> refineFeedback(Long callerId, Long receiverId, String message) {
         return Mono.fromCallable(() -> memberRepository.findById(receiverId)
                         .orElseThrow(EntityNotFoundException::new))
                 .subscribeOn(Schedulers.boundedElastic())
-                .flatMap(member -> {
+                .flatMapMany(member -> {
                     String redisKey = buildKey(callerId);
                     redisTemplate.opsForValue().setIfAbsent(redisKey, INITIAL_REFINE_COUNT, EXPIRE_TIME_HOURS, TimeUnit.HOURS);
 

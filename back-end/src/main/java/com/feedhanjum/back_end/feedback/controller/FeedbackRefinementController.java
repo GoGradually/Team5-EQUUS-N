@@ -2,21 +2,19 @@ package com.feedhanjum.back_end.feedback.controller;
 
 import com.feedhanjum.back_end.auth.infra.Login;
 import com.feedhanjum.back_end.feedback.controller.dto.request.FeedbackRefineRequest;
+import com.feedhanjum.back_end.feedback.controller.dto.response.RefineRemainCountResponse;
 import com.feedhanjum.back_end.feedback.service.FeedbackRefineService;
 import com.feedhanjum.back_end.feedback.service.dto.FeedbackRefineDto;
-import com.feedhanjum.back_end.feedback.controller.dto.response.RefineRemainCountResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/feedback-refinement")
@@ -32,7 +30,7 @@ public class FeedbackRefinementController {
             @ApiResponse(responseCode = "502", description = "외부 API 서버 오류", content = @Content)
     })
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<ResponseEntity<FeedbackRefineDto>> refineFeedback(@Login Long callerId, @Valid @RequestBody FeedbackRefineRequest request) {
+    public Flux<ResponseEntity<FeedbackRefineDto>> refineFeedback(@Login Long callerId, @Valid @RequestBody FeedbackRefineRequest request) {
         return feedbackRefineService.refineFeedback(callerId, request.receiverId(), request.subjectiveFeedback())
                 .map(ResponseEntity::ok);
     }
