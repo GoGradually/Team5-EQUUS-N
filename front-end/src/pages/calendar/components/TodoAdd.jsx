@@ -7,6 +7,7 @@ import { showToast } from '../../../utility/handleToast';
 import { isEmpty } from '../../../utility/inputChecker';
 import Todo from './Todo';
 import { useUser } from '../../../useUser';
+import { useEditSchedule } from '../../../api/useCalendar';
 
 /**
  * 일정 추가 페이지
@@ -16,31 +17,47 @@ import { useUser } from '../../../useUser';
  * @param {function} props.onSubmit - 일정 추가 완료 함수
  * @param {Date} props.selectedDate - 선택된 날짜
  */
-export default function TodoAdd({
-  isOpen,
-  onClose,
-  onSubmit,
-  selectedSchedule,
-}) {
+export default function TodoAdd({ isOpen, onClose, selectedSchedule }) {
   const { userId } = useUser();
   const [todos, setTodo] = useState(
-    selectedSchedule?.todos?.filter((todo) => {
-      return todo.memberId == userId;
-    }).task ?? [],
+    selectedSchedule?.scheduleMemberNestedDtoList?.find((dto) => {
+      return dto.memberId == userId;
+    })?.todoList ?? [],
   );
   const scrollRef = useRef(null);
 
+  const { mutate: editSchedule } = useEditSchedule(selectedSchedule.teamId);
+
   useEffect(() => {
     const newTodos =
-      selectedSchedule?.todos?.find((todo) => {
-        return todo.memberId == userId;
-      })?.task ?? [];
+      selectedSchedule?.scheduleMemberNestedDtoList?.find((dto) => {
+        return dto.memberId == userId;
+      })?.todoList ?? [];
     setTodo(newTodos);
   }, [selectedSchedule]);
 
-  function clearData() {
-    setTodo([]);
-  }
+  const handleSubmitButton = () => {
+    const newTodos = todos.filter((todo) => !isEmpty(todo));
+    const editedSchedule = {
+      name: selectedSchedule.scheduleName,
+      startTime: selectedSchedule.startTime,
+      endTime: selectedSchedule.endTime,
+      todos: newTodos,
+    };
+    editSchedule(
+      {
+        scheduleId: selectedSchedule.scheduleId,
+        data: editedSchedule,
+      },
+      {
+        onSuccess: () => {
+          showToast('역할이 추가되었어요');
+          setTodo([]);
+          onClose();
+        },
+      },
+    );
+  };
 
   return (
     <div
@@ -56,7 +73,7 @@ export default function TodoAdd({
         </h1>
         <button
           onClick={() => {
-            clearData();
+            setTodo([]);
             onClose();
           }}
         >
@@ -69,7 +86,7 @@ export default function TodoAdd({
       <div className='flex items-center gap-2'>
         <hr className='h-6 w-1.5 rounded-[2px] bg-lime-500' />
         <h2 className='header-3 text-white'>
-          {`${selectedSchedule?.name ?? '5주차 리서치 과제'}`}
+          {`${selectedSchedule?.scheduleName ?? '일정 제목 없음'}`}
         </h2>
       </div>
       <div className='h-3 shrink-0' />
@@ -85,14 +102,7 @@ export default function TodoAdd({
         <LargeButton
           isOutlined={false}
           text={'완료'}
-          onClick={() => {
-            const newTodos = todos.filter((todo) => !isEmpty(todo));
-            setTodo(newTodos);
-            // TODO: 역할 추가
-            showToast('역할이 추가되었어요');
-            clearData();
-            onSubmit(true); // 추가 성공여부 파라미터로 받음
-          }}
+          onClick={handleSubmitButton}
         />
       </div>
     </div>
