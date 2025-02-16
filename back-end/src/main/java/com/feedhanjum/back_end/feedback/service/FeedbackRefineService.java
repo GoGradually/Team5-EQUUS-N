@@ -48,6 +48,7 @@ public class FeedbackRefineService {
                     String prompt = RefinePrompt.REFINE_PROMPT.prompting(message, preferences);
 
                     return chatGPTClient.callAiRefining(prompt)
+                            .reduce((s1, s2) -> s1 + s2)
                             .map(refinedFeedback -> new FeedbackRefineDto(refinedFeedback, remainingCount));
                 })
                 .onErrorResume(e -> {
