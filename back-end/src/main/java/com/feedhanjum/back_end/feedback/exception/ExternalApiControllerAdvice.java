@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Order(1)
 @Slf4j
 @RestControllerAdvice
 public class ExternalApiControllerAdvice {
@@ -19,17 +20,15 @@ public class ExternalApiControllerAdvice {
         this.eventPublisher = eventPublisher;
     }
 
-    @Order(10)
+    @ExceptionHandler(AiRefineChanceAlreadyUsedException.class)
+    public ResponseEntity<String> handleAiRefineChanceAlreadyUsedException(AiRefineChanceAlreadyUsedException e) {
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(e.getMessage());
+    }
+
     @ExceptionHandler(ApiResponseFailException.class)
     public ResponseEntity<String> handleApiResponseFailException(ApiResponseFailException e) {
         log.warn("API 호출 실패: ", e.getCause());
         eventPublisher.publishEvent(new FeedbackRefineCountCompensationEvent(e.getCallerId()));
         return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(e.getMessage());
-    }
-
-    @Order(1)
-    @ExceptionHandler(AiRefineChanceAlreadyUsedException.class)
-    public ResponseEntity<String> handleAiRefineChanceAlreadyUsedException(AiRefineChanceAlreadyUsedException e) {
-        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(e.getMessage());
     }
 }
