@@ -1,7 +1,12 @@
 import classNames from 'classnames';
 import Icon from '../../../components/Icon';
 import { useEffect, useRef, useState } from 'react';
-import { changeDayName, timePickerToDate, toKST } from '../../../utility/time';
+import {
+  changeDayName,
+  combineDateTime,
+  toKST,
+  toYMD,
+} from '../../../utility/time';
 import CustomInput from '../../../components/CustomInput';
 import LargeButton from '../../../components/buttons/LargeButton';
 import StickyWrapper from '../../../components/wrappers/StickyWrapper';
@@ -30,11 +35,15 @@ export const ScheduleActionType = Object.freeze({
 /**
  * 일정 추가 페이지
  * @param {object} props
+ * @param {string} props.type - 페이지 타입
  * @param {boolean} props.isOpen - 페이지 열림 여부
  * @param {function} props.onClose - 페이지 닫기 함수
  * @param {Date} props.selectedDateFromParent - 선택된 날짜
  * @param {object} props.selectedScheduleFromParent - 선택된 일정
  * @param {object} props.actionInfo - 일정 정보
+ * @param {boolean} props.dateFixed - 날짜 고정 여부
+ * @param {function} props.setParentDate - 부모 컴포넌트의 날짜 설정 함수
+ * @returns {JSX.Element}
  */
 export default function ScheduleAction({
   type,
@@ -43,6 +52,8 @@ export default function ScheduleAction({
   selectedScheduleFromParent,
   selectedDateFromParent,
   actionInfo,
+  dateFixed,
+  setParentDate = () => {},
 }) {
   const { selectedTeam } = useTeam();
   const scrollRef = useRef(null);
@@ -54,6 +65,84 @@ export default function ScheduleAction({
   const { mutate: postSchedule } = usePostSchedule(selectedTeam);
   const { mutate: editSchedule } = useEditSchedule(selectedTeam);
   const { mutate: deleteSchedule } = useDeleteSchedule(selectedTeam);
+  const [dataReady, setDataReady] = useState(false);
+
+  useEffect(() => {
+    if (
+      dataReady &&
+      checkNewSchedule(
+        actionInfo.scheduleName,
+        actionInfo.startTime,
+        actionInfo.endTime,
+      )
+    ) {
+      const sendingData = {
+        name: actionInfo.scheduleName,
+        startTime: toKST(actionInfo.startTime).toISOString(),
+        endTime: toKST(actionInfo.endTime).toISOString(),
+        todos: actionInfo.todos,
+      };
+      if (type === ScheduleActionType.ADD) {
+        postSchedule(sendingData, {
+          onSuccess: () => {
+            onClose();
+            showToast('일정이 추가되었어요');
+            clearData();
+          },
+        });
+        setDataReady(false);
+      } else {
+        editSchedule(
+          {
+            scheduleId: selectedScheduleFromParent.scheduleId ?? -1,
+            data: sendingData,
+          },
+          {
+            onSuccess: () => {
+              onClose();
+              showToast('일정이 수정되었어요');
+              clearData();
+            },
+          },
+        );
+        setDataReady(false);
+      }
+    } else {
+      setDataReady(false);
+    }
+  }, [dataReady]);
+
+  const handleSubmitButton = () => {
+    const newTodos = actionInfo.todos.filter((todo) => !isEmpty(todo));
+    actionInfo.setTodo(newTodos);
+    if (!dateFixed) {
+      if (toYMD(selectedDate) !== toYMD(actionInfo.startTime)) {
+        actionInfo.setStartTime(
+          combineDateTime(selectedDate, actionInfo.startTime),
+        );
+        actionInfo.setEndTime(
+          combineDateTime(selectedDate, actionInfo.endTime),
+        );
+      }
+    }
+    setDataReady(true);
+  };
+
+  const handleDeleteButton = () =>
+    showModal(
+      <ScheduleDeleteModal
+        deleteSchedule={() => {
+          deleteSchedule(selectedScheduleFromParent.scheduleId ?? -1, {
+            onSuccess: () => {
+              showToast('일정을 삭제했습니다');
+              hideModal();
+              onClose();
+            },
+          });
+        }}
+        onClose={onClose}
+      />,
+    );
 
   return (
     <div
@@ -68,27 +157,7 @@ export default function ScheduleAction({
           {type === ScheduleActionType.ADD ? '일정 추가하기' : '일정 수정하기'}
         </h1>
         {type === ScheduleActionType.EDIT && (
-          <button
-            onClick={() =>
-              showModal(
-                <ScheduleDeleteModal
-                  deleteSchedule={() => {
-                    deleteSchedule(
-                      selectedScheduleFromParent.scheduleId ?? -1,
-                      {
-                        onSuccess: () => {
-                          showToast('일정을 삭제했습니다');
-                          hideModal();
-                          onClose();
-                        },
-                      },
-                    );
-                  }}
-                  onClose={onClose}
-                />,
-              )
-            }
-          >
+          <button onClick={handleDeleteButton}>
             <Icon name='remove' className='absolute top-5 left-0 text-white' />
           </button>
         )}
@@ -106,7 +175,7 @@ export default function ScheduleAction({
 
       <div className='h-8 shrink-0' />
 
-      {type === ScheduleActionType.ADD ?
+      {dateFixed ?
         <>
           <div className='flex items-center gap-2'>
             <hr className='h-6 w-1.5 rounded-[2px] bg-lime-500' />
@@ -120,7 +189,10 @@ export default function ScheduleAction({
           <CustomDatePicker
             dateFormat='yyyy-MM-dd eee'
             date={selectedDate}
-            setDate={setSelectedDate}
+            setDate={(newDate) => {
+              setSelectedDate(newDate);
+              setParentDate(newDate);
+            }}
             customInput={<DatePickerButton />}
           />
           <div className='h-11 shrink-0' />
@@ -137,9 +209,9 @@ export default function ScheduleAction({
       <div className='h-11 shrink-0' />
 
       <TimeSelector
-        startTime={actionInfo?.startTime ?? new Date()}
+        startTime={actionInfo?.startTime ?? selectedDate}
         setStartTime={actionInfo?.setStartTime}
-        endTime={actionInfo?.endTime ?? new Date()}
+        endTime={actionInfo?.endTime ?? selectedDate}
         setEndTime={actionInfo?.setEndTime}
       />
 
@@ -160,45 +232,7 @@ export default function ScheduleAction({
         <LargeButton
           isOutlined={false}
           text={type === ScheduleActionType.ADD ? '추가 완료' : '수정 완료'}
-          onClick={() => {
-            const newTodos = actionInfo.todos.filter((todo) => !isEmpty(todo));
-            actionInfo.setTodo(newTodos);
-            if (
-              checkNewSchedule(
-                actionInfo.scheduleName,
-                actionInfo.startTime,
-                actionInfo.endTime,
-              )
-            ) {
-              const sendingData = {
-                name: actionInfo.scheduleName,
-                startTime: toKST(actionInfo.startTime).toISOString(),
-                endTime: toKST(actionInfo.endTime).toISOString(),
-                todos: actionInfo.todos,
-              };
-              type === ScheduleActionType.ADD ?
-                postSchedule(sendingData, {
-                  onSuccess: () => {
-                    onClose();
-                    showToast('일정이 추가되었어요');
-                    clearData();
-                  },
-                })
-              : editSchedule(
-                  {
-                    scheduleId: selectedScheduleFromParent.scheduleId ?? -1,
-                    data: sendingData,
-                  },
-                  {
-                    onSuccess: () => {
-                      onClose();
-                      showToast('일정이 수정되었어요');
-                      clearData();
-                    },
-                  },
-                );
-            }
-          }}
+          onClick={handleSubmitButton}
         />
       </div>
     </div>

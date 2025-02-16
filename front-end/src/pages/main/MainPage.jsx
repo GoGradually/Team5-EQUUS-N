@@ -43,10 +43,12 @@ export default function MainPage() {
   const { data: matesData } = useMainCard2(selectedTeam);
   const { data: notificationsData, markAsRead } = useNotification(selectedTeam);
 
-  // 리렌더링 시 값이 바뀌지 않는 상태 생성
-  const date = useRef(new Date()).current;
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const { actionInfo, clearData } = useScheduleAction(date, recentScheduleData);
+  const { actionInfo, clearData } = useScheduleAction(
+    selectedDate,
+    recentScheduleData,
+  );
   const navigate = useNavigate();
 
   // TODO: 로딩 중 혹은 에러 발생 시 처리
@@ -202,15 +204,14 @@ export default function MainPage() {
         />
       )}
       <div className='h-8' />
-      {/* TODO: 달력으로 바꿔야 함 */}
       <ScheduleAction
         type={ScheduleActionType.ADD}
         isOpen={isScheduleOpen}
-        onClose={() => {
-          toggleSchedule();
-        }}
-        selectedDateFromParent={new Date()}
+        onClose={() => toggleSchedule()}
+        selectedDateFromParent={selectedDate}
         actionInfo={actionInfo}
+        dateFixed={false}
+        setParentDate={setSelectedDate}
       />
       {recentScheduleData && (
         <TodoAdd
