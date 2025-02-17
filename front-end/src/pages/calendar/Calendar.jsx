@@ -49,71 +49,73 @@ export default function Calendar() {
   const { scrollRef, isScrolling } = useCalendarScroll();
 
   return (
-    <div
-      ref={scrollRef}
-      className='scrollbar-hidden relative size-full overflow-x-hidden overflow-y-auto'
-    >
-      <StickyWrapper>
-        <Accordion
-          isMainPage={false}
-          selectedTeamId={selectedTeam}
-          teamList={teams}
-          onTeamClick={(teamId) => {
-            selectTeam(teamId);
-            setShowAllSchedule(false);
-          }}
-          canClose={!doingAction}
-          onClickLastButton={() => {
-            setShowAllSchedule(true);
-          }}
-          showAllSchedule={showAllSchedule}
-        />
-        <SelectedDateInfo date={selectedDate} isScrolling={isScrolling} />
-      </StickyWrapper>
-      <CalendarWeeks
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
-        scheduleSet={scheduleSet}
-        setAllSchedules={setAllSchedules}
-      />
-      <ul className='flex flex-col gap-6'>
-        {scheduleOnDate &&
-          scheduleOnDate.map((schedule, index) => {
-            if (!showAllSchedule && schedule.teamId !== selectedTeam)
-              return null;
-            return (
-              <li key={index} className='last:mb-5'>
-                <ScheduleCard
-                  schedule={schedule}
-                  todos={schedule.scheduleMemberNestedDtoList}
-                  isFinished={checkIsFinished(schedule.endTime)}
-                  onClickEdit={() => {
-                    setSelectedSchedule(schedule);
-                    setActionType(ScheduleActionType.EDIT);
-                    setDoingAction(true);
-                  }}
-                />
-              </li>
-            );
-          })}
-        <li className='mb-5'>
-          <LargeButton
-            text={
-              <p className='button-1 flex items-center gap-2 text-gray-300'>
-                <Icon name='plusS' />
-                새로운 일정 추가
-              </p>
-            }
-            onClick={() => {
-              clearData();
-              setActionType(ScheduleActionType.ADD);
-              setDoingAction(true);
+    <div className='relative overflow-y-hidden'>
+      <div
+        ref={scrollRef}
+        className='scrollbar-hidden h-dvh overflow-x-hidden overflow-y-auto px-5'
+      >
+        <StickyWrapper>
+          <Accordion
+            isMainPage={false}
+            selectedTeamId={selectedTeam}
+            teamList={teams}
+            onTeamClick={(teamId) => {
+              selectTeam(teamId);
+              setShowAllSchedule(false);
             }}
-            isOutlined={true}
-            disabled={true}
+            canClose={!doingAction}
+            onClickLastButton={() => {
+              setShowAllSchedule(true);
+            }}
+            showAllSchedule={showAllSchedule}
           />
-        </li>
-      </ul>
+          <SelectedDateInfo date={selectedDate} isScrolling={isScrolling} />
+        </StickyWrapper>
+        <CalendarWeeks
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          scheduleSet={scheduleSet}
+          setAllSchedules={setAllSchedules}
+        />
+        <ul className='flex flex-col gap-6'>
+          {scheduleOnDate &&
+            scheduleOnDate.map((schedule, index) => {
+              if (!showAllSchedule && schedule.teamId !== selectedTeam)
+                return null;
+              return (
+                <li key={index} className='last:mb-5'>
+                  <ScheduleCard
+                    schedule={schedule}
+                    todos={schedule.scheduleMemberNestedDtoList}
+                    isFinished={checkIsFinished(schedule.endTime)}
+                    onClickEdit={() => {
+                      setSelectedSchedule(schedule);
+                      setActionType(ScheduleActionType.EDIT);
+                      setDoingAction(true);
+                    }}
+                  />
+                </li>
+              );
+            })}
+          <li className='mb-5'>
+            <LargeButton
+              text={
+                <p className='button-1 flex items-center gap-2 text-gray-300'>
+                  <Icon name='plusS' />
+                  새로운 일정 추가
+                </p>
+              }
+              onClick={() => {
+                clearData();
+                setActionType(ScheduleActionType.ADD);
+                setDoingAction(true);
+              }}
+              isOutlined={true}
+              disabled={true}
+            />
+          </li>
+        </ul>
+      </div>
       {scheduleOnDate && (
         <ScheduleAction
           type={actionType}

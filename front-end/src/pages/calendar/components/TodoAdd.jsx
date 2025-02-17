@@ -63,7 +63,7 @@ export default function TodoAdd({ isOpen, onClose, selectedSchedule }) {
     <div
       ref={scrollRef}
       className={classNames(
-        'rounded-t-400 fixed right-0 left-0 z-1000 flex h-[calc(100%-60px)] max-w-[430px] flex-col overflow-y-auto bg-gray-800 px-5 transition-all duration-300',
+        'rounded-t-400 absolute z-1000 flex h-[calc(100%-60px)] w-full max-w-[430px] flex-col overflow-y-auto bg-gray-800 px-5 transition-all duration-300',
         isOpen ? 'visible bottom-0' : 'invisible -bottom-[100%]',
       )}
     >

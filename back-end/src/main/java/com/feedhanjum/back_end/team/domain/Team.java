@@ -108,6 +108,7 @@ public class Team {
     public void requestFeedback(Member sender, Member receiver, String requestedContent) {
         validateTeamMember(sender);
         validateTeamMember(receiver);
+        this.frequentFeedbackRequests.removeIf(request -> sender.equals(request.getSender()) && receiver.equals(request.getReceiver()));
         this.frequentFeedbackRequests.add(new FrequentFeedbackRequest(requestedContent, sender, this, receiver));
     }
 
