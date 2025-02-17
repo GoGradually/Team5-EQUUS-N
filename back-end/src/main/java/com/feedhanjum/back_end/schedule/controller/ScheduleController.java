@@ -56,8 +56,8 @@ public class ScheduleController {
     @Operation(summary = "일정 삭제하기", description = "특정 일정을 삭제합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "일정 삭제에 성공함."),
-            @ApiResponse(responseCode = "403", description = "일정을 삭제하려는 사용자가 팀장 혹은 일정의 주인이 아닌 경우"),
-            @ApiResponse(responseCode = "404", description = "일정, 팀, 혹은 일정과 사용자의 관계를 찾을 수 없는 경우")
+            @ApiResponse(responseCode = "403", description = "일정을 삭제하려는 사용자가 팀장 혹은 일정의 주인이 아닌 경우", content = @Content),
+            @ApiResponse(responseCode = "404", description = "일정, 팀, 혹은 일정과 사용자의 관계를 찾을 수 없는 경우", content = @Content)
     })
     @DeleteMapping("/team/{teamId}/schedule/{scheduleId}")
     public ResponseEntity<Void> deleteSchedule(@Login Long memberId,
