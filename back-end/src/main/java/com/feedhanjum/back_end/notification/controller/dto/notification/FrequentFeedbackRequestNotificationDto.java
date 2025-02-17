@@ -17,12 +17,15 @@ public class FrequentFeedbackRequestNotificationDto extends InAppNotificationDto
     private final String senderName;
     @Schema(description = "팀 id")
     private final Long teamId;
+    @Schema(description = "요청자 id")
+    private final Long senderId;
 
     @Builder
-    public FrequentFeedbackRequestNotificationDto(Long notificationId, Long receiverId, LocalDateTime createdAt, boolean isRead, String senderName, Long teamId) {
+    public FrequentFeedbackRequestNotificationDto(Long notificationId, Long receiverId, LocalDateTime createdAt, boolean isRead, String senderName, Long teamId, Long senderId) {
         super(notificationId, receiverId, createdAt, isRead);
         this.senderName = senderName;
         this.teamId = teamId;
+        this.senderId = senderId;
     }
 
     public static FrequentFeedbackRequestNotificationDto from(FrequentFeedbackRequestNotification notification) {
@@ -33,6 +36,7 @@ public class FrequentFeedbackRequestNotificationDto extends InAppNotificationDto
                 .isRead(notification.isRead())
                 .senderName(notification.getSenderName())
                 .teamId(notification.getTeamId())
+                .senderId(notification.getSenderId())
                 .build();
     }
 }
