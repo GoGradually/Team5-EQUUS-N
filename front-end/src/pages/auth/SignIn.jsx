@@ -5,7 +5,7 @@ import logo from '../../assets/images/logo.png';
 import Icon from '../../components/Icon';
 import { useState } from 'react';
 import { useLogin } from '../../api/useAuth';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 /**
  * 로그인 페이지
@@ -17,6 +17,7 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const { mutate: login, isLoading } = useLogin(locationState);
+  const navigate = useNavigate();
 
   return (
     <div className='relative flex h-dvh w-full flex-col justify-start'>
@@ -60,6 +61,19 @@ export default function SignIn() {
       />
       {/* 로그인 버튼 */}
       <div className='absolute right-0 bottom-[34px] left-0 bg-gray-900'>
+        <button
+          className={
+            'rounded-300 flex h-[56px] w-full items-center justify-center px-4 py-2 text-white/45'
+          }
+        >
+          <p
+            className='underline underline-offset-2'
+            onClick={() => navigate('/password/reset')}
+          >
+            비밀번호를 잊어버렸어요
+          </p>
+        </button>
+        <div className='h-3' />
         <LargeButton
           text='로그인하기'
           isOutlined={false}
