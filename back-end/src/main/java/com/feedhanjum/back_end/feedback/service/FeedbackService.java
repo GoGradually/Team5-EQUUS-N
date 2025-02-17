@@ -21,8 +21,6 @@ import com.feedhanjum.back_end.schedule.repository.ScheduleRepository;
 import com.feedhanjum.back_end.team.domain.Team;
 import com.feedhanjum.back_end.team.event.FrequentFeedbackRequestedEvent;
 import com.feedhanjum.back_end.team.exception.TeamMembershipNotFoundException;
-import com.feedhanjum.back_end.team.repository.FrequentFeedbackRequestRepository;
-import com.feedhanjum.back_end.team.repository.TeamMemberRepository;
 import com.feedhanjum.back_end.team.repository.TeamRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -39,11 +37,9 @@ import java.util.Map;
 public class FeedbackService {
     private final MemberRepository memberRepository;
     private final TeamRepository teamRepository;
-    private final TeamMemberRepository teamMemberRepository;
     private final ScheduleRepository scheduleRepository;
     private final ScheduleMemberRepository scheduleMemberRepository;
     private final FeedbackRepository feedbackRepository;
-    private final FrequentFeedbackRequestRepository frequentFeedbackRequestRepository;
     private final RegularFeedbackRequestRepository regularFeedbackRequestRepository;
     private final EventPublisher eventPublisher;
     private final FeedbackQueryRepository feedbackQueryRepository;
@@ -244,7 +240,7 @@ public class FeedbackService {
             Long value = entry.getValue();
             Long count = feedbackQueryRepository.findReceivedFeedbackCount(key);
             if (count >= 10 && count - value < 10) {
-                eventPublisher.publishEvent(new FeedbackReportCreatedEvent(key, null));
+                eventPublisher.publishEvent(new FeedbackReportCreatedEvent(key));
             }
         }
     }

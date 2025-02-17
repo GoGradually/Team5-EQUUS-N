@@ -17,7 +17,7 @@ spring:
       api-key: dummy-key
       chat:
         options:
-          model: GPT-4o-mini
+          model: gpt-4o-mini
       base-url: https://api.openai.com
 
 server:
