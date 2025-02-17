@@ -74,8 +74,8 @@ class InAppNotificationControllerTest {
         return new Team(name, leader, LocalDate.now().minusDays(1), LocalDate.now().plusDays(1), FeedbackType.ANONYMOUS, LocalDate.now());
     }
 
-    private InAppNotification createInAppNotification(Member receiver, Team team) {
-        return new FeedbackReportCreateNotification(receiver, team);
+    private InAppNotification createInAppNotification(Member receiver) {
+        return new FeedbackReportCreateNotification(receiver);
     }
 
     MockHttpSession withLoginUser(Member member) {
@@ -107,11 +107,10 @@ class InAppNotificationControllerTest {
         void test1() {
             Member receiver = member1;
             Member notReceiver = member2;
-            Team team = team1;
             List<InAppNotification> notifications = List.of(
-                    createInAppNotification(receiver, team),
-                    createInAppNotification(notReceiver, team),
-                    createInAppNotification(receiver, team)
+                    createInAppNotification(receiver),
+                    createInAppNotification(notReceiver),
+                    createInAppNotification(receiver)
             );
             notificationRepository.saveAll(notifications);
 
@@ -134,11 +133,10 @@ class InAppNotificationControllerTest {
             @DisplayName("성공시 204")
             void test1() throws JsonProcessingException {
                 Member receiver = member1;
-                Team team = team1;
                 List<InAppNotification> notifications = List.of(
-                        createInAppNotification(receiver, team),
-                        createInAppNotification(receiver, team),
-                        createInAppNotification(receiver, team)
+                        createInAppNotification(receiver),
+                        createInAppNotification(receiver),
+                        createInAppNotification(receiver)
                 );
                 notificationRepository.saveAll(notifications);
 
