@@ -28,9 +28,7 @@ public class RegularFeedbackRequestQueryRepository {
     public Long getRegularFeedbackRequestCount(Long receiverId, Long scheduleId) {
         return queryFactory.select(regularFeedbackRequest.count())
                 .from(regularFeedbackRequest)
-                .join(regularFeedbackRequest.requester).fetchJoin()
-                .join(regularFeedbackRequest.scheduleMember).fetchJoin()
-                .join(regularFeedbackRequest.scheduleMember.schedule).fetchJoin()
+                .join(regularFeedbackRequest.scheduleMember)
                 .where(regularFeedbackRequest.scheduleMember.member.id.eq(receiverId)
                         .and(regularFeedbackRequest.scheduleMember.schedule.id.eq(scheduleId)))
                 .fetchOne();
