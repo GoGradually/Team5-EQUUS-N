@@ -35,7 +35,12 @@ export default function NotificationPage() {
       <ul>
         {notifications &&
           notifications.map((notification) => (
-            <li key={notification.notificationId}>
+            <li
+              key={notification.notificationId}
+              onClick={() =>
+                markAsRead({ notificationIds: [notification.notificationId] })
+              }
+            >
               <Alarm type={notification.type} data={notification} />
             </li>
           ))}
