@@ -12,12 +12,11 @@ self.addEventListener('push', function (event) {
   } catch (error) {
     console.error('Invalid JSON data:', error);
   }
-
   const notificationType = notification.type;
-  const receiverId = notification.receiverId;
 
   let clickUrl = '';
   let notificationBody = '';
+  let parameter = {};
   switch (notificationType) {
     case 'feedbackReceive':
       clickUrl = `/feedback/received`;
@@ -28,12 +27,17 @@ self.addEventListener('push', function (event) {
       notificationBody = '피드백이 도움이 됐어요!';
       break;
     case 'frequentFeedbackRequest':
-      clickUrl = `/feedback/send`;
-      notificationBody = '피드백을 요청받았어요!';
+      clickUrl = `/feedback/send/frequent`;
+      parameter = {
+        teamId: notification.teamId,
+        memberId: notification.senderId,
+        isRegular: false,
+      };
+      notificationBody = '피드백을 요청받았어요! 작성하러 가볼까요?';
       break;
     case 'feedbackReportCreate':
       clickUrl = `/mypage/report`;
-      notificationBody = '피드백 리포트가 생성됐어요! 보러가볼까요?';
+      notificationBody = '피드백 리포트가 생성됐어요! 보러 가볼까요?';
       break;
     case 'unreadFeedbackExist':
       clickUrl = `/feedback/received`;
@@ -49,6 +53,10 @@ self.addEventListener('push', function (event) {
       break;
     case 'regularFeedbackRequest':
       clickUrl = `/feedback/send`;
+      parameter = {
+        scheduleId: notification.scheduleId,
+        isRegular: true,
+      };
       notificationBody = '일정이 끝났으니 피드백을 작성해볼까요?';
       break;
   }
@@ -56,7 +64,7 @@ self.addEventListener('push', function (event) {
   const options = {
     body: notificationBody,
     icon: '/logo.png',
-    data: { clickUrl },
+    data: { clickUrl, parameter },
   };
   console.log('serviceWorker.push: ', notification);
   event.waitUntil(
@@ -69,9 +77,16 @@ self.addEventListener('push', function (event) {
 self.addEventListener('notificationclick', function (event) {
   event.preventDefault();
   const notification = event.notification;
-  const url = new URL(notification.data.clickUrl, self.location.origin).href;
-  notification.close();
+  let queryParameter = `?redirect=${encodeURIComponent(notification.data.clickUrl)}`;
+  const params = event.notification.data.parameter;
+  Object.keys(params).forEach((key) => {
+    const value = params[key];
+    queryParameter += `&${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+  });
 
+  const url = new URL(queryParameter, self.location.origin).href;
+  notification.close();
+  console.log(url);
   event.waitUntil(self.clients.openWindow(url));
 });
 

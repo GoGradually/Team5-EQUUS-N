@@ -2,11 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ProfileImageWithText } from '../../components/ProfileImage';
 import FooterWrapper from '../../components/wrappers/FooterWrapper';
 import { useWhoNeedFreqFeedback } from '../../api/useFeedback2';
-import { hideModal, showModal } from '../../utility/handleModal';
-import Modal, { ModalType } from '../../components/modals/Modal';
-import MediumButton from '../../components/buttons/MediumButton';
 import { useEffect, useState } from 'react';
-import TextArea from '../../components/TextArea';
 import LargeButton from '../../components/buttons/LargeButton';
 
 export default function FeedbackSendFreq() {
@@ -17,6 +13,16 @@ export default function FeedbackSendFreq() {
   const { data: whoNeedFreqFeedback } = useWhoNeedFreqFeedback(
     locationState.teamId,
   );
+
+  useEffect(() => {
+    if (whoNeedFreqFeedback && locationState.memberId) {
+      setSelectedRequester(
+        whoNeedFreqFeedback.find(
+          (requester) => requester.requester.id === locationState.memberId,
+        ),
+      );
+    }
+  }, [whoNeedFreqFeedback]);
 
   return (
     <div className='flex size-full flex-col gap-8'>
@@ -37,7 +43,6 @@ export default function FeedbackSendFreq() {
           {!selectedRequester ?
             <div className='grid grid-cols-4 gap-4'>
               {whoNeedFreqFeedback.map((requester, index) => {
-                console.log(requester);
                 const member = requester.requester;
                 return (
                   <ProfileImageWithText
