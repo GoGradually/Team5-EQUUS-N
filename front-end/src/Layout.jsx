@@ -2,7 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import ModalBase from './components/modals/ModalBase';
 import ToastBase from './components/toasts/ToastBase';
 
-const noPaddingPages = ['/main']; // 패딩을 제거할 페이지 리스트
+const noPaddingPages = ['/main', '/calendar']; // 패딩을 제거할 페이지 리스트
 
 function Layout() {
   const location = useLocation();
