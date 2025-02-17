@@ -70,6 +70,7 @@ public class FeedbackService {
         feedbackRepository.save(feedback);
         eventPublisher.publishEvent(new FrequentFeedbackCreatedEvent(feedback.getId()));
         eventPublisher.publishEvent(new FeedbackReceivedEvent(receiverId));
+        eventPublisher.publishEvent(new FeedbackSentEvent(senderId));
         return feedback;
 
     }
@@ -125,6 +126,7 @@ public class FeedbackService {
         regularFeedbackRequestRepository.delete(regularFeedbackRequest);
         eventPublisher.publishEvent(new RegularFeedbackCreatedEvent(feedback.getId()));
         eventPublisher.publishEvent(new FeedbackReceivedEvent(receiverId));
+        eventPublisher.publishEvent(new FeedbackSentEvent(senderId));
         return feedback;
     }
 
