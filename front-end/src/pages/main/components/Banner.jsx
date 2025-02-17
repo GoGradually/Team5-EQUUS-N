@@ -4,6 +4,8 @@ import boxLottie from '../../../assets/lotties/box.json';
 import fileLottie from '../../../assets/lotties/file.json';
 import letterLottie from '../../../assets/lotties/letter.json';
 import Icon from '../../../components/Icon';
+import { useNavigate } from 'react-router-dom';
+import { handleFreqFeedbackReq } from './Alarm';
 
 export const notiType = Object.freeze({
   REQUEST: 'frequentFeedbackRequest',
@@ -16,10 +18,11 @@ export const notiType = Object.freeze({
  * 노티파이 컴포넌트
  * @param {Object} props
  * @param {object} props.banner
- * @param {Function} props.onClick
  * @param {Function} props.onClose
  */
-export default function Banner({ banner, onClick, onClose }) {
+export default function Banner({ banner, onClose }) {
+  const navigate = useNavigate();
+
   const { notification, ids } = banner;
 
   // TODO: 파동 애니메이션 추가
@@ -31,18 +34,21 @@ export default function Banner({ banner, onClick, onClose }) {
           animationData: letterLottie,
           message: '확인하지 않은\n피드백이 있어요!',
           buttonText: '피드백 확인하기',
+          routeAction: () => navigate('/feedback/received'),
         };
       case notiType.NEW:
         return {
           animationData: letterLottie,
           message: '새로운 피드백이\n도착했어요!',
           buttonText: '피드백 확인하기',
+          routeAction: () => navigate('/feedback/received'),
         };
       case notiType.REPORT:
         return {
           animationData: fileLottie,
           message: `${notification.receiverName}님의 피드백을\n정리했어요!`,
           buttonText: '피드백 리포트 확인하기',
+          routeAction: () => navigate('/mypage/report'),
         };
       case notiType.REQUEST:
         return {
@@ -52,13 +58,18 @@ export default function Banner({ banner, onClick, onClose }) {
               `${notification.senderName}님 외 ${ids.length - 1}명이\n피드백을 요청했어요!`
             : `${notification.senderName}님이\n피드백을 요청했어요!`,
           buttonText: '피드백 보내기',
+          routeAction: () =>
+            handleFreqFeedbackReq(navigate, {
+              teamId: notification.teamId,
+              senderId: ids.length > 1 ? null : notification.senderId,
+            }),
         };
       default:
         throw new Error('Invalid notiType');
     }
   };
 
-  const { animationData, message, buttonText } = getContent();
+  const { animationData, message, buttonText, routeAction } = getContent();
 
   return (
     <div
@@ -80,7 +91,10 @@ export default function Banner({ banner, onClick, onClose }) {
 
       <button
         className='absolute bottom-4 left-6 flex items-center gap-0.5 text-gray-600'
-        onClick={onClick}
+        onClick={() => {
+          routeAction();
+          onClose({ notificationIds: ids });
+        }}
       >
         <p className='caption-2'>{buttonText}</p>
         <Icon name='chevronDown' className='-rotate-90' />
