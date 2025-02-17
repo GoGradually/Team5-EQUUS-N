@@ -5,6 +5,7 @@ import com.feedhanjum.back_end.member.domain.FeedbackPreference;
 import com.feedhanjum.back_end.member.domain.Member;
 import com.feedhanjum.back_end.member.domain.ProfileImage;
 import com.feedhanjum.back_end.team.exception.TeamMembershipNotFoundException;
+import com.feedhanjum.back_end.test.util.DomainTestUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -90,5 +91,26 @@ class TeamTest {
 
         // then
         assertThat(team.getLeader()).isNotEqualTo(newLeader);
+    }
+
+    @Test
+    @DisplayName("중복된 수시 피드백 요청은 기존 요청 내용을 업데이트 함")
+    void test1() {
+        // given
+        Member sender = DomainTestUtils.createMemberWithId("sender");
+        Member receiver = DomainTestUtils.createMemberWithId("receiver");
+        Team team = DomainTestUtils.createTeamWithId("team", sender);
+        team.join(receiver);
+        team.requestFeedback(sender, receiver, "이전 내용");
+
+        // when
+        team.requestFeedback(sender, receiver, "새로운 내용");
+
+        // then
+        assertThat(team.getFeedbackRequests(receiver)).hasSize(1)
+                .first()
+                .satisfies(request -> {
+                    assertThat(request.getRequestedContent()).isEqualTo("새로운 내용");
+                });
     }
 }
