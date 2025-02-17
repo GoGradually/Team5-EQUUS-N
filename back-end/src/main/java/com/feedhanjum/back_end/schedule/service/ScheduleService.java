@@ -13,6 +13,7 @@ import com.feedhanjum.back_end.schedule.event.ScheduleEndedEvent;
 import com.feedhanjum.back_end.schedule.exception.ScheduleAlreadyExistException;
 import com.feedhanjum.back_end.schedule.exception.ScheduleIsAlreadyEndException;
 import com.feedhanjum.back_end.schedule.exception.ScheduleMembershipNotFoundException;
+import com.feedhanjum.back_end.schedule.repository.RegularFeedbackRequestQueryRepository;
 import com.feedhanjum.back_end.schedule.repository.ScheduleMemberRepository;
 import com.feedhanjum.back_end.schedule.repository.ScheduleQueryRepository;
 import com.feedhanjum.back_end.schedule.repository.ScheduleRepository;
@@ -53,6 +54,7 @@ public class ScheduleService {
     private final MemberQueryRepository memberQueryRepository;
     private final JobRecordRepository jobRecordRepository;
     private final EventPublisher eventPublisher;
+    private final RegularFeedbackRequestQueryRepository regularFeedbackRequestQueryRepository;
 
     /**
      * 일정을 생성하는 메소드
@@ -148,11 +150,18 @@ public class ScheduleService {
                 .stream().findFirst().orElse(null);
         ScheduleNestedDto previousSchedule = getScheduleNestedDtos(scheduleQueryRepository.findScheduleByClosestPreviousEndTime(teamId, now))
                 .stream().findFirst().orElse(null);
+
+        // 가까운 미래 일정이 1일 이내라면 바로 반환
         if (nextSchedule != null && nextSchedule.getStartTime().isBefore(now.plusDays(1)))
             return nextSchedule;
-        if (previousSchedule != null && previousSchedule.getEndTime().isAfter(now.minusDays(1))) {
+
+        // 지난 일정이 1일 이내이고, 처리하지 않은 정기 피드백 요청이 존재한다면 이전 일정 반환
+        if (previousSchedule != null && previousSchedule.getEndTime().isAfter(now.minusDays(1))
+                && regularFeedbackRequestQueryRepository.getRegularFeedbackRequestCount(memberId, previousSchedule.getScheduleId()) > 0) {
             return previousSchedule;
         }
+
+        // 위 조건에 부합하지 않으면 nextSchedule 반환
         return nextSchedule;
     }
 
