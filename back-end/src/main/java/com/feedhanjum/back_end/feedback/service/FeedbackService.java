@@ -244,8 +244,10 @@ public class FeedbackService {
     }
 
     @Transactional
-    public void removeFeedbackRequest(Long senderId, Long teamId) {
-        regularFeedbackRequestRepository.deleteAllByRequesterIdAndTeamId(senderId, teamId);
-        frequentFeedbackRequestRepository.deleteAllBySenderIdAndTeamId(senderId, teamId);
+    public void removeFeedbackRequest(Long memberId, Long teamId) {
+        regularFeedbackRequestRepository.deleteAllByRequesterIdAndTeamId(memberId, teamId);
+        frequentFeedbackRequestRepository.deleteAllBySenderIdAndTeamId(memberId, teamId);
+        regularFeedbackRequestRepository.deleteAllByReceiverIdAndTeamId(memberId, teamId);
+        frequentFeedbackRequestRepository.deleteAllByReceiverIdAndTeamId(memberId, teamId);
     }
 }

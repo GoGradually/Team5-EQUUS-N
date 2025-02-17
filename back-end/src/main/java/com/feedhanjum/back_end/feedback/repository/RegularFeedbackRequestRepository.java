@@ -20,4 +20,10 @@ public interface RegularFeedbackRequestRepository extends JpaRepository<RegularF
             "where rfr.requester.id = :requesterId " +
             "and rfr.scheduleMember.schedule.team.id = :teamId")
     void deleteAllByRequesterIdAndTeamId(Long requesterId, Long teamId);
+
+    @Modifying(clearAutomatically = true)
+    @Query("delete from RegularFeedbackRequest rfr " +
+            "where rfr.scheduleMember.member.id = :receiverId " +
+            "and rfr.scheduleMember.schedule.team.id = :teamId")
+    void deleteAllByReceiverIdAndTeamId(Long receiverId, Long teamId);
 }

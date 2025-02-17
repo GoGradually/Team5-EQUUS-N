@@ -11,4 +11,10 @@ public interface FrequentFeedbackRequestRepository extends JpaRepository<Frequen
             "where ffr.sender.id = :senderId " +
             "and ffr.team.id = :teamId")
     void deleteAllBySenderIdAndTeamId(Long senderId, Long teamId);
+
+    @Modifying(clearAutomatically = true)
+    @Query("delete from FrequentFeedbackRequest ffr " +
+            "where ffr.receiver.id = :receiverId " +
+            "and ffr.team.id = :teamId")
+    void deleteAllByReceiverIdAndTeamId(Long receiverId, Long teamId);
 }
