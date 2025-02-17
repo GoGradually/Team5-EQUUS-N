@@ -236,6 +236,17 @@ public class ScheduleService {
         scheduleMemberRepository.deleteScheduleMembersByMemberIdAndTeamIdAfterNow(memberId, teamId, LocalDateTime.now(clock));
     }
 
+    @Transactional
+    public void deleteSchedule(Long memberId, Long teamId, Long scheduleId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new EntityNotFoundException("해당 일정을 찾을 수 없습니다."));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundException("해당 사용자를 찾을 수 없습니다."));
+        Team team = teamRepository.findById(teamId).orElseThrow(() -> new EntityNotFoundException("해당 팀을 찾을 수 없습니다."));
+        if (!schedule.getOwner().equals(member) && !team.getLeader().equals(member)) {
+            throw new SecurityException("해당 일정을 삭제할 권한이 없습니다.");
+        }
+        scheduleRepository.delete(schedule);
+    }
+
     private LocalDateTime truncateToNearestTenMinutes(LocalDateTime dateTime) {
         int minute = dateTime.getMinute();
         int truncatedMinute = (minute / 10) * 10;
