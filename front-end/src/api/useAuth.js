@@ -109,3 +109,30 @@ export const useGoogleSignup = () => {
       api.post({ url: '/api/auth/google/signup', body: data }),
   });
 };
+
+export const useSendResetEmail = () => {
+  return useMutation({
+    mutationFn: (email) =>
+      api.post({ url: '/api/auth/send-password-reset-email', body: email }),
+  });
+};
+
+export const useVerifyResetEmail = () => {
+  return useMutation({
+    mutationFn: (body) =>
+      api.post({
+        url: '/api/auth/verify-password-reset-token',
+        body: body,
+      }),
+  });
+};
+
+export const useResetPassword = () => {
+  return useMutation({
+    mutationFn: (body) =>
+      api.post({
+        url: '/api/auth/reset-password',
+        body,
+      }),
+  });
+};
