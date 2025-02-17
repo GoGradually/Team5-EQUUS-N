@@ -60,8 +60,10 @@ public class FeedbackRefineService {
 
     public Integer getRefineCount(Long callerId) {
         String redisKey = buildKey(callerId);
-        redisTemplate.opsForValue().setIfAbsent(redisKey, INITIAL_REFINE_COUNT, EXPIRE_TIME_HOURS, TimeUnit.HOURS);
         Object value = redisTemplate.opsForValue().get(redisKey);
+        if (value == null) {
+            return 3;
+        }
         if (value instanceof Number number) {
             return number.intValue();
         }
