@@ -30,8 +30,6 @@ export default function Accordion({
 
   const navigate = useNavigate();
 
-  console.log(isAllAlarmRead);
-
   return (
     <header className='relative flex h-[60px] w-full items-center justify-between'>
       {teamList.length === 0 ?

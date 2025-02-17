@@ -15,17 +15,13 @@ export const notiType = Object.freeze({
 /**
  * 노티파이 컴포넌트
  * @param {Object} props
- * @param {object} props.notification
+ * @param {object} props.banner
  * @param {Function} props.onClick
  * @param {Function} props.onClose
- * @param {Array<number>} props.feedbackRequestNotiIds
  */
-export default function Notification({
-  notification,
-  onClick,
-  onClose,
-  feedbackRequestNotiIds,
-}) {
+export default function Banner({ banner, onClick, onClose }) {
+  const { notification, ids } = banner;
+
   // TODO: 파동 애니메이션 추가
   // TODO: delete 아이콘, 화살표 아이콘 수정
   const getContent = () => {
@@ -52,8 +48,8 @@ export default function Notification({
         return {
           animationData: boxLottie,
           message:
-            feedbackRequestNotiIds.length > 1 ?
-              `${notification.senderName}님 외 ${feedbackRequestNotiIds.length - 1}명이\n피드백을 요청했어요!`
+            ids.length > 1 ?
+              `${notification.senderName}님 외 ${ids.length - 1}명이\n피드백을 요청했어요!`
             : `${notification.senderName}님이\n피드백을 요청했어요!`,
           buttonText: '피드백 보내기',
         };
@@ -83,22 +79,18 @@ export default function Notification({
       </p>
 
       <button
-        className='absolute bottom-4 left-6 flex items-center gap-0.5'
+        className='absolute bottom-4 left-6 flex items-center gap-0.5 text-gray-600'
         onClick={onClick}
       >
-        <p className='caption-2 text-gray-600'>{buttonText}</p>
+        <p className='caption-2'>{buttonText}</p>
         <Icon name='chevronDown' className='-rotate-90' />
       </button>
 
       <button
         className='absolute top-4 right-4'
-        onClick={() =>
-          notification.type === notiType.REQUEST ?
-            onClose({ notificationIds: feedbackRequestNotiIds })
-          : onClose({ notificationIds: [notification.notificationId] })
-        }
+        onClick={() => onClose({ notificationIds: ids })}
       >
-        <Icon name='delete' color='var(--color-gray-500)' />
+        <Icon name='delete' className='text-gray-500' />
       </button>
       <div className='absolute right-[14.6%] bottom-2 h-[30px] w-[24%] rounded-tl-[7px] rounded-tr-[7px] bg-gradient-to-b from-[#2a2a2a] from-60% to-transparent'>
         <p className='mt-1 text-center text-[10px] font-thin text-gray-100'>

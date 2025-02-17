@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import {
   useMainCard,
   useMainCard2,
@@ -8,7 +8,6 @@ import Accordion from '../../components/Accordion';
 import MainCard2 from '../../components/MainCard2';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import MainCard from './components/MainCard';
-import Notification from './components/Notification';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -28,6 +27,7 @@ import { useTeam } from '../../useTeam';
 import useScheduleAction from '../calendar/hooks/useScheduleAction';
 import { useUser } from '../../useUser';
 import useBlockPop from '../../useBlockPop';
+import Banner from './components/Banner';
 
 export default function MainPage() {
   const location = useLocation();
@@ -117,13 +117,12 @@ export default function MainPage() {
             />
           )}
         </StickyWrapper>
-        {banners && banners.notifications.length > 0 && (
+        {banners && banners.length > 0 && (
           <Slider {...sliderSettings} className='my-4'>
-            {banners.notifications.map((banner, index) => (
+            {banners.map((banner, index) => (
               <div className='px-[6px]' key={index}>
-                <Notification
-                  notification={banner}
-                  feedbackRequestNotiIds={banners.feedbackRequestNotiIds}
+                <Banner
+                  banner={banner}
                   onClick={() => console.log('노티 클릭')}
                   onClose={markAsRead}
                 />
