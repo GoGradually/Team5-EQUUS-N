@@ -108,6 +108,11 @@ export default function MainPage() {
               selectedTeamId={selectedTeam}
               teamList={teams}
               onTeamClick={selectTeam}
+              isAllAlarmRead={
+                notificationsData &&
+                notificationsData.filter((noti) => noti.read === false)
+                  .length === 0
+              }
               onClickLastButton={() => navigate('/teamspace/make')}
             />
           )}

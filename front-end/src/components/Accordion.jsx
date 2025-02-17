@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
  * @param {number} props.selectedTeamId - 선택된 팀 ID
  * @param {array} props.teamList - 팀 목록
  * @param {function} props.onTeamClick - 팀 클릭 시 호출되는 함수
- * @param {boolean} props.isAlarmRead - 알람 읽음 여부
+ * @param {boolean} props.isAllAlarmRead - 알람 읽음 여부
  * @param {boolean} props.canClose - 닫기 버튼 여부
  * @param {function} props.onClickLastButton - 마지막 버튼 클릭 시 호출되는 함수
  * @param {boolean} props.showAllSchedule - 전체 일정 보기 선택 여부
@@ -21,7 +21,7 @@ export default function Accordion({
   selectedTeamId,
   teamList = [],
   onTeamClick,
-  isAlarmRead = false,
+  isAllAlarmRead = false,
   canClose = true,
   onClickLastButton,
   showAllSchedule = false,
@@ -30,11 +30,7 @@ export default function Accordion({
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (isMainPage) {
-      // 만약 메인페이지면 알람 api get 요청 후 setIsAlarmRead() 호출
-    }
-  }, [isMainPage]);
+  console.log(isAllAlarmRead);
 
   return (
     <header className='relative flex h-[60px] w-full items-center justify-between'>
@@ -95,7 +91,7 @@ export default function Accordion({
         <div className='flex gap-4 divide-gray-600'>
           {teamList.length > 0 && (
             <button onClick={() => navigate('/main/notification')}>
-              <Icon name={isAlarmRead ? 'bellOn' : 'bellOff'} />
+              <Icon name={isAllAlarmRead ? 'bellOff' : 'bellOn'} />
             </button>
           )}
           <button onClick={() => navigate('/mypage')}>
