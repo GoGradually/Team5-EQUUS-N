@@ -21,7 +21,7 @@ public class JobRecord {
     private LocalDateTime previousFinishTime;
 
     public enum JobName {
-        SCHEDULE, TEAM
+        SCHEDULE, UNREAD_NOTIFICATIONS
     }
 
     public JobRecord(JobName name) {

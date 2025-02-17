@@ -1,5 +1,7 @@
 package com.feedhanjum.back_end.notification.service;
 
+import com.feedhanjum.back_end.core.domain.JobRecord;
+import com.feedhanjum.back_end.core.repository.JobRecordRepository;
 import com.feedhanjum.back_end.event.EventPublisher;
 import com.feedhanjum.back_end.feedback.domain.Feedback;
 import com.feedhanjum.back_end.feedback.event.FeedbackLikedEvent;
@@ -11,7 +13,6 @@ import com.feedhanjum.back_end.member.domain.Member;
 import com.feedhanjum.back_end.member.repository.MemberRepository;
 import com.feedhanjum.back_end.notification.controller.dto.notification.InAppNotificationDto;
 import com.feedhanjum.back_end.notification.domain.*;
-import com.feedhanjum.back_end.notification.event.FeedbackReceiveNotificationUnreadEvent;
 import com.feedhanjum.back_end.notification.event.InAppNotificationCreatedEvent;
 import com.feedhanjum.back_end.notification.repository.InAppNotificationQueryRepository;
 import com.feedhanjum.back_end.notification.repository.InAppNotificationRepository;
@@ -29,7 +30,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -42,6 +46,8 @@ public class InAppNotificationService {
     private final FeedbackRepository feedbackRepository;
     private final TeamRepository teamRepository;
     private final WebPushService webPushService;
+    private final JobRecordRepository jobRecordRepository;
+    private final Clock clock;
 
 
     @Transactional(readOnly = true)
@@ -174,24 +180,41 @@ public class InAppNotificationService {
 
 
     @Transactional
-    public void createNotification(FeedbackReceiveNotificationUnreadEvent event) {
-        Long notificationId = event.notificationId();
+    public void checkUnreadNotifications() {
+        JobRecord jobRecord = jobRecordRepository.findById(JobRecord.JobName.UNREAD_NOTIFICATIONS)
+                .orElseGet(() -> new JobRecord(JobRecord.JobName.UNREAD_NOTIFICATIONS));
+        LocalDateTime previousTime = jobRecord.getPreviousFinishTime();
 
-        InAppNotification feedbackReceiveNotification = inAppNotificationRepository.findById(notificationId)
-                .orElseThrow(EntityNotFoundException::new);
+        LocalDateTime oneDayAgo = LocalDateTime.now(clock).truncatedTo(ChronoUnit.MINUTES).minusDays(1);
 
-        if (!(feedbackReceiveNotification instanceof FeedbackReceiveNotification)) {
-            throw new RuntimeException("피드백 도착 알림이 아닙니다.");
+        List<FeedbackReceiveNotification> unreadNotifications = inAppNotificationQueryRepository.getUnreadFeedbackReceiveNotifications(previousTime.plusSeconds(1), oneDayAgo);
+        unreadNotifications.sort(Comparator.comparing(InAppNotification::getCreatedAt));
+        // 같은 사용자를 대상으로 여러개의 안읽은 알림이 있다면 가장 오래된 것에 대해서만 이벤트 발행
+        Set<Long> receiverIds = new HashSet<>();
+        for (FeedbackReceiveNotification unreadNotification : unreadNotifications) {
+            if (receiverIds.contains(unreadNotification.getReceiverId())) {
+                continue;
+            }
+            createNotification(unreadNotification);
+            receiverIds.add(unreadNotification.getReceiverId());
         }
-        // TODO: FeedbackReceiveNotificationUnreadEvent를 생성시키는 배치 작업에서는 receiver별로 안읽은지 24시간이 지난 feedbackReceive 알림이 여러개 있다면 가장 최신의 것만 이벤트로 발행해야 함
-        // 기존에 존재하던 24시간 지난 '피드백 도착' 알림은 삭제
-        inAppNotificationRepository.removeAllByReceiverIdAndTypeAndIdLessThanEqual(feedbackReceiveNotification.getReceiverId(),
-                NotificationType.FEEDBACK_RECEIVE, feedbackReceiveNotification.getId());
+        jobRecord.updatePreviousFinishTime(oneDayAgo);
+        jobRecordRepository.save(jobRecord);
+    }
 
-        InAppNotification notification = new UnreadFeedbackExistNotification((FeedbackReceiveNotification) feedbackReceiveNotification);
+    private void createNotification(FeedbackReceiveNotification unreadNotification) {
+        // 이미 안읽은 미확인 피드백 알림이 있다면 새로 생성하지 않음
+        Optional<InAppNotification> exists = inAppNotificationRepository.findByReceiverIdAndType(
+                unreadNotification.getReceiverId(),
+                NotificationType.UNREAD_FEEDBACK_EXIST);
+        if (exists.isPresent() && !exists.get().isRead())
+            return;
+
+        InAppNotification notification = new UnreadFeedbackExistNotification(unreadNotification);
         inAppNotificationRepository.save(notification);
         eventPublisher.publishEvent(new InAppNotificationCreatedEvent(notification.getId()));
     }
+
 
     @Transactional(readOnly = true)
     public void sendPushNotification(Long notificationId) {

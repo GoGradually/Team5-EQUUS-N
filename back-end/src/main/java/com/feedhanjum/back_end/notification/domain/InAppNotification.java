@@ -34,8 +34,8 @@ public abstract class InAppNotification {
     protected InAppNotification(Long receiverId) {
         this.id = null;
         this.receiverId = receiverId;
-        this.createdAt = LocalDateTime.now();
         this.isRead = false;
+        this.createdAt = LocalDateTime.now();
     }
 
     public void read(Member notificationReceiver) {
