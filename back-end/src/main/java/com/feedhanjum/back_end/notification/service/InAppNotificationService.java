@@ -76,6 +76,9 @@ public class InAppNotificationService {
 
         Member sender = memberRepository.findById(senderId).orElseThrow();
 
+        Optional<FrequentFeedbackRequestNotification> exist = inAppNotificationQueryRepository.getUnreadFrequentFeedbackRequestNotification(receiverId, teamId, senderId);
+        exist.ifPresent(inAppNotificationRepository::delete);
+        
         InAppNotification notification = new FrequentFeedbackRequestNotification(receiverId, sender.getName(), teamId, senderId);
         inAppNotificationRepository.save(notification);
         eventPublisher.publishEvent(new InAppNotificationCreatedEvent(notification.getId()));
