@@ -135,16 +135,11 @@ public class InAppNotificationService {
     @Transactional
     public void createNotification(FeedbackReportCreatedEvent event) {
         Long receiverId = event.receiverId();
-        Long endedTeamId = event.endedTeamId();
 
         Member receiver = memberRepository.findById(receiverId)
                 .orElseThrow(EntityNotFoundException::new);
-        Team team = null;
-        if (endedTeamId != null)
-            team = teamRepository.findById(endedTeamId)
-                    .orElseThrow(EntityNotFoundException::new);
 
-        InAppNotification notification = new FeedbackReportCreateNotification(receiver, team);
+        InAppNotification notification = new FeedbackReportCreateNotification(receiver);
         inAppNotificationRepository.save(notification);
         eventPublisher.publishEvent(new InAppNotificationCreatedEvent(notification.getId()));
     }
