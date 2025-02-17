@@ -2,6 +2,7 @@ package com.feedhanjum.back_end.team.domain;
 
 import com.feedhanjum.back_end.feedback.domain.FeedbackType;
 import com.feedhanjum.back_end.member.domain.Member;
+import com.feedhanjum.back_end.team.exception.TeamEndedException;
 import com.feedhanjum.back_end.team.exception.TeamLeaderMustExistException;
 import com.feedhanjum.back_end.team.exception.TeamMembershipNotFoundException;
 import jakarta.persistence.*;
@@ -12,6 +13,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -145,7 +147,9 @@ public class Team {
         return teamMembers.stream().anyMatch(teamMember -> member.equals(teamMember.getMember()));
     }
 
-    public TeamJoinToken createJoinToken(Member member) {
+    public TeamJoinToken createJoinToken(Member member, LocalDateTime now) {
+        if (now.isAfter(endDate.plusDays(1).atStartOfDay()))
+            throw new TeamEndedException("팀이 이미 종료되었습니다");
         validateTeamMember(member);
         return TeamJoinToken.createToken(this);
     }
