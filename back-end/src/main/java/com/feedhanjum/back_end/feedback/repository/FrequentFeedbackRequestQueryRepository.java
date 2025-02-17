@@ -1,7 +1,7 @@
-package com.feedhanjum.back_end.team.repository;
+package com.feedhanjum.back_end.feedback.repository;
 
-import com.feedhanjum.back_end.team.domain.FrequentFeedbackRequest;
-import com.feedhanjum.back_end.team.domain.QFrequentFeedbackRequest;
+import com.feedhanjum.back_end.feedback.domain.FrequentFeedbackRequest;
+import com.feedhanjum.back_end.feedback.domain.QFrequentFeedbackRequest;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

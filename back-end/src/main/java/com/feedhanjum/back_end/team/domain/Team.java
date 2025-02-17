@@ -1,6 +1,7 @@
 package com.feedhanjum.back_end.team.domain;
 
 import com.feedhanjum.back_end.feedback.domain.FeedbackType;
+import com.feedhanjum.back_end.feedback.domain.FrequentFeedbackRequest;
 import com.feedhanjum.back_end.member.domain.Member;
 import com.feedhanjum.back_end.team.exception.TeamEndedException;
 import com.feedhanjum.back_end.team.exception.TeamLeaderMustExistException;

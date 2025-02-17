@@ -4,7 +4,6 @@ import com.feedhanjum.back_end.feedback.domain.*;
 import com.feedhanjum.back_end.member.domain.FeedbackPreference;
 import com.feedhanjum.back_end.member.domain.Member;
 import com.feedhanjum.back_end.member.domain.ProfileImage;
-import com.feedhanjum.back_end.schedule.domain.RegularFeedbackRequest;
 import com.feedhanjum.back_end.schedule.domain.Schedule;
 import com.feedhanjum.back_end.schedule.domain.ScheduleMember;
 import com.feedhanjum.back_end.team.domain.Team;

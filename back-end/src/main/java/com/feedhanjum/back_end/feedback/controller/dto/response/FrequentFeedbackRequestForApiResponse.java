@@ -1,7 +1,7 @@
 package com.feedhanjum.back_end.feedback.controller.dto.response;
 
+import com.feedhanjum.back_end.feedback.domain.FrequentFeedbackRequest;
 import com.feedhanjum.back_end.member.controller.dto.MemberDto;
-import com.feedhanjum.back_end.team.domain.FrequentFeedbackRequest;
 
 import java.time.LocalDateTime;
 
