@@ -78,18 +78,14 @@ export const useFeedbackFavorite = () => {
   return useQuery({
     queryKey: ['feedback-preference'],
     queryFn: () => api.get({ url: '/api/feedback/preference' }),
+    gcTime: 1000 * 60 * 60, // 바뀔 일이 거의 없는 데이터라서 1시간으로 설정
   });
 };
 
 export const useEditFavorite = () => {
-  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data) =>
       api.post({ url: '/api/member/feedback-prefer', body: data }),
-    onSuccess: () => {
-      // TODO: 사용자 선호 피드백 정보 조회할때 캐시를 지우도록 수정
-      // queryClient.invalidateQueries({ queryKey: ['feedback-favorite'] });
-    },
   });
 };
 
@@ -98,6 +94,7 @@ export const useFeedbackFavoriteByUser = (data) => {
     queryKey: ['feedback-favorite-by-user'],
     queryFn: () =>
       api.get({ url: `/api/member/feedback-prefer?findMemberId=${data}` }),
+    gcTime: 0, // 지난번 거랑 바뀌는게 보기 좋지 않아서 그냥 캐싱 X
   });
 };
 

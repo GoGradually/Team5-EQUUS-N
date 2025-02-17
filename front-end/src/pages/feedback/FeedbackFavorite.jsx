@@ -1,7 +1,11 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import KeywordButton from '../../components/buttons/KeywordButton';
-import { useEditFavorite, useFeedbackFavorite } from '../../api/useFeedback';
-import { useState } from 'react';
+import {
+  useEditFavorite,
+  useFeedbackFavorite,
+  useFeedbackFavoriteByUser,
+} from '../../api/useFeedback';
+import { useEffect, useState } from 'react';
 import FooterWrapper from '../../components/wrappers/FooterWrapper';
 import LargeButton from '../../components/buttons/LargeButton';
 import { useEmailSignUp, useGoogleSignup } from '../../api/useAuth';
@@ -13,13 +17,15 @@ import NavBar2 from '../../components/NavBar2';
 export default function FeedbackFavorite() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { setUserId } = useUser();
+  const { userId, setUserId } = useUser();
   const process = new URLSearchParams(location.search).get('process');
 
   const [selectedStyle, setSelectedStyle] = useState([]);
   const [selectedContent, setSelectedContent] = useState([]);
 
-  const { data } = useFeedbackFavorite();
+  const { data: keywords } = useFeedbackFavorite();
+  const { data: selectedKeywords } =
+    userId ? useFeedbackFavoriteByUser(userId) : { data: null };
 
   const mutation =
     process === 'signup' ?
@@ -27,6 +33,21 @@ export default function FeedbackFavorite() {
         useGoogleSignup()
       : useEmailSignUp()
     : useEditFavorite();
+
+  useEffect(() => {
+    if (selectedKeywords && keywords) {
+      setSelectedStyle(
+        selectedKeywords.feedbackPreferences.filter((keyword) =>
+          keywords['스타일'].includes(keyword),
+        ),
+      );
+      setSelectedContent(
+        selectedKeywords.feedbackPreferences.filter((keyword) =>
+          keywords['내용'].includes(keyword),
+        ),
+      );
+    }
+  }, [selectedKeywords, keywords]);
 
   const onKeywordButtonClick = (isStyle, keyword) => {
     const keywords = isStyle ? selectedStyle : selectedContent;
@@ -40,10 +61,12 @@ export default function FeedbackFavorite() {
     selectedStyle.length === 0 || selectedContent.length === 0 ?
       showToast('피드백 유형을 최소 한 개씩 선택해주세요')
     : mutation.mutate(
-        {
-          ...location.state,
-          feedbackPreferences: [...selectedStyle, ...selectedContent],
-        },
+        process === 'signup' ?
+          {
+            ...location.state,
+            feedbackPreferences: [...selectedStyle, ...selectedContent],
+          }
+        : [...selectedStyle, ...selectedContent],
         {
           onSuccess: (data) => {
             if (process === 'signup') {
@@ -79,11 +102,11 @@ export default function FeedbackFavorite() {
       <p className={`body-1 ${process !== 'signup' && 'mt-5'} text-gray-200`}>
         카테고리별 최대 2개까지 선택해 주세요
       </p>
-      {data && (
+      {keywords && (
         <div className='mt-10 flex flex-col'>
           <h2 className='subtitle-1 text-gray-0 mb-3'>스타일</h2>
           <div className='flex flex-wrap gap-2'>
-            {data['스타일'].map((keyword, index) => (
+            {keywords['스타일'].map((keyword, index) => (
               <KeywordButton
                 key={index}
                 isActive={selectedStyle.includes(keyword)}
@@ -96,7 +119,7 @@ export default function FeedbackFavorite() {
           <div className='h-8' />
           <h2 className='subtitle-1 text-gray-0 mb-3'>내용</h2>
           <div className='flex flex-wrap gap-2'>
-            {data['내용'].map((keyword, index) => (
+            {keywords['내용'].map((keyword, index) => (
               <KeywordButton
                 key={index}
                 isActive={selectedContent.includes(keyword)}
