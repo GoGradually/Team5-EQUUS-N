@@ -99,111 +99,115 @@ export default function MainPage() {
   };
 
   return (
-    <div className='relative flex h-full w-full flex-col overflow-hidden'>
-      <StickyWrapper className='px-5'>
-        {teams && (
-          <Accordion
-            isMainPage={true}
-            selectedTeamId={selectedTeam}
-            teamList={teams}
-            onTeamClick={selectTeam}
-            onClickLastButton={() => navigate('/teamspace/make')}
+    <div className='relative flex size-full flex-col overflow-hidden'>
+      <div className='scrollbar-hidden size-full overflow-x-hidden overflow-y-auto'>
+        <StickyWrapper className='px-5'>
+          {teams && (
+            <Accordion
+              isMainPage={true}
+              selectedTeamId={selectedTeam}
+              teamList={teams}
+              onTeamClick={selectTeam}
+              onClickLastButton={() => navigate('/teamspace/make')}
+            />
+          )}
+        </StickyWrapper>
+        {banners && banners.notifications.length > 0 && (
+          <Slider {...sliderSettings} className='my-4'>
+            {banners.notifications.map((banner, index) => (
+              <div className='px-[6px]' key={index}>
+                <Notification
+                  notification={banner}
+                  feedbackRequestNotiIds={banners.feedbackRequestNotiIds}
+                  onClick={() => console.log('노티 클릭')}
+                  onClose={markAsRead}
+                />
+              </div>
+            ))}
+          </Slider>
+        )}
+        <div className='h-2' />
+        {/* 로컬 스토리지 관련 문제 잡히면 다시 보기 */}
+        {timeDiff !== undefined && (
+          <MainCard
+            userId={userId}
+            isInTeam={teams.length > 0}
+            recentSchedule={recentScheduleData}
+            scheduleDifferece={timeDiff}
+            onClickMainButton={getOnMainButtonClick()}
+            onClickSubButton={() => toggleSchedule()}
+            onClickChevronButton={() => navigate('/calendar')}
           />
         )}
-      </StickyWrapper>
-      {banners && banners.notifications.length > 0 && (
-        <Slider {...sliderSettings} className='my-4'>
-          {banners.notifications.map((banner, index) => (
-            <div className='px-[6px]' key={index}>
-              <Notification
-                notification={banner}
-                feedbackRequestNotiIds={banners.feedbackRequestNotiIds}
-                onClick={() => console.log('노티 클릭')}
-                onClose={markAsRead}
-              />
-            </div>
-          ))}
-        </Slider>
-      )}
-      <div className='h-2' />
-      {/* 로컬 스토리지 관련 문제 잡히면 다시 보기 */}
-      {timeDiff !== undefined && (
-        <MainCard
-          userId={userId}
-          isInTeam={teams.length > 0}
-          recentSchedule={recentScheduleData}
-          scheduleDifferece={timeDiff}
-          onClickMainButton={getOnMainButtonClick()}
-          onClickSubButton={() => toggleSchedule()}
-          onClickChevronButton={() => navigate('/calendar')}
-        />
-      )}
-      <div className='h-8' />
-      {matesData && (
-        <MainCard2
-          teamMates={matesData}
-          onReceivedFeedbackClick={() =>
-            navigate(
-              `/feedback/received?teamName=${teams.find((team) => team.id === selectedTeam).name}`,
-            )
-          }
-          onClick={(mate) =>
-            showModal(
-              <Modal
-                type={ModalType.PROFILE}
-                profileImage={
-                  <div className='size-[62px]'>
-                    <ProfileImage
-                      iconName={`@animals/${mate.profileImage.image}`}
-                      color={mate.profileImage.backgroundColor}
-                    />
-                  </div>
-                }
-                content={
-                  mate.id === userId ? `${mate.name}(나)` : `${mate.name}님에게`
-                }
-                mainButton={
-                  <MediumButton
-                    text={
-                      mate.id === userId ? '회고 작성하기' : '피드백 보내기'
-                    }
-                    onClick={() => {
-                      mate.id === userId ?
-                        navigate(`/feedback/self`)
-                      : navigate(`/feedback/send/1`, {
-                          state: {
-                            isRegular: false,
-                            receiver: { name: mate.name, id: mate.id },
-                          },
-                        });
-                      hideModal();
-                    }}
-                    isOutlined={false}
-                    disabled={false}
-                  />
-                }
-                subButton={
-                  mate.id === userId ?
-                    null
-                  : <MediumButton
-                      text='피드백 요청하기'
+        <div className='h-8' />
+        {matesData && (
+          <MainCard2
+            teamMates={matesData}
+            onReceivedFeedbackClick={() =>
+              navigate(
+                `/feedback/received?teamName=${teams.find((team) => team.id === selectedTeam).name}`,
+              )
+            }
+            onClick={(mate) =>
+              showModal(
+                <Modal
+                  type={ModalType.PROFILE}
+                  profileImage={
+                    <div className='size-[62px]'>
+                      <ProfileImage
+                        iconName={`@animals/${mate.profileImage.image}`}
+                        color={mate.profileImage.backgroundColor}
+                      />
+                    </div>
+                  }
+                  content={
+                    mate.id === userId ?
+                      `${mate.name}(나)`
+                    : `${mate.name}님에게`
+                  }
+                  mainButton={
+                    <MediumButton
+                      text={
+                        mate.id === userId ? '회고 작성하기' : '피드백 보내기'
+                      }
                       onClick={() => {
-                        navigate(
-                          `/feedback/request?receiverId=${mate.id}&receiverName=${mate.name}`,
-                        );
-
+                        mate.id === userId ?
+                          navigate(`/feedback/self`)
+                        : navigate(`/feedback/send/1`, {
+                            state: {
+                              isRegular: false,
+                              receiver: { name: mate.name, id: mate.id },
+                            },
+                          });
                         hideModal();
                       }}
-                      isOutlined={true}
+                      isOutlined={false}
                       disabled={false}
                     />
-                }
-              />,
-            )
-          }
-        />
-      )}
-      <div className='h-8' />
+                  }
+                  subButton={
+                    mate.id === userId ?
+                      null
+                    : <MediumButton
+                        text='피드백 요청하기'
+                        onClick={() => {
+                          navigate(
+                            `/feedback/request?receiverId=${mate.id}&receiverName=${mate.name}`,
+                          );
+
+                          hideModal();
+                        }}
+                        isOutlined={true}
+                        disabled={false}
+                      />
+                  }
+                />,
+              )
+            }
+          />
+        )}
+        <div className='h-8' />
+      </div>
       <ScheduleAction
         type={ScheduleActionType.ADD}
         isOpen={isScheduleOpen}
