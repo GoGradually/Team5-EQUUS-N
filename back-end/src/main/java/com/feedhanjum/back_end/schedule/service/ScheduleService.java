@@ -244,6 +244,7 @@ public class ScheduleService {
         if (!schedule.getOwner().equals(member) && !team.getLeader().equals(member)) {
             throw new SecurityException("해당 일정을 삭제할 권한이 없습니다.");
         }
+        if (schedule.isEnd()) throw new ScheduleIsAlreadyEndException("일정이 이미 종료되었습니다.");
         scheduleRepository.delete(schedule);
     }
 
