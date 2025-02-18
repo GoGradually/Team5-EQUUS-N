@@ -61,7 +61,7 @@ export default function MainPage() {
 
   useEffect(() => {
     if (notificationsData) {
-      setBanners(filterNotifications(notificationsData));
+      setBanners(filterNotifications(notificationsData, selectedTeam));
     }
   }, [notificationsData]);
 
@@ -117,7 +117,7 @@ export default function MainPage() {
             />
           )}
         </StickyWrapper>
-        {banners && banners.length > 0 && (
+        {banners?.length > 0 && (
           <Slider {...sliderSettings} className='my-4'>
             {banners.map((banner, index) => (
               <div className='px-[6px]' key={index}>

@@ -1,9 +1,13 @@
-export const filterNotifications = (notifications) => {
+export const filterNotifications = (notifications, selectedTeam) => {
   const filteredNotis = notifications.filter((notification) => {
     if (notification.read) return false; // 읽은 알람이면 무시
     if (notification.type === 'feedbackReceive') return true;
     if (notification.type === 'feedbackReportCreate') return true;
-    if (notification.type === 'frequentFeedbackRequest') return true;
+    if (
+      notification.type === 'frequentFeedbackRequest' &&
+      notification.teamId == selectedTeam
+    )
+      return true;
     if (notification.type === 'unreadFeedbackExist') return true;
     return false;
   });
