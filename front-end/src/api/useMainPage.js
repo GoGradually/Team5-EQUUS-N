@@ -46,6 +46,7 @@ export const useNotification = (teamId) => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['notification', teamId],
     queryFn: () => api.get({ url: '/api/notification' }),
+    gcTime: 0,
     enabled: !!teamId,
   });
 

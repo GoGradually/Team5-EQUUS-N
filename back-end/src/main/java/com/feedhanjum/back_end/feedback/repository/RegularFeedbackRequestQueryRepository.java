@@ -1,7 +1,7 @@
-package com.feedhanjum.back_end.schedule.repository;
+package com.feedhanjum.back_end.feedback.repository;
 
-import com.feedhanjum.back_end.schedule.domain.QRegularFeedbackRequest;
-import com.feedhanjum.back_end.schedule.domain.RegularFeedbackRequest;
+import com.feedhanjum.back_end.feedback.domain.QRegularFeedbackRequest;
+import com.feedhanjum.back_end.feedback.domain.RegularFeedbackRequest;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

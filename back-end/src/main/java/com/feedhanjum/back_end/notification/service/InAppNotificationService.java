@@ -64,7 +64,18 @@ public class InAppNotificationService {
         Member receiver = memberRepository.findById(receiverId).orElseThrow(() -> new EntityNotFoundException("없는 사용자"));
         List<InAppNotification> notifications = inAppNotificationRepository.findAllById(notificationIds);
         for (InAppNotification notification : notifications) {
-            notification.read(receiver);
+            readNotification(notification, receiver);
+        }
+    }
+
+    private void readNotification(InAppNotification notification, Member receiver) {
+        notification.read(receiver, LocalDateTime.now(clock));
+        // 피드백 미확인 알림을 읽을 경우, 존재하는 모든 피드백 도착 알림을 읽음 처리
+        if (notification instanceof UnreadFeedbackExistNotification) {
+            for (InAppNotification inAppNotification : inAppNotificationRepository.findAllByReceiverIdAndType(receiver.getId(), NotificationType.FEEDBACK_RECEIVE)) {
+                readNotification(inAppNotification, receiver);
+            }
+
         }
     }
 
@@ -76,6 +87,9 @@ public class InAppNotificationService {
 
         Member sender = memberRepository.findById(senderId).orElseThrow();
 
+        Optional<FrequentFeedbackRequestNotification> exist = inAppNotificationQueryRepository.getUnreadFrequentFeedbackRequestNotification(receiverId, teamId, senderId);
+        exist.ifPresent(inAppNotificationRepository::delete);
+        
         InAppNotification notification = new FrequentFeedbackRequestNotification(receiverId, sender.getName(), teamId, senderId);
         inAppNotificationRepository.save(notification);
         eventPublisher.publishEvent(new InAppNotificationCreatedEvent(notification.getId()));
@@ -186,24 +200,31 @@ public class InAppNotificationService {
         unreadNotifications.sort(Comparator.comparing(InAppNotification::getCreatedAt));
         // 같은 사용자를 대상으로 여러개의 안읽은 알림이 있다면 가장 오래된 것에 대해서만 이벤트 발행
         Set<Long> receiverIds = new HashSet<>();
+        LocalDateTime now = LocalDateTime.now(clock);
         for (FeedbackReceiveNotification unreadNotification : unreadNotifications) {
             if (receiverIds.contains(unreadNotification.getReceiverId())) {
                 continue;
             }
-            createNotification(unreadNotification);
+            createNotification(unreadNotification, now);
             receiverIds.add(unreadNotification.getReceiverId());
         }
         jobRecord.updatePreviousFinishTime(oneDayAgo);
         jobRecordRepository.save(jobRecord);
     }
 
-    private void createNotification(FeedbackReceiveNotification unreadNotification) {
-        // 이미 안읽은 미확인 피드백 알림이 있다면 새로 생성하지 않음
+    private void createNotification(FeedbackReceiveNotification unreadNotification, LocalDateTime now) {
         Optional<InAppNotification> exists = inAppNotificationRepository.findByReceiverIdAndType(
                 unreadNotification.getReceiverId(),
                 NotificationType.UNREAD_FEEDBACK_EXIST);
-        if (exists.isPresent() && !exists.get().isRead())
-            return;
+        if (exists.isPresent()) {
+            InAppNotification existNotification = exists.get();
+            // 이미 안읽은 미확인 피드백 알림이 있다면 새로 생성하지 않음
+            if (!existNotification.isRead())
+                return;
+            // 미확인 피드백 알림이 읽힌 지 24시간이 지나지 않았다면 새로 생성하지 않음
+            if (existNotification.getReadAt() != null && existNotification.getReadAt().isAfter(now.minusDays(1)))
+                return;
+        }
 
         InAppNotification notification = new UnreadFeedbackExistNotification(unreadNotification);
         inAppNotificationRepository.save(notification);

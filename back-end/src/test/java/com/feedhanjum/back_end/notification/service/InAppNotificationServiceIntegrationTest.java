@@ -8,6 +8,7 @@ import com.feedhanjum.back_end.feedback.domain.FeedbackType;
 import com.feedhanjum.back_end.member.domain.Member;
 import com.feedhanjum.back_end.member.repository.MemberRepository;
 import com.feedhanjum.back_end.notification.domain.FeedbackReceiveNotification;
+import com.feedhanjum.back_end.notification.domain.InAppNotification;
 import com.feedhanjum.back_end.notification.domain.UnreadFeedbackExistNotification;
 import com.feedhanjum.back_end.notification.event.InAppNotificationCreatedEvent;
 import com.feedhanjum.back_end.notification.repository.InAppNotificationQueryRepository;
@@ -20,6 +21,7 @@ import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -132,7 +134,7 @@ class InAppNotificationServiceIntegrationTest {
     }
 
     @Test
-    @DisplayName("사용자에게 이미 미확인 알림이 있다면 추가 생성 없음")
+    @DisplayName("사용자에게 이미 안읽은 미확인 알림이 있다면 추가 생성 없음")
     void test2() {
         LocalDateTime previousFinishTime = LocalDateTime.now(clock).minusDays(1).minusMinutes(1);
 
@@ -163,6 +165,85 @@ class InAppNotificationServiceIntegrationTest {
                     assertThat(notification.getId()).isEqualTo(existNotification.getId());
                 });
         verify(eventPublisher, never()).publishEvent(any());
+    }
+
+    @Test
+    @DisplayName("사용자에게 이미 읽은 미확인 알림이 있고 읽은 지 24시간 이내라면 추가 생성 없음")
+    void test3() {
+        LocalDateTime previousFinishTime = LocalDateTime.now(clock).minusDays(1).minusMinutes(1);
+        LocalDateTime oneDayAgo = LocalDateTime.now(clock).minusDays(1);
+
+        UnreadFeedbackExistNotification existNotification = inAppNotificationRepository.save(
+                new UnreadFeedbackExistNotification(
+                        createFeedbackReceiveNotification(previousFinishTime.minusSeconds(3), sender3)
+                )
+        );
+        existNotification.read(receiver, oneDayAgo.plusSeconds(1));
+        inAppNotificationRepository.save(existNotification);
+
+        jobRecordRepository.save(new JobRecord(JobRecord.JobName.UNREAD_NOTIFICATIONS, previousFinishTime));
+        inAppNotificationRepository.saveAll(List.of(
+                createFeedbackReceiveNotification(previousFinishTime.plusSeconds(3), sender3),
+                createFeedbackReceiveNotification(previousFinishTime.plusSeconds(1), sender1),
+                createFeedbackReceiveNotification(previousFinishTime.plusSeconds(2), sender2)
+        ));
+
+
+        // when
+        inAppNotificationService.checkUnreadNotifications();
+
+        // then
+        assertThat(inAppNotificationRepository.findAll())
+                .filteredOn(UnreadFeedbackExistNotification.class::isInstance)
+                .hasSize(1)
+                .first()
+                .asInstanceOf(InstanceOfAssertFactories.type(UnreadFeedbackExistNotification.class))
+                .satisfies(notification -> {
+                    assertThat(notification.getId()).isEqualTo(existNotification.getId());
+                });
+        verify(eventPublisher, never()).publishEvent(any());
+    }
+
+    @Test
+    @DisplayName("사용자에게 이미 읽은 미확인 알림이 있고 읽은 지 24시간 초과라면 새로 생성됨")
+    void test4() {
+        LocalDateTime previousFinishTime = LocalDateTime.now(clock).minusDays(1).minusMinutes(1);
+        LocalDateTime oneDayAgo = LocalDateTime.now(clock).minusDays(1);
+
+        UnreadFeedbackExistNotification existNotification = inAppNotificationRepository.save(
+                new UnreadFeedbackExistNotification(
+                        createFeedbackReceiveNotification(previousFinishTime.minusSeconds(3), sender3)
+                )
+        );
+        existNotification.read(receiver, oneDayAgo.minusSeconds(1));
+        inAppNotificationRepository.save(existNotification);
+
+        jobRecordRepository.save(new JobRecord(JobRecord.JobName.UNREAD_NOTIFICATIONS, previousFinishTime));
+        inAppNotificationRepository.saveAll(List.of(
+                createFeedbackReceiveNotification(previousFinishTime.plusSeconds(3), sender3),
+                createFeedbackReceiveNotification(previousFinishTime.plusSeconds(1), sender1),
+                createFeedbackReceiveNotification(previousFinishTime.plusSeconds(2), sender2)
+        ));
+
+
+        // when
+        inAppNotificationService.checkUnreadNotifications();
+
+        // then
+        ArgumentCaptor<InAppNotificationCreatedEvent> captor = ArgumentCaptor.captor();
+        verify(eventPublisher).publishEvent(captor.capture());
+
+        assertThat(inAppNotificationRepository.findAll())
+                .filteredOn(UnreadFeedbackExistNotification.class::isInstance)
+                .hasSize(2)
+                .satisfies(notifications -> {
+                    InAppNotification exists = notifications.get(0);
+                    assertThat(exists.getId()).isEqualTo(existNotification.getId());
+                    InAppNotification newNotification = notifications.get(1);
+
+                    assertThat(captor.getValue().notificationId()).isEqualTo(newNotification.getId());
+                });
+
     }
 
 

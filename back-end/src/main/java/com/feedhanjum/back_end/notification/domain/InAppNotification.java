@@ -28,6 +28,8 @@ public abstract class InAppNotification {
     @Column(nullable = false)
     protected boolean isRead;
 
+    protected LocalDateTime readAt;
+
     @Column(name = "type", nullable = false, updatable = false, insertable = false)
     protected String type;
 
@@ -35,14 +37,19 @@ public abstract class InAppNotification {
         this.id = null;
         this.receiverId = receiverId;
         this.isRead = false;
+        this.readAt = null;
         this.createdAt = LocalDateTime.now();
     }
 
-    public void read(Member notificationReceiver) {
+    public void read(Member notificationReceiver, LocalDateTime readAt) {
         if (!isReceiver(notificationReceiver)) {
             throw new SecurityException("알림을 읽을 권한이 없습니다");
         }
+        if (this.isRead) {
+            return;
+        }
         this.isRead = true;
+        this.readAt = readAt;
     }
 
     private boolean isReceiver(Member member) {

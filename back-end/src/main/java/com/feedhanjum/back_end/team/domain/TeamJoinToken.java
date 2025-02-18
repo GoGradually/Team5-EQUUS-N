@@ -1,6 +1,7 @@
 package com.feedhanjum.back_end.team.domain;
 
 import com.feedhanjum.back_end.member.domain.Member;
+import com.feedhanjum.back_end.team.exception.TeamEndedException;
 import com.feedhanjum.back_end.team.exception.TeamJoinTokenNotValidException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -55,6 +56,9 @@ public class TeamJoinToken {
     private void validate() {
         if (getExpireDate().isBefore(LocalDateTime.now())) {
             throw new TeamJoinTokenNotValidException();
+        }
+        if (team.getEndDate().plusDays(1).atStartOfDay().isBefore(LocalDateTime.now())) {
+            throw new TeamEndedException("팀 스페이스가 이미 종료되었습니다.");
         }
     }
 }

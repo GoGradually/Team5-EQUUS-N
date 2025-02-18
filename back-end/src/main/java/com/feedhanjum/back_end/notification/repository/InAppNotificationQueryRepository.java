@@ -1,15 +1,13 @@
 package com.feedhanjum.back_end.notification.repository;
 
-import com.feedhanjum.back_end.notification.domain.FeedbackReceiveNotification;
-import com.feedhanjum.back_end.notification.domain.InAppNotification;
-import com.feedhanjum.back_end.notification.domain.QFeedbackReceiveNotification;
-import com.feedhanjum.back_end.notification.domain.QInAppNotification;
+import com.feedhanjum.back_end.notification.domain.*;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
@@ -33,5 +31,16 @@ public class InAppNotificationQueryRepository {
                 .where(feedbackNotification.isRead.isFalse())
                 .where(feedbackNotification.createdAt.between(from, to))
                 .fetch();
+    }
+
+    public Optional<FrequentFeedbackRequestNotification> getUnreadFrequentFeedbackRequestNotification(Long receiverId, Long teamId, Long senderId) {
+        QFrequentFeedbackRequestNotification requestNotification = QFrequentFeedbackRequestNotification.frequentFeedbackRequestNotification;
+        return Optional.ofNullable(queryFactory.select(requestNotification)
+                .from(requestNotification)
+                .where(requestNotification.isRead.isFalse())
+                .where(requestNotification.receiverId.eq(receiverId))
+                .where(requestNotification.teamId.eq(teamId))
+                .where(requestNotification.senderId.eq(senderId))
+                .fetchOne());
     }
 }

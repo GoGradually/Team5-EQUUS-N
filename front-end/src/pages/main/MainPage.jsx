@@ -32,6 +32,14 @@ import { handleFreqFeedbackReq } from './components/Alarm';
 
 export default function MainPage() {
   const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const redirect = searchParams.get('redirect') ?? null;
+  const teamId = searchParams.get('teamId') ?? null;
+  const senderId = searchParams.get('senderId') ?? null;
+  const scheduleId = searchParams.get('scheduleId') ?? null;
+  const scheduleDate = searchParams.get('scheduleDate') ?? null;
+
+  const navigate = useNavigate();
   const [banners, setBanners] = useState();
   const [timeDiff, setTimeDiff] = useState();
   const [isTodoAddOpen, toggleTodoAdd] = useReducer((prev) => !prev, false);
@@ -50,11 +58,25 @@ export default function MainPage() {
     selectedDate,
     recentScheduleData,
   );
-  const navigate = useNavigate();
 
   // TODO: 로딩 중 혹은 에러 발생 시 처리
 
   useBlockPop(location.pathname);
+
+  useEffect(() => {
+    let state = {};
+    if (redirect) {
+      navigate('/main', { replace: true });
+      if (teamId) {
+        state = { teamId, senderId, isRegular: false };
+      } else if (scheduleId) {
+        state = { scheduleId, isRegular: true };
+      } else if (scheduleDate) {
+        state = { scheduleDate };
+      }
+      navigate(redirect, { state });
+    }
+  }, []);
 
   useEffect(() => {
     clearData();

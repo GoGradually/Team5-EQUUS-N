@@ -16,15 +16,18 @@ public class RegularFeedbackRequestNotificationDto extends InAppNotificationDto 
     private final String type = NotificationType.REGULAR_FEEDBACK_REQUEST;
     @Schema(description = "연관된 일정 이름")
     private final String scheduleName;
+    @Schema(description = "연관된 일정이 속한 팀 이름")
+    private final String teamName;
     @Schema(description = "연관된 일정 ID")
     private final Long scheduleId;
     @Schema(description = "연관된 일정이 속한 팀 ID")
     private final Long teamId;
 
     @Builder
-    public RegularFeedbackRequestNotificationDto(Long notificationId, Long receiverId, LocalDateTime createdAt, boolean isRead, String scheduleName, Long scheduleId, Long teamId) {
+    public RegularFeedbackRequestNotificationDto(Long notificationId, Long receiverId, LocalDateTime createdAt, boolean isRead, String scheduleName, String teamName, Long scheduleId, Long teamId) {
         super(notificationId, receiverId, createdAt, isRead);
         this.scheduleName = scheduleName;
+        this.teamName = teamName;
         this.scheduleId = scheduleId;
         this.teamId = teamId;
     }
@@ -38,6 +41,7 @@ public class RegularFeedbackRequestNotificationDto extends InAppNotificationDto 
                 .scheduleId(notification.getScheduleId())
                 .scheduleName(notification.getScheduleName())
                 .teamId(notification.getTeamId())
+                .teamName(notification.getTeamName())
                 .build();
     }
 }
