@@ -13,7 +13,7 @@ import CustomDatePicker, {
 } from '../../components/CustomDatePicker';
 import { useMakeTeam } from '../../api/useTeamspace';
 import { useTeam } from '../../useTeam';
-import useHandlePop from '../../useHandlePop';
+import useHandlePop, { blockPop } from '../../useHandlePop';
 
 /**
  * @param {object} props
