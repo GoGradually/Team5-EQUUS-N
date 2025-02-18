@@ -67,9 +67,9 @@ export default function MainPage() {
     if (redirect) {
       navigate('/main', { replace: true });
       if (teamId) {
-        state = { teamId, senderId };
+        state = { teamId, senderId, isRegular: false };
       } else if (scheduleId) {
-        state = { scheduleId };
+        state = { scheduleId, isRegular: true };
       } else if (scheduleDate) {
         state = { scheduleDate };
       }
