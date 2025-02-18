@@ -151,7 +151,7 @@ function renderTitle(recentSchedule, scheduleDifferece) {
         type={TagType.TEAM_SCHEDULE}
         children={{
           date: `${dateObject.getDate()}일 ${changeDayName(dateObject.getDay())}요일`,
-          time: `${dateObject.getHours()}:${dateObject.getMinutes()}`,
+          time: `${dateObject.getHours().toString().padStart(2, '0')}:${dateObject.getMinutes().toString().padEnd(2, '0')}`,
         }}
       />
     </div>

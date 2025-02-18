@@ -35,6 +35,7 @@ import PushNotiManager from './PushNotiManager';
 import FeedbackSendFreq from './pages/feedback/FeedbackSendFreq';
 import ProfileEdit from './pages/mypage/ProfileEdit';
 import Report from './pages/mypage/Report';
+import PasswordReset from './pages/auth/PasswordReset';
 
 const queryClient = new QueryClient();
 
@@ -50,6 +51,7 @@ export default function App() {
               <Route path='/login/google' element={<SplashForOAuth />} />
               <Route path='signin' element={<SignIn />} />
               <Route path='signup' element={<SignUp />} />
+              <Route path='password/reset' element={<PasswordReset />} />
               {/* 이 아래는 로그인 해야 이용 가능 */}
               <Route element={<ProtectedRoute />}>
                 <Route path='feedback'>
