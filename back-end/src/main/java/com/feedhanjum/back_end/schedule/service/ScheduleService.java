@@ -220,6 +220,7 @@ public class ScheduleService {
             return;  // Early return if no schedules need updating
         }
         List<ScheduleMember> scheduleMembers = relatedSchedule.stream()
+                .filter(schedule -> scheduleMemberRepository.findByMemberIdAndScheduleId(member.getId(), schedule.getId()).isEmpty())
                 .map(schedule -> new ScheduleMember(schedule, member))
                 .toList();
         scheduleMemberRepository.saveAll(scheduleMembers);
