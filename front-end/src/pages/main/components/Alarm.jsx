@@ -78,7 +78,7 @@ const filterDataWithType = ({ data, type }) => {
       content = `${data.senderName}님(${data.teamName})이 내가 보낸 피드백에 공감을 눌렀어요`;
       image = '/src/assets/images/heart-green.png';
       imageAlt = 'heart';
-      handleFunction = (navigate) => handleFeedbackReceived(navigate);
+      handleFunction = (navigate) => handleHeartReaction(navigate);
       break;
     // data.senderName
     case alarmType.FREQUENT_FEEDBACK_REQUESTED:
