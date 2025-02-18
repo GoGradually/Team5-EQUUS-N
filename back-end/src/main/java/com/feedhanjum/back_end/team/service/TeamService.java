@@ -152,7 +152,7 @@ public class TeamService {
                 .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
         Member member = memberRepository
                 .findById(memberId).orElseThrow(() -> new EntityNotFoundException("멤버를 찾을 수 없습니다"));
-        TeamJoinToken joinToken = team.createJoinToken(member);
+        TeamJoinToken joinToken = team.createJoinToken(member, LocalDateTime.now(clock));
         teamJoinTokenRepository.save(joinToken);
         return joinToken;
     }

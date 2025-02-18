@@ -43,3 +43,9 @@
  * @property {string} data.allKeywords.feeling - 감정
  * @property {number} data.allKeywords.count - 횟수
  */
+
+/**
+ * @typedef {Object} Banner - 배너 정보
+ * @property {object} notification - 알람 정보
+ * @property {number[]} ids - 알람 ID 리스트
+ */

@@ -3,6 +3,7 @@ package com.feedhanjum.back_end.schedule.service;
 import com.feedhanjum.back_end.core.domain.JobRecord;
 import com.feedhanjum.back_end.core.repository.JobRecordRepository;
 import com.feedhanjum.back_end.event.EventPublisher;
+import com.feedhanjum.back_end.feedback.repository.RegularFeedbackRequestQueryRepository;
 import com.feedhanjum.back_end.member.domain.Member;
 import com.feedhanjum.back_end.member.repository.MemberQueryRepository;
 import com.feedhanjum.back_end.member.repository.MemberRepository;
@@ -13,7 +14,6 @@ import com.feedhanjum.back_end.schedule.event.ScheduleEndedEvent;
 import com.feedhanjum.back_end.schedule.exception.ScheduleAlreadyExistException;
 import com.feedhanjum.back_end.schedule.exception.ScheduleIsAlreadyEndException;
 import com.feedhanjum.back_end.schedule.exception.ScheduleMembershipNotFoundException;
-import com.feedhanjum.back_end.schedule.repository.RegularFeedbackRequestQueryRepository;
 import com.feedhanjum.back_end.schedule.repository.ScheduleMemberRepository;
 import com.feedhanjum.back_end.schedule.repository.ScheduleQueryRepository;
 import com.feedhanjum.back_end.schedule.repository.ScheduleRepository;
@@ -236,6 +236,21 @@ public class ScheduleService {
         scheduleMemberRepository.deleteScheduleMembersByMemberIdAndTeamIdAfterNow(memberId, teamId, LocalDateTime.now(clock));
     }
 
+    @Transactional
+    public void deleteSchedule(Long memberId, Long teamId, Long scheduleId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new EntityNotFoundException("해당 일정을 찾을 수 없습니다."));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundException("해당 사용자를 찾을 수 없습니다."));
+        Team team = teamRepository.findById(teamId).orElseThrow(() -> new EntityNotFoundException("해당 팀을 찾을 수 없습니다."));
+        if (schedule.getTeam().equals(team)) {
+            throw new SecurityException("해당 일정을 삭제할 권한이 없습니다.");
+        }
+        if (!schedule.getOwner().equals(member) && !team.getLeader().equals(member)) {
+            throw new SecurityException("해당 일정을 삭제할 권한이 없습니다.");
+        }
+        if (schedule.isEnd()) throw new ScheduleIsAlreadyEndException("일정이 이미 종료되었습니다.");
+        scheduleRepository.delete(schedule);
+    }
+
     private LocalDateTime truncateToNearestTenMinutes(LocalDateTime dateTime) {
         int minute = dateTime.getMinute();
         int truncatedMinute = (minute / 10) * 10;
@@ -322,5 +337,4 @@ public class ScheduleService {
         if (scheduleRepository.findByTeamIdAndStartTime(teamId, requestDto.startTime()).isPresent())
             throw new ScheduleAlreadyExistException("이미 같은 시작시간에 일정이 있습니다.");
     }
-
 }

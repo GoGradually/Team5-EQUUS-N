@@ -8,20 +8,21 @@ export const filterNotifications = (notifications) => {
     return false;
   });
 
-  const uniqueNotis = [];
   const typesSet = new Set();
-  const feedbackRequestNotiIds = [];
+
+  /** @type {Banner[]} */
+  const banners = [];
 
   filteredNotis.forEach((notification) => {
     if (!typesSet.has(notification.type)) {
       typesSet.add(notification.type);
-      uniqueNotis.push(notification);
-    }
-
-    if (notification.type === 'frequentFeedbackRequest') {
-      feedbackRequestNotiIds.push(notification.notificationId);
+      banners.push({ notification, ids: [notification.notificationId] });
+    } else {
+      banners
+        .find((banner) => banner.notification.type === notification.type)
+        .ids.push(notification.notificationId);
     }
   });
 
-  return { notifications: uniqueNotis, feedbackRequestNotiIds };
+  return banners;
 };

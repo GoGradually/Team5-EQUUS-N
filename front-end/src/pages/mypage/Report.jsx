@@ -21,22 +21,20 @@ export default function Report() {
       />
       {report &&
         (report.feedbackCount < report.requiredFeedbackCount ?
-          <>
+          <div className='flex size-full flex-col items-center justify-between pb-8'>
             <h1 className='header-2 text-gray-0 mt-3 break-keep'>
               {`피드백이 ${report.requiredFeedbackCount}개 이상 모이면 리포트를 확인할 수 있어요`}
             </h1>
-            <div className='h-28' />
             <ProgressCircle
               feedbackCount={report.feedbackCount}
               requiredFeedbackCount={report.requiredFeedbackCount}
             />
-            <div className='h-20' />
             <MediumButton
               text='피드백 요청하러 가기'
               isOutlined={false}
               onClick={() => navigate('/main')}
             />
-          </>
+          </div>
         : <div className='flex flex-col gap-8 py-6'>
             <ReportTopKeywords topKeywords={report.topKeywords} />
             <ReportResults results={report.overviews} />
