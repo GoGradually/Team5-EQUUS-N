@@ -141,6 +141,7 @@ export const handleFreqFeedbackReq = (navigate, data) => {
       isRegular: false,
       teamId: data.teamId,
       memberId: data.senderId ?? null,
+      memberName: data.senderName,
     },
   });
 };
