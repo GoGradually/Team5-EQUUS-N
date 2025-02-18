@@ -67,7 +67,7 @@ export default function ScheduleCard({
       </div>
       <hr className='w-full border-gray-500' />
       {/* 나의 역할 */}
-      {myRole ?
+      {myRole.length > 0 ?
         <div className='flex flex-col gap-3'>
           <Tag type={TagType.MY_ROLE}></Tag>
           <div className='flex flex-col gap-1'>
@@ -107,7 +107,7 @@ export default function ScheduleCard({
             );
           })
         : <div className='body-1 text-center text-gray-500'>
-            팀원들이 아직 입력하지 않았어요
+            표시할 팀원이 없어요
           </div>
         }
       </div>
