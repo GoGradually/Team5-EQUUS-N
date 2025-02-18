@@ -48,7 +48,10 @@ self.addEventListener('push', function (event) {
       notificationBody = '팀장이 되었어요! 팀을 이끌 준비가 되셨나요?';
       break;
     case 'scheduleCreate':
-      clickUrl = `/`;
+      clickUrl = `/calendar`;
+      parameter = {
+        scheduleDate: notification.scheduleDate,
+      };
       notificationBody = '새로운 일정이 추가되었어요!';
       break;
     case 'regularFeedbackRequest':
@@ -84,7 +87,7 @@ self.addEventListener('notificationclick', function (event) {
     queryParameter += `&${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
   });
 
-  const url = new URL(queryParameter, self.location.origin).href;
+  const url = new URL(queryParameter, self.location.origin + '/main').href;
   notification.close();
   console.log(url);
   event.waitUntil(self.clients.openWindow(url));
