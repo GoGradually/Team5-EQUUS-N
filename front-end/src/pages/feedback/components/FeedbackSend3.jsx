@@ -16,6 +16,9 @@ import {
   useRegularFeedbackSend,
 } from '../../../api/useFeedback2';
 import { showToast } from '../../../utility/handleToast';
+import { hideModal, showModal } from '../../../utility/handleModal';
+import Modal, { ModalType } from '../../../components/modals/Modal';
+import MediumButton from '../../../components/buttons/MediumButton';
 
 export default function FeedbackSend3() {
   const navigate = useNavigate();
@@ -37,18 +40,26 @@ export default function FeedbackSend3() {
   );
   const [textLength, setTextLength] = useState(0);
   const [textContent, setTextContent] = useState('');
-  const [gptContent, setGptContent] = useState('');
+  const [gptContents, setGptContents] = useState({
+    index: null,
+    contents: [],
+  });
 
   const generateGptContent = () => {
-    if (textLength < 10) {
+    const trimmedContent = textContent.trim();
+    const trimmedContentLength = transformToBytes(trimmedContent).byteCount;
+    setTextContent(trimmedContent);
+    setTextLength(trimmedContentLength);
+
+    if (trimmedContentLength < 10) {
       showToast('내용을 10byte 이상 작성해 주세요');
       return;
     }
-    if (textLength > 400) {
+    if (trimmedContentLength > 400) {
       showToast('내용을 400byte 이하로 작성해 주세요');
       return;
     }
-    setGptContent('');
+
     gptMutation.mutate(
       {
         receiverId: locationState.receiver.id,
@@ -56,7 +67,31 @@ export default function FeedbackSend3() {
         subjectiveFeedback: textContent,
       },
       {
-        onSuccess: (data) => setGptContent(data.subjectiveFeedback),
+        onSuccess: (data) => {
+          setGptContents((prev) => {
+            return {
+              index: prev.contents.length,
+              contents: [...prev.contents, data.subjectiveFeedback],
+            };
+          });
+        },
+        onError: (error) => {
+          if (error.status === 429)
+            showModal(
+              <Modal
+                type={ModalType.CUSTOM}
+                title='AI 사용 횟수 초과'
+                content={`AI 사용 횟수 3회를 초과하였습니다.\n피드백을 전송하면 초기화됩니다.`}
+                mainButton={
+                  <MediumButton
+                    isOutlined={false}
+                    text='확인'
+                    onClick={hideModal}
+                  />
+                }
+              />,
+            );
+        },
       },
     );
   };
@@ -87,6 +122,12 @@ export default function FeedbackSend3() {
     );
   };
 
+  const gptValidation = () => {
+    if (gptMutation.isIdle) return false;
+    if (gptMutation.isError && gptContents.index === null) return false;
+    return true;
+  };
+
   return (
     <div className='flex w-full flex-col pb-28'>
       <h1 className='header-2 text-gray-0 mt-3 whitespace-pre-line'>
@@ -112,24 +153,26 @@ export default function FeedbackSend3() {
         toggleAnonymous={toggleAnonymous}
         isAnonymous={isAnonymous}
       />
-      {!gptMutation.isIdle && (
+      {gptValidation() && (
         <>
           <div className='h-5' />
           <TextArea
+            gptContents={gptContents}
             generatedByGpt={true}
-            textContent={gptContent}
-            textLength={transformToBytes(gptContent).byteCount}
             isGptLoading={gptMutation.isPending}
+            setGptContents={setGptContents}
           />
         </>
       )}
       <div className='h-5' />
       <div className='flex w-full justify-end'>
-        {gptContent ?
+        {gptValidation() ?
           <div className='flex items-center gap-2'>
             <AiButton
               isActive={false}
-              onClick={() => setTextContent(gptContent)}
+              onClick={() =>
+                setTextContent(gptContents.contents[gptContents.index])
+              }
             >
               적용하기
             </AiButton>
