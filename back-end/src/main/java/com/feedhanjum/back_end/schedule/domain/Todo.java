@@ -10,9 +10,9 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Getter
 public class Todo {
+    @Size(min = 1, max = 50)
     private String content;
 
-    @Size(min = 1, max = 50)
     public Todo(String content) {
         this.content = content;
     }
