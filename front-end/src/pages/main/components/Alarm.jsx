@@ -26,20 +26,31 @@ export default function Alarm({ type, data }) {
 
   return (
     <button
-      className='w-full text-start'
+      className={`rounded-300 w-full text-start ${data.read || 'bg-gray-700'}`}
       onClick={() => handleFunction(navigate, data)}
     >
-      <div className='flex w-full gap-5 border-b border-b-gray-800 py-4'>
-        <div className='flex aspect-square h-10 w-10 items-center justify-center rounded-full bg-gray-800 p-2'>
+      <div className='flex w-full border-b border-b-gray-800 py-4'>
+        <div className='mx-4 flex aspect-square h-10 w-10 items-center justify-center rounded-full bg-gray-800 p-2.5'>
           <img src={image} alt={imageAlt} width={28} height={28} />
         </div>
-        <div className='caption-1 flex flex-col gap-1.5 text-gray-400'>
+        <div className='caption-1 flex flex-1 flex-col gap-1.5 pr-4 text-gray-400'>
           <div className='flex flex-col gap-1'>
-            <p className='body-2 text-gray-100'>{title}</p>
+            <div className='flex justify-between'>
+              <p className='body-2 text-gray-100'>{title}</p>
+              {/* {data.read || (
+                <div className='size-2 self-start rounded-full bg-lime-500 px-1'></div>
+              )} */}
+            </div>
             <p className='whitespace-pre-line text-gray-100'>{content}</p>
           </div>
-          {calTimePassed(data.createdAt)}
+          <div className='flex'>
+            {calTimePassed(data.createdAt)}
+            {data.read || (
+              <div className='mx-2 size-[5px] shrink-0 self-center rounded-full bg-lime-500'></div>
+            )}
+          </div>
         </div>
+        {/* {data.read || <div className='self-center px-3 text-lime-500'>•</div>} */}
       </div>
     </button>
   );
@@ -56,7 +67,7 @@ const filterDataWithType = ({ data, type }) => {
     // data.senderName, data.teamName
     case alarmType.FEEDBACK_RECEIVED:
       title = '새로운 피드백이 도착했어요';
-      content = `${data.senderName}님(${data.teamName})이 피드백을 보냈어요.`;
+      content = `${data.senderName}님(${data.teamName})이 피드백을 보냈어요`;
       image = '/src/assets/images/mail-received.png';
       imageAlt = 'mail';
       handleFunction = (navigate) => handleFeedbackReceived(navigate);
@@ -64,7 +75,7 @@ const filterDataWithType = ({ data, type }) => {
     // data.senderName, data.teamName
     case alarmType.HEART_RECEIVED:
       title = '내가 보낸 피드백이 도움됐어요';
-      content = `${data.senderName}님(${data.teamName})이 내가 보낸 피드백에 공감을 눌렀어요.`;
+      content = `${data.senderName}님(${data.teamName})이 내가 보낸 피드백에 공감을 눌렀어요`;
       image = '/src/assets/images/heart-green.png';
       imageAlt = 'heart';
       handleFunction = (navigate) => handleFeedbackReceived(navigate);
@@ -72,7 +83,7 @@ const filterDataWithType = ({ data, type }) => {
     // data.senderName
     case alarmType.FREQUENT_FEEDBACK_REQUESTED:
       title = `${data.senderName} 님이 피드백을 요청했어요`;
-      content = `요청받은 내용을 확인하고 피드백을 보내주세요.`;
+      content = `요청받은 내용을 확인하고 피드백을 보내주세요`;
       image = '/src/assets/images/pray.png';
       imageAlt = 'pray';
       handleFunction = (navigate, data) =>
@@ -82,7 +93,7 @@ const filterDataWithType = ({ data, type }) => {
     case alarmType.REPORT_RECEIVED:
       title = '피드백 리포트가 도착했어요';
       content = `${data.teamName} 프로젝트 잘 마무리 하셨나요?
-      ${data.receiverName} 님이 받은 피드백을 정리했어요.`;
+      ${data.receiverName} 님이 받은 피드백을 정리했어요`;
       image = '/src/assets/images/folder.png';
       imageAlt = 'folder';
       handleFunction = (navigate) => handleReportCreate(navigate);
@@ -90,7 +101,7 @@ const filterDataWithType = ({ data, type }) => {
     // data.senderName, data.teamName
     case alarmType.NEED_CHECK_FEEDBACK:
       title = '확인하지 않은 피드백이 있어요';
-      content = `${data.senderName}님(${data.teamName})이 보낸 피드백을 확인해 주세요.`;
+      content = `${data.senderName}님(${data.teamName})이 보낸 피드백을 확인해 주세요`;
       image = '/src/assets/images/check-bg-black.png';
       imageAlt = 'check';
       handleFunction = (navigate) => handleFeedbackReceived(navigate);
@@ -107,7 +118,7 @@ const filterDataWithType = ({ data, type }) => {
     // data.teamName
     case alarmType.SCHEDULE_ADDED:
       title = `${data.teamName}의 새로운 일정이 추가됐어요`;
-      content = `추가된 일정을 확인하고 나의 역할을 추가해 주세요.`;
+      content = `추가된 일정을 확인하고 나의 역할을 추가해 주세요`;
       image = '/src/assets/images/calendar.png';
       imageAlt = 'calendar';
       handleFunction = (navigate) => handleGoMain(navigate);
@@ -115,7 +126,7 @@ const filterDataWithType = ({ data, type }) => {
     // data.scheduleName
     case alarmType.REGULAR_FEEDBACK_REQUESTED:
       title = '피드백을 작성해주세요';
-      content = `${data.scheduleName} 피드백을 작성해주세요.`;
+      content = `${data.scheduleName} 피드백을 작성해주세요`;
       image = '/src/assets/images/pencil.png';
       imageAlt = 'write';
       handleFunction = (navigate, data) => handleRegFeedbackReq(navigate, data);
