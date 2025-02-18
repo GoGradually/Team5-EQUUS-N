@@ -31,6 +31,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -57,6 +58,9 @@ public class TeamControllerIntegrationTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private Clock clock;
 
     @Autowired
     private TeamRepository teamRepository;
@@ -405,7 +409,7 @@ public class TeamControllerIntegrationTest {
             Team team = createTeamWithoutId("teamByJoinToken", leader);
             teamRepository.save(team);
 
-            TeamJoinToken token = team.createJoinToken(leader);
+            TeamJoinToken token = team.createJoinToken(leader, LocalDateTime.now(clock));
             teamJoinTokenRepository.save(token);
 
             // when & then
@@ -430,7 +434,7 @@ public class TeamControllerIntegrationTest {
             Team team = createTeamWithoutId("teamByJoinToken", leader);
             teamRepository.save(team);
 
-            TeamJoinToken expiredToken = team.createJoinToken(leader);
+            TeamJoinToken expiredToken = team.createJoinToken(leader, LocalDateTime.now(clock));
             ReflectionTestUtils.setField(expiredToken, "expireDate", LocalDateTime.now().minusHours(1));
             teamJoinTokenRepository.save(expiredToken);
 
@@ -645,7 +649,7 @@ public class TeamControllerIntegrationTest {
             Team team = createTeamWithoutId("team1", leader);
             teamRepository.save(team);
 
-            TeamJoinToken token = team.createJoinToken(leader);
+            TeamJoinToken token = team.createJoinToken(leader, LocalDateTime.now(clock));
             teamJoinTokenRepository.save(token);
 
             Member notMember = member2;
@@ -670,7 +674,7 @@ public class TeamControllerIntegrationTest {
             Team team = createTeamWithoutId("team1", leader);
             teamRepository.save(team);
 
-            TeamJoinToken token = team.createJoinToken(leader);
+            TeamJoinToken token = team.createJoinToken(leader, LocalDateTime.now(clock));
             teamJoinTokenRepository.save(token);
 
             Member notMember = member2;
@@ -692,7 +696,7 @@ public class TeamControllerIntegrationTest {
             Team team = createTeamWithoutId("team1", leader);
             teamRepository.save(team);
 
-            TeamJoinToken expiredToken = team.createJoinToken(leader);
+            TeamJoinToken expiredToken = team.createJoinToken(leader, LocalDateTime.now(clock));
             ReflectionTestUtils.setField(expiredToken, "expireDate", LocalDateTime.now().minusHours(1));
             teamJoinTokenRepository.save(expiredToken);
 
