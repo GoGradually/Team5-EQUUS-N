@@ -242,7 +242,7 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new EntityNotFoundException("해당 일정을 찾을 수 없습니다."));
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundException("해당 사용자를 찾을 수 없습니다."));
         Team team = teamRepository.findById(teamId).orElseThrow(() -> new EntityNotFoundException("해당 팀을 찾을 수 없습니다."));
-        if (schedule.getTeam().equals(team)) {
+        if (!schedule.getTeam().equals(team)) {
             throw new SecurityException("해당 일정을 삭제할 권한이 없습니다.");
         }
         if (!schedule.getOwner().equals(member) && !team.getLeader().equals(member)) {
