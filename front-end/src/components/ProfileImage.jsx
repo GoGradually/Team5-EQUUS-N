@@ -34,7 +34,7 @@ export default function ProfileImage({ iconName, color, isButton }) {
   // iconName이 없을 때 기본 아이콘 표시
   if (!iconName) {
     return (
-      <div className='flex size-full items-center justify-center rounded-full bg-gray-700 text-2xl'>
+      <div className='flex aspect-square w-full items-center justify-center rounded-full bg-gray-700 text-2xl'>
         🔗
       </div>
     );

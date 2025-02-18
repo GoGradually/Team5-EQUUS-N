@@ -139,7 +139,8 @@ export const handleFreqFeedbackReq = (navigate, data) => {
   navigate(`/feedback/send/frequent`, {
     state: {
       isRegular: false,
-      teamId: data.teamId, // receiver 정보 추가
+      teamId: data.teamId,
+      memberId: data.senderId ?? null,
     },
   });
 };
