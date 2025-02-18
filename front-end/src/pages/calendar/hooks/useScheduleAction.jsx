@@ -1,11 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ScheduleActionType } from '../components/ScheduleAction';
 import { useUser } from '../../../useUser';
+import { getNearest10MinTime } from '../../../utility/time';
 
 export default function useScheduleAction(date, selectedSchedule) {
   const { userId } = useUser();
   const [doingAction, setDoingAction] = useState(false);
   const [actionType, setActionType] = useState(ScheduleActionType.ADD);
+
+  const { curHour, curMinute } = useMemo(() => {
+    const nearestTime = getNearest10MinTime(new Date());
+    return {
+      curHour: nearestTime.getHours(),
+      curMinute: nearestTime.getMinutes(),
+    };
+  }, []);
 
   const [selectedDate, setSelectedDate] = useState(new Date(date));
   const [scheduleName, setScheduleName] = useState(
@@ -13,11 +22,15 @@ export default function useScheduleAction(date, selectedSchedule) {
   );
   const [startTime, setStartTime] = useState(
     new Date(
-      selectedSchedule?.startTime ?? new Date(date).setHours(12, 0, 0, 0),
+      selectedSchedule?.startTime ??
+        new Date(date).setHours(curHour, curMinute),
     ),
   );
   const [endTime, setEndTime] = useState(
-    new Date(selectedSchedule?.endTime ?? new Date(date).setHours(12, 0, 0, 0)),
+    new Date(
+      selectedSchedule?.endTime ??
+        new Date(date).setHours(curHour, curMinute + 10),
+    ),
   );
   const [todos, setTodo] = useState(
     selectedSchedule?.scheduleMemberNestedDtoList?.find(
@@ -27,8 +40,10 @@ export default function useScheduleAction(date, selectedSchedule) {
 
   const clearData = () => {
     setScheduleName('');
-    setStartTime(new Date(new Date(selectedDate).setHours(12, 0, 0, 0)));
-    setEndTime(new Date(new Date(selectedDate).setHours(12, 0, 0, 0)));
+    setStartTime(new Date(new Date(selectedDate).setHours(curHour, curMinute)));
+    setEndTime(
+      new Date(new Date(selectedDate).setHours(curHour, curMinute + 10)),
+    );
     setTodo([]);
   };
 
@@ -38,12 +53,14 @@ export default function useScheduleAction(date, selectedSchedule) {
     setScheduleName(selectedSchedule?.scheduleName ?? '');
     setStartTime(
       new Date(
-        selectedSchedule?.startTime ?? new Date(date).setHours(12, 0, 0, 0),
+        selectedSchedule?.startTime ??
+          new Date(date).setHours(curHour, curMinute),
       ),
     );
     setEndTime(
       new Date(
-        selectedSchedule?.endTime ?? new Date(date).setHours(12, 0, 0, 0),
+        selectedSchedule?.endTime ??
+          new Date(date).setHours(curHour, curMinute + 10),
       ),
     );
     const newTodos =
