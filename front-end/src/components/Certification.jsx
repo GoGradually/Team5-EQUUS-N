@@ -3,7 +3,12 @@ import CustomInput from './CustomInput';
 import SmallButton from './buttons/SmallButton';
 import Icon from './Icon';
 import { showToast } from '../utility/handleToast';
-import { useSendVerifMail, useVerifyToken } from '../api/useAuth';
+import {
+  useSendResetEmail,
+  useSendVerifMail,
+  useVerifyResetEmail,
+  useVerifyToken,
+} from '../api/useAuth';
 
 export const CertState = Object.freeze({
   BEFORE_SEND_CODE: '인증코드 전송',
@@ -15,10 +20,18 @@ export const CertState = Object.freeze({
 /**
  * 인증 컴포넌트
  * @param {object} props
+ * @param {string} props.type - 인증 유형
  * @param {string} props.email - 이메일
+ * @param {string} props.certState - 인증 상태
+ * @param {function} props.setCertState - 인증 상태 변경 함수
  * @returns
  */
-export default function Certification({ email = '', certState, setCertState }) {
+export default function Certification({
+  type = 'signup',
+  email = '',
+  certState,
+  setCertState,
+}) {
   const [certCode, setCertCode] = useState('');
   const dueTime = 300; // 5분
   const [restTime, setRestTime] = useState(dueTime);
@@ -26,8 +39,10 @@ export default function Certification({ email = '', certState, setCertState }) {
   const inputRef = useRef(null);
   const [shouldFocus, setShouldFocus] = useState(false);
 
-  const { mutate: sendVerifMail } = useSendVerifMail();
-  const { mutate: verifyToken } = useVerifyToken();
+  const { mutate: sendVerifMail } =
+    type === 'signup' ? useSendVerifMail() : useSendResetEmail();
+  const { mutate: verifyToken } =
+    type === 'signup' ? useVerifyToken() : useVerifyResetEmail();
 
   // 이메일 검증 및 코드 전송
   function handleSendMailButton() {
@@ -47,8 +62,8 @@ export default function Certification({ email = '', certState, setCertState }) {
           setTimer();
           setShouldFocus(true);
         },
-        onError: () => {
-          showToast('이미 가입된 이메일이에요');
+        onError: (error) => {
+          showToast(error.message ?? '알 수 없는 에러가 발생했어요');
         },
       },
     );

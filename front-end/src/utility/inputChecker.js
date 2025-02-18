@@ -204,3 +204,24 @@ export const checkNewSchedule = (scheduleName, startDate, endDate) => {
   }
   return true;
 };
+
+/**
+ * 회원가입 정보 검사
+ * @param {string} certState - 인증 상태
+ * @param {string} password - 비밀번호
+ * @param {string} passwordConfirm - 비밀번호 확인
+ * @returns {boolean} - 회원가입 정보 검사 결과
+ */
+export const checkResetPWInfos = (certState, password, passwordConfirm) => {
+  if (certState !== CertState.AFTER_CHECK_CODE) {
+    showToast('이메일 인증이 필요해요');
+    return false;
+  } else if (!isValidPassword(password)) {
+    showToast('비밀번호 형식이 올바르지 않아요');
+    return false;
+  } else if (password !== passwordConfirm) {
+    showToast('비밀번호가 일치하지 않아요');
+    return false;
+  }
+  return true;
+};
