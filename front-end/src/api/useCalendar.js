@@ -1,4 +1,6 @@
+import useSchedule from '../pages/calendar/hooks/useSchedule';
 import { showToast } from '../utility/handleToast';
+import { getRecentSunday, toKST } from '../utility/time';
 import { api } from './baseApi';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -72,15 +74,20 @@ export const useEditSchedule = (teamId) => {
   });
 };
 
-export const useDeleteSchedule = (teamId) => {
+export const useDeleteSchedule = ({ teamId, scheduleStartTime }) => {
   const queryClient = useQueryClient();
+  const recentSunday = toKST(getRecentSunday(scheduleStartTime))
+    .toISOString()
+    .split('T')[0];
   return useMutation({
-    mutationFn: (scheduleId) =>
-      api.delete({
+    mutationFn: (scheduleId) => {
+      id = scheduleId;
+      return api.delete({
         url: `/api/team/${teamId}/schedule/${scheduleId}`,
-      }),
+      });
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['schedules'] });
+      queryClient.invalidateQueries({ queryKey: ['schedules', recentSunday] });
     },
   });
 };

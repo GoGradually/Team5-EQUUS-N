@@ -64,7 +64,10 @@ export default function ScheduleAction({
 
   const { mutate: postSchedule } = usePostSchedule(selectedTeam);
   const { mutate: editSchedule } = useEditSchedule(selectedTeam);
-  const { mutate: deleteSchedule } = useDeleteSchedule(selectedTeam);
+  const { mutate: deleteSchedule } = useDeleteSchedule({
+    teamId: selectedTeam,
+    scheduleStartTime: actionInfo.startTime,
+  });
   const [dataReady, setDataReady] = useState(false);
 
   useEffect(() => {
@@ -135,7 +138,6 @@ export default function ScheduleAction({
           deleteSchedule(selectedScheduleFromParent.scheduleId ?? -1, {
             onSuccess: () => {
               showToast('일정을 삭제했습니다');
-              hideModal();
               onClose();
             },
           });

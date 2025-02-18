@@ -22,6 +22,7 @@ export default function ScheduleDeleteModal({ deleteSchedule, onClose }) {
           isOutlined={false}
           onClick={() => {
             deleteSchedule();
+            hideModal();
             onClose();
           }}
         />
