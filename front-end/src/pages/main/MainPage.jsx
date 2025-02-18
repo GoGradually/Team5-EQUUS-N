@@ -31,7 +31,6 @@ import Banner from './components/Banner';
 
 export default function MainPage() {
   const location = useLocation();
-  console.log(location.search);
   const searchParams = new URLSearchParams(location.search);
   const redirect = searchParams.get('redirect') ?? null;
   const teamId = searchParams.get('teamId') ?? null;

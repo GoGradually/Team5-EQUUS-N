@@ -23,7 +23,7 @@ export default function Calendar() {
 
   // 날짜 지정
   const [selectedDate, setSelectedDate] = useState(
-    location.state?.initialDate ?? new Date(new Date().setHours(0, 0, 0, 0)),
+    location.state?.scheduleDate ?? new Date(new Date().setHours(0, 0, 0, 0)),
   );
 
   // 일정 조회 관련
