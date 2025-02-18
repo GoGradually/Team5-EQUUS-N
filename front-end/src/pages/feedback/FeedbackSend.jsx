@@ -17,7 +17,7 @@ export default function FeedbackSend() {
   const modal = (
     <Modal
       type={ModalType.SKIP}
-      content='이번 피드백을 정말 건너뛰시겠어요?'
+      title='이번 피드백을 정말 건너뛰시겠어요?'
       mainButton={
         <MediumButton
           text='건너뛰기'

@@ -164,7 +164,7 @@ export default function MainPage() {
                       />
                     </div>
                   }
-                  content={
+                  title={
                     mate.id === userId ?
                       `${mate.name}(나)`
                     : `${mate.name}님에게`
