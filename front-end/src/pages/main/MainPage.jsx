@@ -26,7 +26,7 @@ import { getScheduleTimeDiff } from '../../utility/time';
 import { useTeam } from '../../useTeam';
 import useScheduleAction from '../calendar/hooks/useScheduleAction';
 import { useUser } from '../../useUser';
-import useBlockPop from '../../useBlockPop';
+import useHandlePop, { blockPop } from '../../useHandlePop';
 import Banner from './components/Banner';
 
 export default function MainPage() {
@@ -60,7 +60,7 @@ export default function MainPage() {
 
   // TODO: 로딩 중 혹은 에러 발생 시 처리
 
-  useBlockPop(location.pathname);
+  useHandlePop(blockPop(location.pathname));
 
   useEffect(() => {
     let state = {};
