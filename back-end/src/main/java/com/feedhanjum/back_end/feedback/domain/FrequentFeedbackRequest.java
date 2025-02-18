@@ -1,6 +1,7 @@
-package com.feedhanjum.back_end.team.domain;
+package com.feedhanjum.back_end.feedback.domain;
 
 import com.feedhanjum.back_end.member.domain.Member;
+import com.feedhanjum.back_end.team.domain.Team;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -35,7 +36,7 @@ public class FrequentFeedbackRequest {
     @JoinColumn(name = "receiver_id")
     private Member receiver;
 
-    FrequentFeedbackRequest(String requestedContent, Member sender, Team team, Member receiver) {
+    public FrequentFeedbackRequest(String requestedContent, Member sender, Team team, Member receiver) {
         this.requestedContent = requestedContent;
         this.sender = sender;
         this.team = team;

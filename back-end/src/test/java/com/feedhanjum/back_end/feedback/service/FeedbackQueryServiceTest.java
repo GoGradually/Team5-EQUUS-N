@@ -2,10 +2,10 @@ package com.feedhanjum.back_end.feedback.service;
 
 import com.feedhanjum.back_end.feedback.domain.Feedback;
 import com.feedhanjum.back_end.feedback.repository.FeedbackQueryRepository;
+import com.feedhanjum.back_end.feedback.repository.FrequentFeedbackRequestQueryRepository;
 import com.feedhanjum.back_end.feedback.service.dto.ReceivedFeedbackDto;
 import com.feedhanjum.back_end.feedback.service.dto.SentFeedbackDto;
 import com.feedhanjum.back_end.member.repository.MemberRepository;
-import com.feedhanjum.back_end.team.repository.FrequentFeedbackRequestQueryRepository;
 import com.feedhanjum.back_end.team.repository.TeamRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
