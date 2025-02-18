@@ -15,6 +15,7 @@ import {
   useFrequnetFeedbackSend,
   useRegularFeedbackSend,
 } from '../../../api/useFeedback2';
+import { showToast } from '../../../utility/handleToast';
 
 export default function FeedbackSend3() {
   const navigate = useNavigate();
@@ -39,23 +40,55 @@ export default function FeedbackSend3() {
   const [gptContent, setGptContent] = useState('');
 
   const generateGptContent = () => {
-    if (8 < textLength && textLength <= 400) {
-      setGptContent('');
-      gptMutation.mutate(
-        {
-          receiverId: locationState.receiver.id,
-          objectiveFeedbacks: locationState.objectiveFeedback,
-          subjectiveFeedback: textContent,
-        },
-        {
-          onSuccess: (data) => setGptContent(data.subjectiveFeedback),
-        },
-      );
+    if (textLength < 10) {
+      showToast('내용을 10byte 이상 작성해 주세요');
+      return;
     }
+    if (textLength > 400) {
+      showToast('내용을 400byte 이하로 작성해 주세요');
+      return;
+    }
+    setGptContent('');
+    gptMutation.mutate(
+      {
+        receiverId: locationState.receiver.id,
+        objectiveFeedbacks: locationState.objectiveFeedback,
+        subjectiveFeedback: textContent,
+      },
+      {
+        onSuccess: (data) => setGptContent(data.subjectiveFeedback),
+      },
+    );
+  };
+
+  const onSendButtonClick = () => {
+    const trimmedContent = textContent.trim();
+    const trimmedContentLength = transformToBytes(trimmedContent).byteCount;
+    setTextContent(trimmedContent);
+    setTextLength(trimmedContentLength);
+    if (trimmedContentLength === 0) {
+      showToast('내용을 입력해 주세요');
+      return;
+    }
+    if (trimmedContentLength > 400) {
+      showToast('내용을 400byte 이하로 작성해 주세요');
+      return;
+    }
+    const { receiver, isRegular, ...rest } = locationState;
+    feedbackMutation.mutate(
+      {
+        ...rest,
+        receiverId: locationState.receiver.id,
+        subjectiveFeedback: textContent,
+        isAnonymous,
+        teamId: selectedTeam,
+      },
+      { onSuccess: () => navigate('../../complete?type=SEND') },
+    );
   };
 
   return (
-    <div className='flex size-full flex-col pb-28'>
+    <div className='flex w-full flex-col pb-28'>
       <h1 className='header-2 text-gray-0 mt-3 whitespace-pre-line'>
         {'자세한 내용을 작성해 보세요!'}
       </h1>
@@ -116,21 +149,7 @@ export default function FeedbackSend3() {
           isOutlined={false}
           text={feedbackMutation.isPending ? '로딩중' : '다음'}
           disabled={textLength === 0}
-          onClick={() => {
-            if (0 < textLength && textLength <= 400) {
-              const { receiver, isRegular, ...rest } = locationState;
-              feedbackMutation.mutate(
-                {
-                  ...rest,
-                  receiverId: locationState.receiver.id,
-                  subjectiveFeedback: textContent,
-                  isAnonymous,
-                  teamId: selectedTeam,
-                },
-                { onSuccess: () => navigate('../../complete?type=SEND') },
-              );
-            }
-          }}
+          onClick={() => onSendButtonClick()}
         />
       </FooterWrapper>
     </div>
