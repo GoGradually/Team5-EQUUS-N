@@ -1,19 +1,18 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const useBlockPop = (pathname, options = { replace: true }) => {
-  const navigate = useNavigate();
-
+const useHandlePop = (handlePopState) => {
   useEffect(() => {
-    const handlePopState = (event) => {
-      navigate(pathname, options);
-    };
-
     window.addEventListener('popstate', handlePopState);
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
-  }, [navigate, pathname, options]);
+  }, []);
 };
 
-export default useBlockPop;
+export default useHandlePop;
+
+export function blockPop(pathname, options = { replace: true }) {
+  const navigate = useNavigate();
+  navigate(pathname, options);
+}
