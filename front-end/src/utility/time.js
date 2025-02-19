@@ -122,7 +122,7 @@ export function timeInPeriod(stdDate, startDate, endDate) {
  * @returns {boolean} - 일정이 종료되었는지 여부
  */
 export function checkIsFinished(date) {
-  if (new Date(date).getTime().valueOf() < new Date()) {
+  if (new Date(date) < new Date(toYMD(new Date()))) {
     return true;
   } else {
     return false;
