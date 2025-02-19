@@ -32,6 +32,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final GoogleAuthService googleAuthService;
+    private final EmailSignupTokenService emailSignupTokenService;
 
 
     /**
@@ -84,6 +85,7 @@ public class AuthService {
     public EmailSignupToken sendSignupVerificationEmail(String email) {
         EmailSignupToken token = EmailSignupToken.generateNewToken(email);
         validateEmail(email);
+        emailSignupTokenService.save(token);
         emailService.sendCodeToMail(
                 email,
                 "피드한줌 회원가입 이메일 인증",
@@ -97,8 +99,10 @@ public class AuthService {
     /**
      * @throws SignupTokenNotValidException 토큰 검증 실패
      */
-    public void validateSignupToken(EmailSignupToken existToken, String email, String token) {
-        existToken.validateToken(email, token);
+    public void validateSignupToken(String email, String token) {
+        EmailSignupToken emailSignupToken = emailSignupTokenService.find(email, token)
+                .orElseThrow(SignupTokenNotValidException::new);
+        emailSignupTokenService.delete(emailSignupToken);
     }
 
 
