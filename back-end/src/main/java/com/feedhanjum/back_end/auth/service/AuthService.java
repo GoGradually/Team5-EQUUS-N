@@ -33,6 +33,7 @@ public class AuthService {
     private final EmailService emailService;
     private final GoogleAuthService googleAuthService;
     private final EmailSignupTokenService emailSignupTokenService;
+    private final com.feedhanjum.back_end.auth.service.impl.PasswordResetTokenService passwordResetTokenService;
 
 
     /**
@@ -117,6 +118,7 @@ public class AuthService {
         }
 
         PasswordResetToken token = PasswordResetToken.generateNewToken(email);
+        passwordResetTokenService.save(token);
         emailService.sendCodeToMail(
                 email,
                 "피드한줌 비밀번호 초기화 인증",
@@ -131,8 +133,10 @@ public class AuthService {
     /**
      * @throws PasswordResetTokenNotValidException 토큰 검증 실패
      */
-    public void validatePasswordResetToken(PasswordResetToken existToken, String email, String token) {
-        existToken.validateToken(email, token);
+    public void validatePasswordResetToken(String email, String token) {
+        PasswordResetToken passwordResetToken = passwordResetTokenService.find(email, token)
+                .orElseThrow(PasswordResetTokenNotValidException::new);
+        passwordResetTokenService.delete(passwordResetToken);
     }
 
 

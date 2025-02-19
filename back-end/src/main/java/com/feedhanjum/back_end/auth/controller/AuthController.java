@@ -6,7 +6,6 @@ import com.feedhanjum.back_end.auth.domain.EmailSignupToken;
 import com.feedhanjum.back_end.auth.domain.GoogleSignupToken;
 import com.feedhanjum.back_end.auth.domain.MemberDetails;
 import com.feedhanjum.back_end.auth.domain.PasswordResetToken;
-import com.feedhanjum.back_end.auth.exception.PasswordResetTokenNotValidException;
 import com.feedhanjum.back_end.auth.exception.PasswordResetTokenVerifyRequiredException;
 import com.feedhanjum.back_end.auth.exception.SignupTokenNotValidException;
 import com.feedhanjum.back_end.auth.exception.SignupTokenVerifyRequiredException;
@@ -143,7 +142,6 @@ public class AuthController {
     })
     @PostMapping(value = "/send-password-reset-email", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PasswordResetEmailSendResponse> sendPasswordResetEmail(
-            HttpSession session,
             @Valid @RequestBody PasswordResetEmailSendRequest request) {
         Optional<PasswordResetToken> passwordResetTokenOptional = authService.sendPasswordResetEmail(request.email());
         PasswordResetEmailSendResponse passwordResetEmailSendResponse;
@@ -151,7 +149,6 @@ public class AuthController {
             passwordResetEmailSendResponse = new PasswordResetEmailSendResponse(LocalDateTime.now().plusMinutes(PasswordResetToken.EXPIRE_MINUTE));
         } else {
             PasswordResetToken passwordResetToken = passwordResetTokenOptional.get();
-            session.setAttribute(SessionConst.PASSWORD_RESET_TOKEN, passwordResetToken);
             passwordResetEmailSendResponse = new PasswordResetEmailSendResponse(passwordResetToken.getExpireDate());
         }
         return ResponseEntity.ok(passwordResetEmailSendResponse);
@@ -164,13 +161,8 @@ public class AuthController {
     })
     @PostMapping("/verify-password-reset-token")
     public ResponseEntity<Void> verifyPasswordResetToken(HttpSession session, @Valid @RequestBody PasswordResetEmailVerifyRequest request) {
-        Object token = session.getAttribute(SessionConst.PASSWORD_RESET_TOKEN);
-        if (!(token instanceof PasswordResetToken passwordResetToken)) {
-            throw new PasswordResetTokenNotValidException();
-        }
-        authService.validatePasswordResetToken(passwordResetToken, request.email(), request.code());
-        session.setAttribute(SessionConst.PASSWORD_RESET_TOKEN_VERIFIED_EMAIL, passwordResetToken.getEmail());
-        session.removeAttribute(SessionConst.PASSWORD_RESET_TOKEN);
+        authService.validatePasswordResetToken(request.email(), request.code());
+        session.setAttribute(SessionConst.PASSWORD_RESET_TOKEN_VERIFIED_EMAIL, request.email());
         return ResponseEntity.noContent().build();
     }
 
