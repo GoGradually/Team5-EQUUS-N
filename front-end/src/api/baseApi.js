@@ -39,7 +39,7 @@ const request = async (method, url, params = {}, body) => {
     const response = await fetch(fullUrl, options);
     if (!response.ok) {
       // TODO: 커스텀 에러 객체 만들어서 처리
-      throw new Error(`${await response.text()}`);
+      throw new CustomError(response.status, await response.text());
     }
     const text = await response.text();
     if (!text) {
@@ -52,6 +52,14 @@ const request = async (method, url, params = {}, body) => {
     throw error;
   }
 };
+
+class CustomError extends Error {
+  constructor(status, message) {
+    super(message); // 기본 Error 객체의 message 속성을 설정합니다.
+    this.status = status;
+    this.name = 'CustomError'; // 에러 이름을 지정할 수 있습니다.
+  }
+}
 
 /**
  * API 모듈

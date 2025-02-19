@@ -35,7 +35,7 @@ export default function Report() {
               onClick={() => navigate('/main')}
             />
           </div>
-        : <div className='flex flex-col gap-8 py-6'>
+        : <div className='flex size-full flex-col gap-8 py-6'>
             <ReportTopKeywords topKeywords={report.topKeywords} />
             <ReportResults results={report.overviews} />
             <ReportKeywords keywords={report.allKeywords} />

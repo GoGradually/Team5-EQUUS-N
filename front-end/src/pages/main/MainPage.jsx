@@ -28,6 +28,7 @@ import useScheduleAction from '../calendar/hooks/useScheduleAction';
 import { useUser } from '../../useUser';
 import useHandlePop, { blockPop } from '../../useHandlePop';
 import Banner from './components/Banner';
+import { handleFreqFeedbackReq } from './components/Alarm';
 
 export default function MainPage() {
   const location = useLocation();
@@ -83,7 +84,7 @@ export default function MainPage() {
 
   useEffect(() => {
     if (notificationsData) {
-      setBanners(filterNotifications(notificationsData));
+      setBanners(filterNotifications(notificationsData, selectedTeam));
     }
   }, [notificationsData]);
 
@@ -139,15 +140,11 @@ export default function MainPage() {
             />
           )}
         </StickyWrapper>
-        {banners && banners.length > 0 && (
+        {banners?.length > 0 && (
           <Slider {...sliderSettings} className='my-4'>
             {banners.map((banner, index) => (
               <div className='px-[6px]' key={index}>
-                <Banner
-                  banner={banner}
-                  onClick={() => console.log('노티 클릭')}
-                  onClose={markAsRead}
-                />
+                <Banner banner={banner} onClose={markAsRead} />
               </div>
             ))}
           </Slider>
@@ -186,7 +183,7 @@ export default function MainPage() {
                       />
                     </div>
                   }
-                  content={
+                  title={
                     mate.id === userId ?
                       `${mate.name}(나)`
                     : `${mate.name}님에게`
@@ -199,13 +196,12 @@ export default function MainPage() {
                       onClick={() => {
                         mate.id === userId ?
                           navigate(`/feedback/self`)
-                        : navigate(`/feedback/send/1`, {
-                            state: {
-                              isRegular: false,
-                              receiver: { name: mate.name, id: mate.id },
-                            },
-                          });
-                        hideModal();
+                        : handleFreqFeedbackReq(navigate, {
+                            teamId: selectedTeam,
+                            senderId: mate.id,
+                            senderName: mate.name,
+                          }),
+                          hideModal();
                       }}
                       isOutlined={false}
                       disabled={false}

@@ -16,11 +16,21 @@ export default function FeedbackSendFreq() {
 
   useEffect(() => {
     if (whoNeedFreqFeedback && locationState.memberId) {
-      setSelectedRequester(
-        whoNeedFreqFeedback.find(
-          (requester) => requester.requester.id === locationState.memberId,
-        ),
+      const freqFeedbackRequester = whoNeedFreqFeedback.find(
+        (requester) => requester.requester.id === locationState.memberId,
       );
+      if (!freqFeedbackRequester)
+        navigate('/feedback/send/1', {
+          state: {
+            isRegular: false,
+            receiver: {
+              name: locationState.memberName,
+              id: locationState.memberId,
+            },
+          },
+          replace: true,
+        });
+      else setSelectedRequester(freqFeedbackRequester);
     }
   }, [whoNeedFreqFeedback]);
 

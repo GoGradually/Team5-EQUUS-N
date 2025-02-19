@@ -13,6 +13,8 @@ export default function TextArea({
   textLength,
   setTextLength,
   setTextContent,
+  gptContents,
+  setGptContents,
 }) {
   const [overflownIndex, setOverflownIndex] = useState();
 
@@ -45,21 +47,17 @@ export default function TextArea({
     </div>
   );
 
-  return (
-    <div
-      className={`rounded-300 relative flex h-fit w-full flex-col border-white p-5 ring-gray-500 has-focus:ring-gray-300 ${generatedByGpt ? 'bg-gray-800' : 'ring'}`}
-    >
+  const normalTextArea = (
+    <>
       <textarea
         value={textContent}
         onInput={onInput}
         className={`text-gray-0 placeholder:body-1 scrollbar-hidden relative min-h-32 w-full resize-none outline-none placeholder:text-gray-500 focus:placeholder:text-gray-400`}
         placeholder={
-          generatedByGpt ? undefined
-          : isWithGpt ?
+          isWithGpt ?
             '자유롭게 적고 AI를 통해 다듬어 보세요.(선택사항)'
           : '내용을 입력해주세요'
         }
-        disabled={generatedByGpt}
       />
       <div className='mt-2 flex w-full justify-between'>
         {canToggleAnonymous ?
@@ -74,7 +72,68 @@ export default function TextArea({
           className={`caption-1 text-gray-300 ${isGptLoading && 'invisible'}`}
         >{`${textLength}/400 byte`}</p>
       </div>
+    </>
+  );
+
+  const gptTextArea = (
+    <>
+      <textarea
+        value={isGptLoading ? '' : gptContents?.contents[gptContents.index]}
+        className={`text-gray-0 placeholder:body-1 scrollbar-hidden relative min-h-32 w-full resize-none outline-none placeholder:text-gray-500 focus:placeholder:text-gray-400`}
+        disabled={true}
+      />
+      <div
+        className={`mt-2 flex w-full justify-between ${isGptLoading && 'invisible'}`}
+      >
+        <div
+          className={`flex gap-1 text-white ${gptContents?.contents.length <= 1 && 'invisible'}`}
+        >
+          <button
+            onClick={() =>
+              setGptContents((prev) => {
+                return {
+                  ...prev,
+                  index: Math.max(
+                    0,
+                    Math.min(prev.index - 1, prev.contents.length - 1),
+                  ),
+                };
+              })
+            }
+          >
+            <Icon name='chevronDown' className='rotate-90' />
+          </button>
+          <p>{`${gptContents?.index + 1}/${gptContents?.contents.length}`}</p>
+          <button
+            onClick={() =>
+              setGptContents((prev) => {
+                return {
+                  ...prev,
+                  index: Math.max(
+                    0,
+                    Math.min(prev.index + 1, prev.contents.length - 1),
+                  ),
+                };
+              })
+            }
+          >
+            <Icon name='chevronDown' className='-rotate-90' />
+          </button>
+        </div>
+        <p className='caption-1 text-gray-300'>{`${
+          transformToBytes(gptContents?.contents[gptContents.index] ?? '')
+            .byteCount
+        }/400 byte`}</p>
+      </div>
       {isGptLoading && spinner}
+    </>
+  );
+
+  return (
+    <div
+      className={`rounded-300 relative flex h-fit w-full flex-col border-white p-5 ring-gray-500 has-focus:ring-gray-300 ${generatedByGpt ? 'bg-gray-800' : 'ring'}`}
+    >
+      {generatedByGpt ? gptTextArea : normalTextArea}
     </div>
   );
 }
