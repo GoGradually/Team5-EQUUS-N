@@ -5,7 +5,7 @@ import { hideModal } from '../../../utility/handleModal';
 
 // showModal(<OnboardingNotice />);
 
-export default function OnboardingNotice() {
+export default function OnboardingNotice({ setPushNoti }) {
   const [page, setPage] = useState(1);
   return (
     <div className='mobile:px-10 tablet:px-30 desktop:px-[30%] fixed inset-0 flex items-center justify-center px-5'>
@@ -49,8 +49,9 @@ export default function OnboardingNotice() {
               onClick={
                 page === 1 ?
                   () => setPage(2)
-                : () => {
+                : async () => {
                     setPage(1);
+                    await setPushNoti();
                     hideModal();
                   }
               }
