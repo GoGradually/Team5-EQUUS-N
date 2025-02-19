@@ -373,7 +373,7 @@ class TeamPlanOrchestrationServiceTest {
             when(requestDto.todos()).thenReturn(List.of(hehe));
 
             Team team = mock(Team.class);
-            when(teamRepository.findById(teamId)).thenReturn(Optional.of(team));
+            when(teamRepository.findByIdForUpdate(teamId)).thenReturn(Optional.of(team));
 
             Member member = mock(Member.class);
             when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
@@ -408,7 +408,7 @@ class TeamPlanOrchestrationServiceTest {
             ScheduleRequestDto requestDto = mock(ScheduleRequestDto.class);
 
             Team team = mock(Team.class);
-            when(teamRepository.findById(teamId)).thenReturn(Optional.of(team));
+            when(teamRepository.findByIdForUpdate(teamId)).thenReturn(Optional.of(team));
 
             Member member = mock(Member.class);
             when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
