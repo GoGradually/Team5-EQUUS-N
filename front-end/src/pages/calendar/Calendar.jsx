@@ -125,6 +125,7 @@ export default function Calendar() {
           onClose={() => setDoingAction(false)}
           actionInfo={actionInfo}
           dateFixed={actionType === ScheduleActionType.ADD}
+          setAllSchedules={setAllSchedules}
           setParentDate={setSelectedDate}
         />
       )}

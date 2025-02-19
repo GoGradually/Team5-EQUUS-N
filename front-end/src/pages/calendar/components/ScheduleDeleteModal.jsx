@@ -21,6 +21,7 @@ export default function ScheduleDeleteModal({ deleteSchedule, onClose }) {
           text='삭제'
           isOutlined={false}
           onClick={() => {
+            hideModal();
             deleteSchedule();
             onClose();
           }}

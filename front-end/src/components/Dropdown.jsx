@@ -47,32 +47,20 @@ export function DropdownLarge({
   const detailsRef = useRef(null);
   const selectedItemRef = useRef(null);
 
-  useEffect(() => {
+  // details 태그가 열릴 때마다 선택한 항목으로 스크롤 이동
+  const handleToggle = () => {
     if (selectedItemRef.current) {
-      const dropdown = detailsRef.current;
       const selectedItem = selectedItemRef.current;
 
-      const dropdownHeight = dropdown.getBoundingClientRect().height;
-      const itemHeight = selectedItem.getBoundingClientRect().height;
-
-      const scrollTo =
-        selectedItem.offsetTop - dropdownHeight / 2 + itemHeight / 2;
-      dropdown.animate({ scrollTop: scrollTo }, { duration: 300 });
-    }
-  }, []);
-
-  // 선택된 항목이 바뀌면 해당 항목이 보이도록 스크롤 이동
-  useEffect(() => {
-    if (detailsRef.current.open && selectedItemRef.current) {
-      selectedItemRef.current.scrollIntoView({
+      selectedItem.scrollIntoView({
         behavior: 'smooth',
-        block: 'nearest',
+        block: 'center',
       });
     }
-  }, [triggerText]);
+  };
 
   return (
-    <details ref={detailsRef} className='group flex-1'>
+    <details ref={detailsRef} onToggle={handleToggle} className='group flex-1'>
       <summary
         className={`${isTransparent ? 'border border-gray-300' : 'bg-gray-700'} rounded-200 body-1 flex size-fit w-full cursor-pointer list-none items-center justify-between px-5 py-3.5 whitespace-pre text-gray-200`}
       >
@@ -88,22 +76,19 @@ export function DropdownLarge({
         {itemsComponent ?
           itemsComponent
         : <ul className='rounded-200 flex max-h-56 w-[120px] flex-col gap-1 overflow-y-auto bg-gray-700 p-2'>
-            {
-              //TODO: 시간대 배열
-              items.map((item, index) => (
-                <li
-                  key={index}
-                  ref={item === triggerText ? selectedItemRef : null}
-                  onClick={() => {
-                    detailsRef.current.open = false;
-                    setTriggerText(item);
-                  }}
-                  className={`body-1 cursor-pointer list-none px-2.5 py-2 text-center ${item === triggerText ? 'text-lime-500' : 'text-gray-0'}`}
-                >
-                  {item}
-                </li>
-              ))
-            }
+            {items.map((item, index) => (
+              <li
+                key={index}
+                ref={item === triggerText ? selectedItemRef : null}
+                onClick={() => {
+                  detailsRef.current.open = false;
+                  setTriggerText(item);
+                }}
+                className={`body-1 cursor-pointer list-none px-2.5 py-2 text-center ${item === triggerText ? 'text-lime-500' : 'text-gray-0'}`}
+              >
+                {item}
+              </li>
+            ))}
           </ul>
         }
       </div>

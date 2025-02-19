@@ -140,6 +140,11 @@ export function timePickerToDate(date, time) {
   );
 }
 
+/**
+ * 년-월-일 문자열 반환
+ * @param {Date} date - 날짜
+ * @returns {string}
+ */
 export function toYMD(date) {
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -148,6 +153,12 @@ export function toYMD(date) {
   return formattedDate;
 }
 
+/**
+ *  date1의 날짜와 date2의 시간을 가진 Date객체 반환
+ * @param {Date} date1
+ * @param {Date} date2
+ * @returns {Date}
+ */
 export function combineDateTime(date1, date2) {
   const year = date1.getFullYear();
   const month = date1.getMonth();
@@ -159,6 +170,11 @@ export function combineDateTime(date1, date2) {
   return new Date(year, month, day, hours, minutes);
 }
 
+/**
+ * 표준시간 표기를 한국시간으로 변환해서 반환
+ * @param {String | Date} date
+ * @returns {Date}
+ */
 export function toKST(date) {
   let kst = new Date(date);
   kst.setTime(new Date(date).getTime() + 1000 * 60 * 60 * 9);
@@ -187,4 +203,22 @@ export function getScheduleTimeDiff(recentSchedule) {
     // 과거 일정인 경우
     return Math.ceil((endTime - todayTime) / (1000 * 60 * 60 * 24));
   }
+}
+
+/**
+ * 현재 시간과 제일 가까운 미래의 10분단위의 시간 반환
+ * @param {Date} currentTime - 현재 시간
+ * @returns {date}
+ */
+export function getNearest10MinTime(currentTime) {
+  const result = new Date(currentTime);
+
+  result.setSeconds(0, 0);
+
+  const minutes = result.getMinutes();
+  const remainder = minutes % 10;
+
+  const diff = remainder === 0 ? 10 : 10 - remainder;
+  result.setMinutes(minutes + diff);
+  return result;
 }
