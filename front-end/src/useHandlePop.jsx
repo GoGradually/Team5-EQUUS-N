@@ -11,8 +11,3 @@ const useHandlePop = (handlePopState) => {
 };
 
 export default useHandlePop;
-
-export function blockPop(pathname, options = { replace: true }) {
-  const navigate = useNavigate();
-  navigate(pathname, options);
-}

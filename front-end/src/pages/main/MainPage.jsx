@@ -26,7 +26,7 @@ import { getScheduleTimeDiff } from '../../utility/time';
 import { useTeam } from '../../useTeam';
 import useScheduleAction from '../calendar/hooks/useScheduleAction';
 import { useUser } from '../../useUser';
-import useHandlePop, { blockPop } from '../../useHandlePop';
+import useHandlePop from '../../useHandlePop';
 import Banner from './components/Banner';
 import { handleFreqFeedbackReq } from './components/Alarm';
 
@@ -60,8 +60,9 @@ export default function MainPage() {
   );
 
   // TODO: 로딩 중 혹은 에러 발생 시 처리
-
-  useHandlePop(blockPop(location.pathname));
+  useHandlePop(() => {
+    navigate(location.pathname, { replace: true });
+  });
 
   useEffect(() => {
     let state = {};
