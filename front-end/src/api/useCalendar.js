@@ -80,12 +80,11 @@ export const useDeleteSchedule = ({ teamId, scheduleStartTime }) => {
     .toISOString()
     .split('T')[0];
   return useMutation({
-    mutationFn: (scheduleId) => {
-      id = scheduleId;
-      return api.delete({
+    mutationFn: (scheduleId) =>
+      api.delete({
         url: `/api/team/${teamId}/schedule/${scheduleId}`,
-      });
-    },
+      }),
+
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['schedules', recentSunday] });
     },
