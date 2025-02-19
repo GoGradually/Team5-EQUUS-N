@@ -1,6 +1,7 @@
 import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import { registerSW } from 'virtual:pwa-register';
 
 // async function enableMocking() {
 //   if (process.env.NODE_ENV !== 'development') {
@@ -15,6 +16,19 @@ import App from './App';
 //     onUnhandledRequest: 'bypass', // handler에 없는 요청은 처리 안함
 //   });
 // }
+
+// 5초마다 업데이트 확인
+const intervalMS = 5 * 1000;
+const updateSW = registerSW({
+  onRegisteredSW(swUrl, registration) {
+    registration &&
+      setInterval(() => {
+        registration.update();
+      }, intervalMS);
+  },
+  immediate: false,
+});
+updateSW();
 
 // enableMocking().then(() => {
 ReactDOM.createRoot(document.getElementById('root')).render(
