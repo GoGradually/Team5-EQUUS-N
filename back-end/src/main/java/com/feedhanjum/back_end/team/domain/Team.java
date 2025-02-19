@@ -172,7 +172,7 @@ public class Team {
     }
 
     private void validateDuration(LocalDate startDate, LocalDate endDate, LocalDate now) {
-        if (endDate != null && !startDate.isBefore(endDate)) {
+        if (endDate != null && startDate.isAfter(endDate)) {
             throw new IllegalArgumentException("프로젝트 시작 시간이 종료 시간보다 앞서야 합니다.");
         }
         if (endDate != null && endDate.isBefore(now)) {
