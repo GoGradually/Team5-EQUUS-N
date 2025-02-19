@@ -6,6 +6,7 @@ import com.feedhanjum.back_end.schedule.controller.dto.ScheduleRequest;
 import com.feedhanjum.back_end.schedule.service.ScheduleService;
 import com.feedhanjum.back_end.schedule.service.dto.ScheduleNestedDto;
 import com.feedhanjum.back_end.schedule.service.dto.ScheduleRequestDto;
+import com.feedhanjum.back_end.teamplanorchestration.service.TeamPlanOrchestrationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,6 +24,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class ScheduleController {
     private final ScheduleService scheduleService;
+    private final TeamPlanOrchestrationService teamPlanOrchestrationService;
 
     @Operation(summary = "새 일정 만들기", description = "해당 팀의 새로운 일정을 만듭니다.")
     @ApiResponses({
@@ -34,7 +36,7 @@ public class ScheduleController {
     })
     @PostMapping("/team/{teamId}/schedule/create")
     public ResponseEntity<Void> createSchedule(@Login Long memberId, @PathVariable Long teamId, @Valid @RequestBody ScheduleRequest request) {
-        scheduleService.createSchedule(memberId, teamId, new ScheduleRequestDto(request));
+        teamPlanOrchestrationService.createSchedule(memberId, teamId, new ScheduleRequestDto(request));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -49,7 +51,7 @@ public class ScheduleController {
                                                @PathVariable Long teamId, 
                                                @PathVariable Long scheduleId, 
                                                @Valid @RequestBody ScheduleRequest request) {
-        scheduleService.updateSchedule(memberId, teamId, scheduleId, new ScheduleRequestDto(request));
+        teamPlanOrchestrationService.updateSchedule(memberId, teamId, scheduleId, new ScheduleRequestDto(request));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

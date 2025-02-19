@@ -10,6 +10,7 @@ import com.feedhanjum.back_end.team.domain.TeamJoinToken;
 import com.feedhanjum.back_end.team.service.TeamService;
 import com.feedhanjum.back_end.team.service.dto.TeamCreateDto;
 import com.feedhanjum.back_end.team.service.dto.TeamUpdateDto;
+import com.feedhanjum.back_end.teamplanorchestration.service.TeamPlanOrchestrationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -31,6 +32,7 @@ public class TeamController {
     private final TeamService teamService;
     private final MemberService memberService;
     private final ScheduleService scheduleService;
+    private final TeamPlanOrchestrationService teamPlanOrchestrationService;
 
     @Operation(summary = "팀 생성", description = "로그인한 사용자를 팀장으로 하는 팀을 생성한다.")
     @ApiResponses({
@@ -117,7 +119,7 @@ public class TeamController {
     })
     @PostMapping("/{teamId}")
     public ResponseEntity<TeamResponse> updateTeamInfo(@Login Long memberId, @PathVariable Long teamId, @Valid @RequestBody TeamUpdateRequest request) {
-        Team team = teamService.updateTeamInfo(memberId, teamId, new TeamUpdateDto(request));
+        Team team = teamPlanOrchestrationService.updateTeamInfo(memberId, teamId, new TeamUpdateDto(request));
         TeamResponse teamResponse = new TeamResponse(team);
         return ResponseEntity.ok(teamResponse);
     }
