@@ -14,6 +14,7 @@ import com.feedhanjum.back_end.team.domain.Team;
 import com.feedhanjum.back_end.team.service.TeamService;
 import com.feedhanjum.back_end.team.service.dto.TeamCreateDto;
 import com.feedhanjum.back_end.team.service.dto.TeamUpdateDto;
+import com.feedhanjum.back_end.teamplanorchestration.service.TeamPlanOrchestrationService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,6 +41,9 @@ class TeamControllerTest {
 
     @Mock
     private ScheduleService scheduleService;
+
+    @Mock
+    private TeamPlanOrchestrationService teamPlanOrchestrationService;
 
     @InjectMocks
     private TeamController teamController;
@@ -213,12 +217,12 @@ class TeamControllerTest {
         TeamUpdateRequest teamUpdateRequest = new TeamUpdateRequest("hehe", LocalDate.now().plusDays(1), LocalDate.now().plusDays(10), FeedbackType.IDENTIFIED);
 
         Team team = new Team("haha", mock(Member.class), LocalDate.now().plusDays(1), LocalDate.now().plusDays(10), FeedbackType.ANONYMOUS, LocalDate.now());
-        when(teamService.updateTeamInfo(memberId, teamId, new TeamUpdateDto(teamUpdateRequest))).thenReturn(team);
+        when(teamPlanOrchestrationService.updateTeamInfo(memberId, teamId, new TeamUpdateDto(teamUpdateRequest))).thenReturn(team);
 
         // when
         teamController.updateTeamInfo(memberId, teamId, teamUpdateRequest);
 
         // then
-        verify(teamService).updateTeamInfo(memberId, teamId, new TeamUpdateDto(teamUpdateRequest));
+        verify(teamPlanOrchestrationService).updateTeamInfo(memberId, teamId, new TeamUpdateDto(teamUpdateRequest));
     }
 }
