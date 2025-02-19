@@ -1,8 +1,8 @@
 import NavBar from '../auth/components/NavBar';
 import LargeButton from '../../components/buttons/LargeButton';
-import { showToast } from '../../utility/handleToast';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useInviteTeam } from '../../api/useTeamspace';
+import { shareCode } from '../../utility/share';
 
 export default function TeamSpaceMakeSuccess() {
   const [searchParams] = useSearchParams();
@@ -29,13 +29,7 @@ export default function TeamSpaceMakeSuccess() {
               inviteTeam(location.state.teamId, {
                 onSuccess: async (data) => {
                   const inviteCode = data.token;
-                  navigator.clipboard.writeText(`feedhanjum.com/${inviteCode}`);
-                  await navigator.share({
-                    title: '팀스페이스 초대링크',
-                    text: `feedhanjum.com/${inviteCode}`,
-                    url: `feedhanjum.com/${inviteCode}`,
-                  });
-                  showToast('클립보드에 복사됨');
+                  shareCode(inviteCode);
                 },
               });
             }
