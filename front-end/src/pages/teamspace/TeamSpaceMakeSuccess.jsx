@@ -9,6 +9,7 @@ export default function TeamSpaceMakeSuccess() {
   const location = useLocation();
   const teamName = searchParams.get('teamName');
   const navigate = useNavigate();
+  const isFirstVisit = location.state?.from === '/first';
 
   const { mutate: inviteTeam } = useInviteTeam();
 
@@ -43,9 +44,13 @@ export default function TeamSpaceMakeSuccess() {
       {/* 다음 버튼 */}
       <div className='absolute right-0 bottom-[34px] left-0 flex flex-col bg-gray-900'>
         <LargeButton
-          text={location.state?.from === '/first' ? '시작하기' : '홈으로'}
+          text={isFirstVisit ? '시작하기' : '홈으로'}
           isOutlined={false}
-          onClick={() => navigate('/main')}
+          onClick={() =>
+            navigate('/main', {
+              state: isFirstVisit ? { init: true } : null,
+            })
+          }
         />
       </div>
     </div>

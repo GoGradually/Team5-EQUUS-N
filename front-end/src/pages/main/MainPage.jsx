@@ -29,9 +29,12 @@ import { useUser } from '../../useUser';
 import useHandlePop from '../../useHandlePop';
 import Banner from './components/Banner';
 import { handleFreqFeedbackReq } from './components/Alarm';
+import OnboardingNotice from './components/OnboardingNotice';
 
 export default function MainPage() {
   const location = useLocation();
+  const isFirstVisit = location.state?.init ?? false;
+  console.log(isFirstVisit);
   const searchParams = new URLSearchParams(location.search);
   const redirect = searchParams.get('redirect') ?? null;
   const teamId = searchParams.get('teamId') ?? null;
@@ -66,6 +69,10 @@ export default function MainPage() {
 
   useEffect(() => {
     let state = {};
+    if (isFirstVisit) {
+      showModal(<OnboardingNotice />);
+      return;
+    }
     if (redirect) {
       navigate('/main', { replace: true });
       if (teamId) {
