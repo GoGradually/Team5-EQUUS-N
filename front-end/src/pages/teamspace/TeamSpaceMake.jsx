@@ -13,7 +13,7 @@ import CustomDatePicker, {
 } from '../../components/CustomDatePicker';
 import { useMakeTeam } from '../../api/useTeamspace';
 import { useTeam } from '../../useTeam';
-import useHandlePop, { blockPop } from '../../useHandlePop';
+import useHandlePop from '../../useHandlePop';
 
 /**
  * @param {object} props
@@ -33,7 +33,9 @@ export default function TeamSpaceMake({ isFirst = false }) {
   const { selectTeam } = useTeam();
 
   if (location.pathname === '/teamspace/make/first') {
-    useHandlePop(blockPop(location.pathname));
+    useHandlePop(() => {
+      navigate(location.pathname, { replace: true });
+    });
   }
 
   const onClickNext = () => {
