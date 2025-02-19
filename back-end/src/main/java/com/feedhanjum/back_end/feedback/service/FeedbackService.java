@@ -209,14 +209,14 @@ public class FeedbackService {
         Feedback feedback = feedbackRepository
                 .findById(feedbackId).orElseThrow(() -> new EntityNotFoundException("feedback id에 해당하는 feedback이 없습니다."));
 
-        Member receiver = memberRepository.findById(feedback.getReceiver().getId())
+        Member feedbackReceiver = memberRepository.findById(feedback.getReceiver().getId())
                 .orElseThrow();
-        Member sender = memberRepository.findById(feedback.getSender().getId())
+        Member feedbackSender = memberRepository.findById(feedback.getSender().getId())
                 .orElseThrow();
         Team team = teamRepository.findById(feedback.getTeam().getId())
                 .orElseThrow();
 
-        team.removeFeedbackRequest(sender, receiver);
+        team.removeFeedbackRequest(feedbackReceiver, feedbackSender);
 
     }
 
