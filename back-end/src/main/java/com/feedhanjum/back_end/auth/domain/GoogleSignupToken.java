@@ -3,14 +3,11 @@ package com.feedhanjum.back_end.auth.domain;
 import com.feedhanjum.back_end.auth.exception.SignupTokenNotValidException;
 import lombok.Getter;
 
-import java.io.Serial;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
-public class GoogleSignupToken implements java.io.Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class GoogleSignupToken {
 
     public static final int TOKEN_LENGTH = 36;
     public static final int EXPIRE_MINUTE = 10;
