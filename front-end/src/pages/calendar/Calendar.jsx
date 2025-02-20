@@ -6,7 +6,7 @@ import ScheduleCard from './components/ScheduleCard';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import LargeButton from '../../components/buttons/LargeButton';
 import Icon from '../../components/Icon';
-import { checkIsFinished } from '../../utility/time';
+import { checkIsFinished, toKST } from '../../utility/time';
 import { ScheduleActionType } from './components/ScheduleAction';
 import ScheduleAction from './components/ScheduleAction';
 import { useLocation } from 'react-router-dom';
@@ -97,23 +97,25 @@ export default function Calendar() {
                 </li>
               );
             })}
-          <li className='mb-5'>
-            <LargeButton
-              text={
-                <p className='button-1 flex items-center gap-2 text-gray-300'>
-                  <Icon name='plusS' />
-                  새로운 일정 추가
-                </p>
-              }
-              onClick={() => {
-                clearData();
-                setActionType(ScheduleActionType.ADD);
-                setDoingAction(true);
-              }}
-              isOutlined={true}
-              disabled={true}
-            />
-          </li>
+          {checkIsFinished(toKST(selectedDate)) || (
+            <li className='mb-5'>
+              <LargeButton
+                text={
+                  <p className='button-1 flex items-center gap-2 text-gray-300'>
+                    <Icon name='plusS' />
+                    새로운 일정 추가
+                  </p>
+                }
+                onClick={() => {
+                  clearData();
+                  setActionType(ScheduleActionType.ADD);
+                  setDoingAction(true);
+                }}
+                isOutlined={true}
+                disabled={true}
+              />
+            </li>
+          )}
         </ul>
       </div>
       {scheduleOnDate && (
