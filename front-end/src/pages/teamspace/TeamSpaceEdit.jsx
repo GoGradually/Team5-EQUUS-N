@@ -61,7 +61,7 @@ export default function TeamSpaceEdit({ isFirst = false }) {
               onSuccess: () => {
                 hideModal();
                 reSelectTeam(teamId, selectedTeam, removeSelectedTeam);
-                navigate('/teamspace/list');
+                navigate(-2);
               },
             });
           }}
