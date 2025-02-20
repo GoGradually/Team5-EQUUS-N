@@ -1,10 +1,10 @@
 package com.feedhanjum.back_end.schedule.domain;
 
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Size;
 
 @Embeddable
 @NoArgsConstructor
