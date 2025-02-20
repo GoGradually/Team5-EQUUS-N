@@ -125,10 +125,10 @@ public class TeamControllerIntegrationTest {
         void test1() throws JsonProcessingException {
             // given
             Member leader = member1;
-            Team team = createTeamWithoutId("teamToUpdate", leader);
+            Team team = createTeamWithoutId("teamUpdate", leader);
             teamRepository.save(team);
 
-            TeamUpdateRequest request = new TeamUpdateRequest("updatedTeamName", LocalDate.now(), LocalDate.now().plusDays(5), FeedbackType.IDENTIFIED);
+            TeamUpdateRequest request = new TeamUpdateRequest("updateName", LocalDate.now(), LocalDate.now().plusDays(5), FeedbackType.IDENTIFIED);
 
             // when & then
             assertThat(
@@ -141,13 +141,13 @@ public class TeamControllerIntegrationTest {
                     .body()
                     .satisfies(result -> {
                         TeamResponse response = mapper.readValue(result, TeamResponse.class);
-                        assertThat(response.name()).isEqualTo("updatedTeamName");
+                        assertThat(response.name()).isEqualTo("updateName");
                         assertThat(response.startDate()).isEqualTo(request.startDate());
                         assertThat(response.endDate()).isEqualTo(request.endDate());
                         assertThat(response.feedbackType()).isEqualTo(request.feedbackType());
 
                         Team updatedTeam = teamRepository.findById(team.getId()).orElseThrow();
-                        assertThat(updatedTeam.getName()).isEqualTo("updatedTeamName");
+                        assertThat(updatedTeam.getName()).isEqualTo("updateName");
                         assertThat(updatedTeam.getStartDate()).isEqualTo(request.startDate());
                         assertThat(updatedTeam.getEndDate()).isEqualTo(request.endDate());
                     });
@@ -159,10 +159,10 @@ public class TeamControllerIntegrationTest {
             // given
             Member leader = member1;
             Member nonLeader = member2;
-            Team team = createTeamWithoutId("teamToUpdate", leader);
+            Team team = createTeamWithoutId("teamUpdate", leader);
             teamRepository.save(team);
 
-            TeamUpdateRequest request = new TeamUpdateRequest("updatedTeamName", LocalDate.now(), LocalDate.now().plusDays(5), FeedbackType.ANONYMOUS);
+            TeamUpdateRequest request = new TeamUpdateRequest("updateName", LocalDate.now(), LocalDate.now().plusDays(5), FeedbackType.ANONYMOUS);
 
             // when & then
             assertThat(
@@ -180,7 +180,7 @@ public class TeamControllerIntegrationTest {
             // given
             Member leader = member1;
 
-            TeamUpdateRequest request = new TeamUpdateRequest("updatedTeamName", LocalDate.now(), LocalDate.now().plusDays(5), FeedbackType.IDENTIFIED);
+            TeamUpdateRequest request = new TeamUpdateRequest("updateName", LocalDate.now(), LocalDate.now().plusDays(5), FeedbackType.IDENTIFIED);
 
             // when & then
             assertThat(

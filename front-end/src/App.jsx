@@ -31,7 +31,6 @@ import FeedbackFavorite from './pages/feedback/FeedbackFavorite';
 import MyPageHome from './pages/mypage/MyPageHome';
 import ProtectedRoute from './ProtectedRoute';
 import SplashForOAuth from './pages/auth/SplashForOAuth';
-import PushNotiManager from './PushNotiManager';
 import FeedbackSendFreq from './pages/feedback/FeedbackSendFreq';
 import ProfileEdit from './pages/mypage/ProfileEdit';
 import Report from './pages/mypage/Report';
@@ -44,7 +43,6 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <CombinedProvider>
-          <PushNotiManager />
           <Routes>
             <Route element={<Layout />}>
               <Route path='/:teamCode?' element={<Splash />} />

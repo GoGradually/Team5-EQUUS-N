@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Schema(description = "팀 생성 요청")
 public record TeamCreateRequest(
         @Schema(description = "팀 이름")
-        @NotBlank @Size(min = 1, max = 20) String name,
+        @NotBlank @Size(min = 1, max = 10) String name,
         @Schema(description = "시작 날짜")
         @NotNull LocalDate startDate,
         @Schema(description = "종료 날짜")
