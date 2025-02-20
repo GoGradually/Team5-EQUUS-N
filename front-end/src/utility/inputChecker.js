@@ -134,6 +134,9 @@ export const isValidTeamName = (teamSpaceName) => {
   if (isEmpty(teamSpaceName)) {
     showToast('팀 이름을 입력해주세요');
     return false;
+  } else if (teamSpaceName.length > 8) {
+    showToast('팀 이름은 최대 8자까지 가능해요');
+    return false;
   }
   return true;
 };
