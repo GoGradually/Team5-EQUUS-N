@@ -19,7 +19,7 @@ export default function NotificationPage() {
   }, [notificationsData]);
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex h-full flex-col'>
       <StickyWrapper>
         <NavBar2
           isCloseLeft={true}
@@ -32,8 +32,8 @@ export default function NotificationPage() {
         <div className='border-b border-gray-700'></div>
       </StickyWrapper>
       <h2 className='subtitle-1 text-gray-0 mt-6 mb-2'>새로운 알림</h2>
-      <ul>
-        {notifications &&
+      <ul className='h-full'>
+        {notifications.length > 0 ?
           notifications.map((notification) => (
             <li
               key={notification.notificationId}
@@ -43,7 +43,12 @@ export default function NotificationPage() {
             >
               <Alarm type={notification.type} data={notification} />
             </li>
-          ))}
+          ))
+        : <div className='flex h-full flex-col items-center justify-center gap-4 text-gray-300'>
+            <p className='text-5xl'>📭</p>
+            <p>받은 알림이 없어요</p>
+          </div>
+        }
       </ul>
     </div>
   );
