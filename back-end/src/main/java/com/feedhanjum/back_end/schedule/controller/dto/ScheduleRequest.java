@@ -14,6 +14,6 @@ public record ScheduleRequest(
         @Schema(description = "일정 이름") @NotBlank @Size(min = 1, max = 20) String name,
         @Schema(description = "시작 시간") @NotNull LocalDateTime startTime,
         @Schema(description = "종료 시간") @NotNull LocalDateTime endTime,
-        @Valid @Schema(description = "일정에 포함된 로그인한 사용자의 할일 목록") List<Todo> todos
+        @Schema(description = "일정에 포함된 로그인한 사용자의 할일 목록") List<@Valid Todo> todos
 ) {
 }

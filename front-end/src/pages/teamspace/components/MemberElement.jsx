@@ -79,7 +79,7 @@ export default function MemberElement({ teamId, member, leaderId, iamLeader }) {
               onSuccess: () => {
                 hideModal();
                 reSelectTeam(teamId, selectedTeam, removeSelectedTeam);
-                navigate('/teamspace/list');
+                navigate(-1);
               },
             });
           }}

@@ -32,6 +32,9 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
     private final GoogleAuthService googleAuthService;
+    private final EmailSignupTokenService emailSignupTokenService;
+    private final com.feedhanjum.back_end.auth.service.PasswordResetTokenService passwordResetTokenService;
+    private final GoogleSignupTokenService googleSignupTokenService;
 
 
     /**
@@ -84,6 +87,7 @@ public class AuthService {
     public EmailSignupToken sendSignupVerificationEmail(String email) {
         EmailSignupToken token = EmailSignupToken.generateNewToken(email);
         validateEmail(email);
+        emailSignupTokenService.save(token);
         emailService.sendCodeToMail(
                 email,
                 "피드한줌 회원가입 이메일 인증",
@@ -97,8 +101,10 @@ public class AuthService {
     /**
      * @throws SignupTokenNotValidException 토큰 검증 실패
      */
-    public void validateSignupToken(EmailSignupToken existToken, String email, String token) {
-        existToken.validateToken(email, token);
+    public void validateSignupToken(String email, String token) {
+        EmailSignupToken emailSignupToken = emailSignupTokenService.find(email, token)
+                .orElseThrow(SignupTokenNotValidException::new);
+        emailSignupTokenService.delete(emailSignupToken);
     }
 
 
@@ -113,6 +119,7 @@ public class AuthService {
         }
 
         PasswordResetToken token = PasswordResetToken.generateNewToken(email);
+        passwordResetTokenService.save(token);
         emailService.sendCodeToMail(
                 email,
                 "피드한줌 비밀번호 초기화 인증",
@@ -127,8 +134,10 @@ public class AuthService {
     /**
      * @throws PasswordResetTokenNotValidException 토큰 검증 실패
      */
-    public void validatePasswordResetToken(PasswordResetToken existToken, String email, String token) {
-        existToken.validateToken(email, token);
+    public void validatePasswordResetToken(String email, String token) {
+        PasswordResetToken passwordResetToken = passwordResetTokenService.find(email, token)
+                .orElseThrow(PasswordResetTokenNotValidException::new);
+        passwordResetTokenService.delete(passwordResetToken);
     }
 
 
@@ -149,7 +158,9 @@ public class AuthService {
     }
 
     @Transactional
-    public MemberDetails registerGoogle(GoogleSignupToken googleSignupToken, ProfileImage profileImage, List<FeedbackPreference> feedbackPreferences) {
+    public MemberDetails registerGoogle(String code, ProfileImage profileImage, List<FeedbackPreference> feedbackPreferences) {
+        GoogleSignupToken googleSignupToken = googleSignupTokenService.find(code)
+                .orElseThrow(SignupTokenNotValidException::new);
         String email = googleSignupToken.getEmail();
         validateEmail(email);
 
@@ -158,6 +169,7 @@ public class AuthService {
         Member savedMember = memberRepository.save(member);
         MemberDetails savedMemberDetails = MemberDetails.createGoogleUser(savedMember.getId(), email);
 
+        googleSignupTokenService.delete(googleSignupToken);
         return memberDetailsRepository.save(savedMemberDetails);
     }
 
@@ -169,7 +181,9 @@ public class AuthService {
         Optional<MemberDetails> memberDetailsOptional = memberDetailsRepository.findByEmail(email);
 
         if (memberDetailsOptional.isEmpty()) {
-            return GoogleLoginResultDto.signupRequired(GoogleSignupToken.generateNewToken(email, userInfo.name()));
+            GoogleSignupToken token = GoogleSignupToken.generateNewToken(email, userInfo.name());
+            googleSignupTokenService.save(token);
+            return GoogleLoginResultDto.signupRequired(token);
         }
 
         MemberDetails memberDetails = memberDetailsOptional.get();
