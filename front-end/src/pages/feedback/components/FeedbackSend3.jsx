@@ -110,10 +110,7 @@ export default function FeedbackSend3() {
     const trimmedContentLength = transformToBytes(trimmedContent).byteCount;
     setTextContent(trimmedContent);
     setTextLength(trimmedContentLength);
-    if (trimmedContentLength === 0) {
-      showToast('내용을 입력해 주세요');
-      return;
-    }
+
     if (trimmedContentLength > 400) {
       showToast('내용을 400byte 이하로 작성해 주세요');
       return;
@@ -126,7 +123,7 @@ export default function FeedbackSend3() {
       {
         ...rest,
         receiverId: locationState.receiver.id,
-        subjectiveFeedback: textContent,
+        subjectiveFeedback: trimmedContent,
         isAnonymous,
         teamId: selectedTeam,
       },
@@ -247,8 +244,7 @@ export default function FeedbackSend3() {
       <FooterWrapper>
         <LargeButton
           isOutlined={false}
-          text={feedbackMutation.isPending ? '로딩중' : '다음'}
-          disabled={textLength === 0}
+          text={feedbackMutation.isPending ? '로딩중' : '보내기'}
           onClick={() => onSendButtonClick()}
         />
       </FooterWrapper>
