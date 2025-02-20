@@ -141,24 +141,40 @@ export default function FeedbackSend3() {
 
   return (
     <div className='flex w-full flex-col pb-28'>
-      <h1 className='header-2 text-gray-0 mt-3 whitespace-pre-line'>
-        {'자세한 내용을 작성해 보세요!'}
-      </h1>
       <AnimatePresence>
+        {!isNextStep && (
+          <motion.h1
+            exit={{ opacity: 0, y: -30 }}
+            transition={{ duration: 0.5, ease: 'backIn' }}
+            className='header-2 text-gray-0 z-1000 mt-3 whitespace-pre-line'
+          >
+            {'자세한 내용을 작성해 보세요!'}
+          </motion.h1>
+        )}
         {!isNextStep && favoriteKeywords && (
           <motion.div
             className='flex flex-col'
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, x: -30 }}
+            exit={{
+              opacity: 0,
+              y: -30,
+              transition: { duration: 0.5, ease: 'backIn' },
+            }}
             transition={{ type: 'spring', bounce: 0.32 }}
           >
             <p className='body-1 mt-8 mb-2 text-gray-300'>{`${locationState.receiver.name}님이 원하는 피드백 스타일이에요!`}</p>
             <div className='mb-5 flex flex-wrap gap-2'>
               {favoriteKeywords.feedbackPreferences.map((keyword, index) => (
-                <Tag key={index} type={TagType.KEYWORD}>
-                  {keyword}
-                </Tag>
+                <motion.div
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.12 }}
+                >
+                  <Tag key={index} type={TagType.KEYWORD}>
+                    {keyword}
+                  </Tag>
+                </motion.div>
               ))}
             </div>
             <TextArea
