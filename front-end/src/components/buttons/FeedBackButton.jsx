@@ -18,10 +18,8 @@ export default function FeedBackButton({ currentFeedback, onClick }) {
       >
         <p className='text-4xl'>😀</p>
         <div className='flex flex-col items-center gap-3'>
-          <p className='caption-1 text-center text-gray-300'>
-            개인의 강점과
-            <br />
-            행동을 칭찬해주는
+          <p className='caption-1 text-center break-keep whitespace-pre-line text-gray-300'>
+            {'개인의 강점과\n행동을 칭찬해주는'}
           </p>
           <p className='header-4 text-lime-500'>칭찬해요</p>
         </div>
@@ -36,10 +34,8 @@ export default function FeedBackButton({ currentFeedback, onClick }) {
       >
         <p className='text-4xl'>🤔</p>
         <div className='flex flex-col items-center gap-3'>
-          <p className='caption-1 text-center text-gray-300'>
-            존중하는 말투로
-            <br />
-            개선 방법을 제공하는
+          <p className='caption-1 text-center break-keep whitespace-pre-line text-gray-300'>
+            {'존중하는 말투로\n개선 방법을 제공하는'}
           </p>
           <p className='header-4 text-lime-500'>아쉬워요</p>
         </div>
