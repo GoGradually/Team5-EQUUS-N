@@ -2,6 +2,7 @@ import { useInviteTeam } from '../api/useTeamspace';
 import { useTeam } from '../useTeam';
 import { useUser } from '../useUser';
 import { showToast } from '../utility/handleToast';
+import { shareCode } from '../utility/share';
 import MediumButton from './buttons/MediumButton';
 import { ProfileImageWithText } from './ProfileImage';
 
@@ -52,8 +53,7 @@ export default function MainCard2({
               inviteTeam(selectedTeam, {
                 onSuccess: (data) => {
                   const inviteCode = data.token;
-                  navigator.clipboard.writeText(`feedhanjum.com/${inviteCode}`);
-                  showToast('클립보드에 복사됨');
+                  shareCode(inviteCode);
                 },
               });
             }}

@@ -14,7 +14,7 @@ import { showToast } from '../../../utility/handleToast';
 import { checkNewSchedule, isEmpty } from '../../../utility/inputChecker';
 import TimeSelector from './TimeSelector';
 import Todo from './Todo';
-import { showModal } from '../../../utility/handleModal';
+import { hideModal, showModal } from '../../../utility/handleModal';
 import ScheduleDeleteModal from './ScheduleDeleteModal';
 import CustomDatePicker, {
   DatePickerButton,
@@ -53,6 +53,7 @@ export default function ScheduleAction({
   selectedDateFromParent,
   actionInfo,
   dateFixed,
+  setAllSchedules,
   setParentDate = () => {},
 }) {
   const { selectedTeam } = useTeam();
@@ -64,7 +65,10 @@ export default function ScheduleAction({
 
   const { mutate: postSchedule } = usePostSchedule(selectedTeam);
   const { mutate: editSchedule } = useEditSchedule(selectedTeam);
-  const { mutate: deleteSchedule } = useDeleteSchedule(selectedTeam);
+  const { mutate: deleteSchedule } = useDeleteSchedule({
+    teamId: selectedTeam,
+    scheduleStartTime: actionInfo.startTime,
+  });
   const [dataReady, setDataReady] = useState(false);
 
   useEffect(() => {
@@ -134,8 +138,14 @@ export default function ScheduleAction({
         deleteSchedule={() => {
           deleteSchedule(selectedScheduleFromParent.scheduleId ?? -1, {
             onSuccess: () => {
+              setAllSchedules((prev) => [
+                ...prev.filter(
+                  (schedule) =>
+                    schedule.scheduleId !==
+                    selectedScheduleFromParent.scheduleId,
+                ),
+              ]);
               showToast('일정을 삭제했습니다');
-              hideModal();
               onClose();
             },
           });

@@ -110,24 +110,24 @@ public class Team {
     }
 
     // 수시 피드백 요청
-    public void requestFeedback(Member sender, Member receiver, String requestedContent) {
-        validateTeamMember(sender);
-        validateTeamMember(receiver);
-        this.frequentFeedbackRequests.removeIf(request -> sender.equals(request.getSender()) && receiver.equals(request.getReceiver()));
-        this.frequentFeedbackRequests.add(new FrequentFeedbackRequest(requestedContent, sender, this, receiver));
+    public void requestFeedback(Member requestSender, Member requestReceiver, String requestedContent) {
+        validateTeamMember(requestSender);
+        validateTeamMember(requestReceiver);
+        this.frequentFeedbackRequests.removeIf(request -> requestSender.equals(request.getSender()) && requestReceiver.equals(request.getReceiver()));
+        this.frequentFeedbackRequests.add(new FrequentFeedbackRequest(requestedContent, requestSender, this, requestReceiver));
     }
 
     // 모든 수시 피드백 요청 거절
-    public void rejectFeedbackRequests(Member receiver) {
-        validateTeamMember(receiver);
-        this.frequentFeedbackRequests.removeIf(request -> receiver.equals(request.getReceiver()));
+    public void rejectFeedbackRequests(Member requestReceiver) {
+        validateTeamMember(requestReceiver);
+        this.frequentFeedbackRequests.removeIf(request -> requestReceiver.equals(request.getReceiver()));
     }
 
     // 특정 수시 피드백 요청 거절
-    public void removeFeedbackRequest(Member sender, Member receiver) {
-        validateTeamMember(sender);
-        validateTeamMember(receiver);
-        this.frequentFeedbackRequests.removeIf(request -> sender.equals(request.getSender()) && receiver.equals(request.getReceiver()));
+    public void removeFeedbackRequest(Member requestSender, Member requestReceiver) {
+        validateTeamMember(requestSender);
+        validateTeamMember(requestReceiver);
+        this.frequentFeedbackRequests.removeIf(request -> requestSender.equals(request.getSender()) && requestReceiver.equals(request.getReceiver()));
     }
 
     public List<FrequentFeedbackRequest> getFeedbackRequests(Member receiver) {

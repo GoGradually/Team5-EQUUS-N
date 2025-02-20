@@ -15,15 +15,12 @@ import Calendar from './pages/calendar/Calendar';
 import MainPage from './pages/main/MainPage';
 import TeamSpaceList from './pages/teamspace/TeamSpaceList';
 import NotificationPage from './pages/main/NotificationPage';
-import FeedbackReceived from './pages/feedback/FeedbackReceived';
-import FeedbackSent from './pages/feedback/FeedbackSent';
+import FeedbackHistory from './pages/feedback/FeedbackHistory';
 import TeamSpaceManage from './pages/teamspace/TeamSpaceManage';
 import TeamSpaceEdit from './pages/teamspace/TeamSpaceEdit';
 import FeedbackComplete from './pages/feedback/FeedbackComplete';
 import FeedbackSelf from './pages/feedback/FeedbackSelf';
-import SelfFeedback from './pages/mypage/SelfFeedback';
 import CombinedProvider from './CombinedProvider';
-import { TeamProvider } from './TeamContext';
 import FeedbackSendLayout from './pages/feedback/FeedbackSendLayout';
 import FeedbackSendStep from './pages/feedback/FeedbackSendStep';
 import FeedbackSend from './pages/feedback/FeedbackSend';
@@ -31,7 +28,6 @@ import FeedbackFavorite from './pages/feedback/FeedbackFavorite';
 import MyPageHome from './pages/mypage/MyPageHome';
 import ProtectedRoute from './ProtectedRoute';
 import SplashForOAuth from './pages/auth/SplashForOAuth';
-import PushNotiManager from './PushNotiManager';
 import FeedbackSendFreq from './pages/feedback/FeedbackSendFreq';
 import ProfileEdit from './pages/mypage/ProfileEdit';
 import Report from './pages/mypage/Report';
@@ -44,7 +40,6 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <CombinedProvider>
-          <PushNotiManager />
           <Routes>
             <Route element={<Layout />}>
               <Route path='/:teamCode?' element={<Splash />} />
@@ -64,8 +59,8 @@ export default function App() {
                   <Route path='self' element={<FeedbackSelf />} />
                   <Route path='complete' element={<FeedbackComplete />} />
                   <Route path='favorite' element={<FeedbackFavorite />} />
-                  <Route path='received' element={<FeedbackReceived />} />
-                  <Route path='sent' element={<FeedbackSent />} />
+                  <Route path='received' element={<FeedbackHistory />} />
+                  <Route path='sent' element={<FeedbackHistory />} />
                 </Route>
                 <Route path='teamspace'>
                   <Route path='make'>
@@ -89,7 +84,7 @@ export default function App() {
                 </Route>
                 <Route path='mypage'>
                   <Route index element={<MyPageHome />} />
-                  <Route path='self' element={<SelfFeedback />} />
+                  <Route path='self' element={<FeedbackHistory />} />
                   <Route path='report' element={<Report />} />
                   <Route path='edit' element={<ProfileEdit />} />
                 </Route>

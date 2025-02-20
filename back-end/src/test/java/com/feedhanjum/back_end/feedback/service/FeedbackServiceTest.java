@@ -911,24 +911,25 @@ class FeedbackServiceTest {
         @DisplayName("연관 수시 피드백 요청 삭제 성공")
         void test1() {
             // given
-            Member sender = createMember("sender");
-            Member receiver = createMember("receiver");
-            Team team = createTeam("team", sender);
-            team.join(receiver);
-            team.requestFeedback(sender, receiver, "좋아요");
+            Member feedbackSender = createMember("sender");
+            Member feedbackReceiver = createMember("receiver");
+            Team team = createTeam("team", feedbackSender);
+            team.join(feedbackReceiver);
+            team.requestFeedback(feedbackSender, feedbackReceiver, "좋아요");
+            team.requestFeedback(feedbackReceiver, feedbackSender, "좋아요 2");
 
-            Feedback feedback = createFeedback(sender, receiver, team);
+            Feedback feedback = createFeedback(feedbackSender, feedbackReceiver, team);
 
             when(feedbackRepository.findById(feedback.getId())).thenReturn(Optional.of(feedback));
-            when(memberRepository.findById(sender.getId())).thenReturn(Optional.of(sender));
-            when(memberRepository.findById(receiver.getId())).thenReturn(Optional.of(receiver));
+            when(memberRepository.findById(feedbackSender.getId())).thenReturn(Optional.of(feedbackSender));
+            when(memberRepository.findById(feedbackReceiver.getId())).thenReturn(Optional.of(feedbackReceiver));
             when(teamRepository.findById(team.getId())).thenReturn(Optional.of(team));
 
             // when
             feedbackService.deleteRelatedFrequentFeedbackRequest(feedback.getId());
 
             // then
-            assertThat(team.getFeedbackRequests(receiver)).isEmpty();
+            assertThat(team.getFeedbackRequests(feedbackSender)).isEmpty();
         }
 
 

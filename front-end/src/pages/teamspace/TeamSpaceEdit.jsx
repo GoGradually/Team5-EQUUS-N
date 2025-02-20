@@ -51,7 +51,7 @@ export default function TeamSpaceEdit({ isFirst = false }) {
   const deleteTeamModal = (
     <Modal
       type='DOUBLE'
-      content={`팀 스페이스를 정말 삭제할까요?`}
+      title={`팀 스페이스를 정말 삭제할까요?`}
       mainButton={
         <MediumButton
           text='삭제'

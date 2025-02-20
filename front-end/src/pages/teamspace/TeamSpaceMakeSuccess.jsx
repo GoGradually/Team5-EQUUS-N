@@ -1,14 +1,15 @@
 import NavBar from '../auth/components/NavBar';
 import LargeButton from '../../components/buttons/LargeButton';
-import { showToast } from '../../utility/handleToast';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useInviteTeam } from '../../api/useTeamspace';
+import { shareCode } from '../../utility/share';
 
 export default function TeamSpaceMakeSuccess() {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const teamName = searchParams.get('teamName');
   const navigate = useNavigate();
+  const isFirstVisit = location.state?.from === '/first';
 
   const { mutate: inviteTeam } = useInviteTeam();
 
@@ -27,10 +28,9 @@ export default function TeamSpaceMakeSuccess() {
           onClick={() => {
             if (location.state.teamId) {
               inviteTeam(location.state.teamId, {
-                onSuccess: (data) => {
+                onSuccess: async (data) => {
                   const inviteCode = data.token;
-                  navigator.clipboard.writeText(`feedhanjum.com/${inviteCode}`);
-                  showToast('클립보드에 복사됨');
+                  shareCode(inviteCode);
                 },
               });
             }
@@ -43,9 +43,13 @@ export default function TeamSpaceMakeSuccess() {
       {/* 다음 버튼 */}
       <div className='absolute right-0 bottom-[34px] left-0 flex flex-col bg-gray-900'>
         <LargeButton
-          text={location.state?.from === '/first' ? '시작하기' : '홈으로'}
+          text={isFirstVisit ? '시작하기' : '홈으로'}
           isOutlined={false}
-          onClick={() => navigate('/main')}
+          onClick={() =>
+            navigate('/main', {
+              state: isFirstVisit ? { init: true } : null,
+            })
+          }
         />
       </div>
     </div>

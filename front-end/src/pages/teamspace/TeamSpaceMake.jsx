@@ -13,7 +13,7 @@ import CustomDatePicker, {
 } from '../../components/CustomDatePicker';
 import { useMakeTeam } from '../../api/useTeamspace';
 import { useTeam } from '../../useTeam';
-import useBlockPop from '../../useBlockPop';
+import useHandlePop from '../../useHandlePop';
 
 /**
  * @param {object} props
@@ -33,7 +33,9 @@ export default function TeamSpaceMake({ isFirst = false }) {
   const { selectTeam } = useTeam();
 
   if (location.pathname === '/teamspace/make/first') {
-    useBlockPop(location.pathname);
+    useHandlePop(() => {
+      navigate(location.pathname, { replace: true });
+    });
   }
 
   const onClickNext = () => {
@@ -153,7 +155,11 @@ export default function TeamSpaceMake({ isFirst = false }) {
             className={
               'rounded-300 flex h-[56px] w-full items-center justify-center px-4 py-2 text-gray-300'
             }
-            onClick={() => navigate('/main')}
+            onClick={() =>
+              navigate('/main', {
+                state: { init: true },
+              })
+            }
           >
             <a>나중에 만들기</a>
           </div>
