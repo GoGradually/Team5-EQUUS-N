@@ -26,9 +26,9 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         log.info("Request details - method: {}, hasSession: {}, uri: {}",
-            request.getMethod(),
-            request.getSession(false) != null,
-            request.getRequestURI());
+                request.getMethod(),
+                request.getSession(false) != null,
+                request.getRequestURI());
         HttpSession session = request.getSession(false);
 
         if (session == null) {
@@ -41,6 +41,6 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
             throw new LoginStateRequiredException("로그인이 필요합니다.");
         }
 
-        return memberId;
+        return Long.parseLong(memberId.toString());
     }
 }
