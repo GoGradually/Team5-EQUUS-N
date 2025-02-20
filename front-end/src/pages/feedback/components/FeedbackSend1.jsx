@@ -1,24 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import FeedBackButton from '../../../components/buttons/FeedBackButton';
 import FooterWrapper from '../../../components/wrappers/FooterWrapper';
 import LargeButton from '../../../components/buttons/LargeButton';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { showToast } from '../../../utility/handleToast';
 
 export default function FeedbackSend1() {
   const navigate = useNavigate();
   const locationState = useLocation().state;
 
   const [feedbackFeeling, setFeedbackFeeling] = useState();
-  const [step, setStep] = useState(1);
+  const [isNextStep, jumpToTheNextStep] = useReducer(() => true, false);
 
   useEffect(() => {
-    setTimeout(() => {
-      feedbackFeeling &&
+    if (isNextStep) {
+      setTimeout(() => {
         navigate('../2', {
           state: { ...locationState, feedbackFeeling },
         });
-    }, 400);
-  }, [step]);
+      }, 400);
+    }
+  }, [isNextStep]);
 
   return (
     <div className='flex size-full flex-col gap-8'>
@@ -27,7 +29,7 @@ export default function FeedbackSend1() {
       </h1>
       <FeedBackButton
         currentFeedback={feedbackFeeling}
-        step={step}
+        isNextStep={isNextStep}
         onClick={(feeling) => setFeedbackFeeling(feeling)}
       />
 
@@ -36,7 +38,11 @@ export default function FeedbackSend1() {
           isOutlined={false}
           text='다음'
           disabled={!feedbackFeeling}
-          onClick={() => setStep(2)}
+          onClick={() =>
+            feedbackFeeling ? jumpToTheNextStep() : (
+              showToast('피드백 종류를 선택해 주세요')
+            )
+          }
         />
       </FooterWrapper>
     </div>

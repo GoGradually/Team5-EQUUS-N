@@ -4,14 +4,19 @@ import { AnimatePresence, motion } from 'motion/react';
  * 피드백 버튼 컴포넌트
  * @param {object} props
  * @param {string} props.currentFeedback - 현재 선택된 피드백
+ * @param {boolean} props.isNextStep - 다음 단계 여부
  * @param {function} props.onClick - 피드백 선택 함수
  * @returns {JSX.Element} - 피드백 버튼 컴포넌트
  */
-export default function FeedBackButton({ currentFeedback, step, onClick }) {
+export default function FeedBackButton({
+  currentFeedback,
+  isNextStep,
+  onClick,
+}) {
   return (
     <div className='flex w-full gap-3'>
       <AnimatePresence>
-        {step === 1 && (
+        {!isNextStep && (
           <>
             <motion.div
               initial={{ opacity: 0, y: 30 }}

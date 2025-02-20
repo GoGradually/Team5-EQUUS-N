@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { useFeedbackObjective } from '../../../api/useFeedback';
 import KeywordButton from '../../../components/buttons/KeywordButton';
 import { showToast } from '../../../utility/handleToast';
@@ -14,8 +14,8 @@ export default function FeedbackSend2() {
   const { data: objectives } = useFeedbackObjective();
 
   const [selectedObjectives, setSelectedObjectives] = useState([]);
-  const [step, setStep] = useState(2);
-
+  const [isNextStep, jumpToTheNextStep] = useReducer(() => true, false);
+  console.log(isNextStep);
   useEffect(() => {
     setTimeout(() => {
       selectedObjectives.length > 0 &&
@@ -26,7 +26,7 @@ export default function FeedbackSend2() {
           },
         });
     }, 500);
-  }, [step]);
+  }, [isNextStep]);
 
   const onKeywordButtonClick = (keyword) => {
     selectedObjectives.includes(keyword) ?
@@ -44,7 +44,7 @@ export default function FeedbackSend2() {
         {'보낼 피드백 키워드를\n선택해 주세요'}
       </h1>
       <AnimatePresence>
-        {step === 2 && objectives && (
+        {!isNextStep && objectives && (
           <ul className='scrollbar-hidden flex w-full gap-8 overflow-x-auto p-1 whitespace-nowrap'>
             {Object.keys(objectives[locationState.feedbackFeeling]).map(
               (title, index) => (
@@ -66,7 +66,11 @@ export default function FeedbackSend2() {
           isOutlined={false}
           text='다음'
           disabled={selectedObjectives.length === 0}
-          onClick={() => setStep(3)}
+          onClick={() =>
+            selectedObjectives.length === 0 ?
+              showToast('키워드를 최소 한 개 선택해 주세요')
+            : jumpToTheNextStep()
+          }
         />
       </FooterWrapper>
     </div>
