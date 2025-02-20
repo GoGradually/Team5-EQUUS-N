@@ -5,6 +5,9 @@ import com.feedhanjum.back_end.schedule.domain.Todo;
 import com.feedhanjum.back_end.schedule.service.ScheduleService;
 import com.feedhanjum.back_end.schedule.service.dto.ScheduleRequestDto;
 import com.feedhanjum.back_end.teamplanorchestration.service.TeamPlanOrchestrationService;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -68,5 +71,23 @@ public class ScheduleControllerTest {
 
         // then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+    }
+
+    @Test
+    @DisplayName("스케줄 수정 요청 실패: 할 일이 너무 김")
+    void updateSchedule_할일TooLong() {
+        // given
+        Long memberId = 1L;
+        Long teamId = 2L;
+        Long scheduleId = 3L;
+        LocalDateTime now = LocalDateTime.now();
+        Todo hehe = new Todo("012345678901234567890123456789012345678901234567890123456789");
+        ScheduleRequest request = new ScheduleRequest("haha", now.plusHours(1), now.plusHours(2), List.of(hehe));
+
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
+        // when
+        Assertions.assertThatThrownBy(() -> validator.validate(request, ScheduleRequest.class))
+                .isInstanceOf(Exception.class);
     }
 }
