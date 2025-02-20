@@ -14,18 +14,19 @@ export default function FeedbackSend2() {
   const { data: objectives } = useFeedbackObjective();
 
   const [selectedObjectives, setSelectedObjectives] = useState([]);
-  const [isNextStep, jumpToTheNextStep] = useReducer(() => true, false);
-  console.log(isNextStep);
+  const [isNextStep, jumpToNextStep] = useReducer(() => true, false);
+
   useEffect(() => {
-    setTimeout(() => {
-      selectedObjectives.length > 0 &&
+    if (isNextStep) {
+      setTimeout(() => {
         navigate('../3', {
           state: {
             ...locationState,
             objectiveFeedbacks: selectedObjectives,
           },
         });
-    }, 500);
+      }, 500);
+    }
   }, [isNextStep]);
 
   const onKeywordButtonClick = (keyword) => {
@@ -69,7 +70,7 @@ export default function FeedbackSend2() {
           onClick={() =>
             selectedObjectives.length === 0 ?
               showToast('키워드를 최소 한 개 선택해 주세요')
-            : jumpToTheNextStep()
+            : jumpToNextStep()
           }
         />
       </FooterWrapper>

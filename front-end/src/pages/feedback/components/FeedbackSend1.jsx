@@ -10,7 +10,7 @@ export default function FeedbackSend1() {
   const locationState = useLocation().state;
 
   const [feedbackFeeling, setFeedbackFeeling] = useState();
-  const [isNextStep, jumpToTheNextStep] = useReducer(() => true, false);
+  const [isNextStep, jumpToNextStep] = useReducer(() => true, false);
 
   useEffect(() => {
     if (isNextStep) {
@@ -39,7 +39,7 @@ export default function FeedbackSend1() {
           text='다음'
           disabled={!feedbackFeeling}
           onClick={() =>
-            feedbackFeeling ? jumpToTheNextStep() : (
+            feedbackFeeling ? jumpToNextStep() : (
               showToast('피드백 종류를 선택해 주세요')
             )
           }
