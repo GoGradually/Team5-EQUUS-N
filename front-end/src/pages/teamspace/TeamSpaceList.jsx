@@ -42,7 +42,11 @@ export default function TeamSpaceList() {
             })
             .map((team) => (
               <button
-                onClick={() => navigate(`/teamspace/manage/${team.id}`)}
+                onClick={() =>
+                  navigate(`/teamspace/manage/${team.id}`, {
+                    state: { isEnded: showEndedTeams },
+                  })
+                }
                 key={team.id}
               >
                 <TeamElement

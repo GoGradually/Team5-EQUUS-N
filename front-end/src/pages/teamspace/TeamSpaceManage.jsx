@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import NavBar2 from '../../components/NavBar2';
 import Tag, { TagType } from '../../components/Tag';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
@@ -12,11 +12,13 @@ import { shareCode } from '../../utility/share';
 
 export default function TeamSpaceManage() {
   const { teamId } = useParams();
+  const locationState = useLocation().state;
   const [iamLeader, setIamLeader] = useState(false);
   const { data: team } = useTeamInfo(teamId);
   const { userId } = useUser();
   const navigate = useNavigate();
   const { mutate: inviteTeam } = useInviteTeam();
+  const isEnded = locationState.isEnded;
 
   useEffect(() => {
     if (team) {
@@ -27,6 +29,11 @@ export default function TeamSpaceManage() {
       }
     }
   }, [team]);
+
+  function convertDateFormat(dateStr = '1900-01-01') {
+    const [year, month, day] = dateStr.split('-');
+    return `${year.slice(2)}.${month}.${day}`;
+  }
 
   return (
     <div className='flex flex-col'>
@@ -42,7 +49,7 @@ export default function TeamSpaceManage() {
       <div className='mt-6 mb-8 flex justify-between'>
         <div className='header-1 flex items-center gap-2 text-gray-100'>
           <h1 className='text-gray-100'>{team?.teamResponse?.name}</h1>
-          {iamLeader && (
+          {iamLeader && !isEnded && (
             <button
               onClick={() => {
                 navigate(`/teamspace/manage/${teamId}/edit`, {
@@ -54,18 +61,24 @@ export default function TeamSpaceManage() {
             </button>
           )}
         </div>
-        <button
-          onClick={() => {
-            inviteTeam(teamId, {
-              onSuccess: (data) => {
-                const inviteCode = data.token;
-                shareCode(inviteCode);
-              },
-            });
-          }}
-        >
-          <Tag type={TagType.TEAM_NAME}>초대링크 복사</Tag>
-        </button>
+        {isEnded ?
+          <p className='caption-4 w-fit self-center text-right break-words text-gray-100'>
+            {convertDateFormat(team?.teamResponse?.startDate)} ~{' '}
+            {convertDateFormat(team?.teamResponse?.endDate)}
+          </p>
+        : <button
+            onClick={() => {
+              inviteTeam(teamId, {
+                onSuccess: (data) => {
+                  const inviteCode = data.token;
+                  shareCode(inviteCode);
+                },
+              });
+            }}
+          >
+            <Tag type={TagType.TEAM_NAME}>초대링크 복사</Tag>
+          </button>
+        }
       </div>
       <ul className='flex flex-col gap-4'>
         {team?.members.map((member) => (
