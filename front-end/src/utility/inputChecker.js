@@ -3,18 +3,11 @@ import { showToast } from './handleToast';
 
 export function transformToBytes(str) {
   let byteCount = 0;
-
   let overflowedIndex = 0;
-  for (const ch of str) {
-    // 한글 완성형 (AC00-D7A3), 자음/모음 (3131-318E)
-    if (
-      (ch >= '\u3131' && ch <= '\u318E') ||
-      (ch >= '\uAC00' && ch <= '\uD7A3')
-    ) {
-      byteCount += 2;
-    } else {
-      byteCount += 1;
-    }
+
+  for (let i = 0; i < str.length; i++) {
+    if (str.charCodeAt(i) < 128) byteCount++;
+    else byteCount += 2;
     overflowedIndex++;
   }
 
