@@ -1,4 +1,4 @@
-package com.feedhanjum.back_end.auth.service.impl;
+package com.feedhanjum.back_end.auth.service;
 
 import com.feedhanjum.back_end.auth.domain.PasswordResetToken;
 import lombok.RequiredArgsConstructor;

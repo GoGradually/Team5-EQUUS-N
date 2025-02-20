@@ -33,7 +33,8 @@ public class AuthService {
     private final EmailService emailService;
     private final GoogleAuthService googleAuthService;
     private final EmailSignupTokenService emailSignupTokenService;
-    private final com.feedhanjum.back_end.auth.service.impl.PasswordResetTokenService passwordResetTokenService;
+    private final com.feedhanjum.back_end.auth.service.PasswordResetTokenService passwordResetTokenService;
+    private final GoogleSignupTokenService googleSignupTokenService;
 
 
     /**
@@ -157,7 +158,9 @@ public class AuthService {
     }
 
     @Transactional
-    public MemberDetails registerGoogle(GoogleSignupToken googleSignupToken, ProfileImage profileImage, List<FeedbackPreference> feedbackPreferences) {
+    public MemberDetails registerGoogle(String code, ProfileImage profileImage, List<FeedbackPreference> feedbackPreferences) {
+        GoogleSignupToken googleSignupToken = googleSignupTokenService.find(code)
+                .orElseThrow(SignupTokenNotValidException::new);
         String email = googleSignupToken.getEmail();
         validateEmail(email);
 
@@ -166,6 +169,7 @@ public class AuthService {
         Member savedMember = memberRepository.save(member);
         MemberDetails savedMemberDetails = MemberDetails.createGoogleUser(savedMember.getId(), email);
 
+        googleSignupTokenService.delete(googleSignupToken);
         return memberDetailsRepository.save(savedMemberDetails);
     }
 
@@ -177,7 +181,9 @@ public class AuthService {
         Optional<MemberDetails> memberDetailsOptional = memberDetailsRepository.findByEmail(email);
 
         if (memberDetailsOptional.isEmpty()) {
-            return GoogleLoginResultDto.signupRequired(GoogleSignupToken.generateNewToken(email, userInfo.name()));
+            GoogleSignupToken token = GoogleSignupToken.generateNewToken(email, userInfo.name());
+            googleSignupTokenService.save(token);
+            return GoogleLoginResultDto.signupRequired(token);
         }
 
         MemberDetails memberDetails = memberDetailsOptional.get();
