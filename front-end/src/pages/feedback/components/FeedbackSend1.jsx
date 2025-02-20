@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FeedBackButton from '../../../components/buttons/FeedBackButton';
 import FooterWrapper from '../../../components/wrappers/FooterWrapper';
 import LargeButton from '../../../components/buttons/LargeButton';
@@ -9,6 +9,16 @@ export default function FeedbackSend1() {
   const locationState = useLocation().state;
 
   const [feedbackFeeling, setFeedbackFeeling] = useState();
+  const [step, setStep] = useState(1);
+
+  useEffect(() => {
+    setTimeout(() => {
+      feedbackFeeling &&
+        navigate('../2', {
+          state: { ...locationState, feedbackFeeling },
+        });
+    }, 500);
+  }, [step]);
 
   return (
     <div className='flex size-full flex-col gap-8'>
@@ -17,19 +27,16 @@ export default function FeedbackSend1() {
       </h1>
       <FeedBackButton
         currentFeedback={feedbackFeeling}
+        step={step}
         onClick={(feeling) => setFeedbackFeeling(feeling)}
       />
+
       <FooterWrapper>
         <LargeButton
           isOutlined={false}
           text='다음'
           disabled={!feedbackFeeling}
-          onClick={() =>
-            feedbackFeeling &&
-            navigate('../2', {
-              state: { ...locationState, feedbackFeeling },
-            })
-          }
+          onClick={() => setStep(2)}
         />
       </FooterWrapper>
     </div>
