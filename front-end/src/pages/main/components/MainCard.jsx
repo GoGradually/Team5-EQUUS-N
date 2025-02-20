@@ -74,7 +74,7 @@ export default function MainCard({
       <MainCardFrame onClickChevronButton={onClickChevronButton}>
         <div className='flex flex-col items-center justify-center'>
           <p className='body-1 mt-6 mb-1 text-gray-300'>일정 종료</p>
-          <h1 className='header-1 mb-7 text-gray-400'>
+          <h1 className='header-1 mb-7 w-full break-words text-gray-400'>
             {recentSchedule?.scheduleName ?? ''}
           </h1>
           <MediumButton
