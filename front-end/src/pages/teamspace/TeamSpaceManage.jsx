@@ -8,6 +8,7 @@ import Icon from '../../components/Icon';
 import MemberElement from './components/MemberElement';
 import { showToast } from '../../utility/handleToast';
 import { useUser } from '../../useUser';
+import { shareCode } from '../../utility/share';
 
 export default function TeamSpaceManage() {
   const { teamId } = useParams();
@@ -58,8 +59,7 @@ export default function TeamSpaceManage() {
             inviteTeam(teamId, {
               onSuccess: (data) => {
                 const inviteCode = data.token;
-                navigator.clipboard.writeText(`feedhanjum.com/${inviteCode}`);
-                showToast('초대링크 복사 완료');
+                shareCode(inviteCode);
               },
             });
           }}
