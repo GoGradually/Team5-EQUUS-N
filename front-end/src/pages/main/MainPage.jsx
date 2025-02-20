@@ -29,9 +29,13 @@ import { useUser } from '../../useUser';
 import useHandlePop from '../../useHandlePop';
 import Banner from './components/Banner';
 import { handleFreqFeedbackReq } from './components/Alarm';
+import OnboardingNotice from './components/OnboardingNotice';
+import usePushNoti from '../../api/usePushNoti';
 
 export default function MainPage() {
   const location = useLocation();
+  const isFirstVisit = location.state?.init ?? false;
+  const { setPushNoti, isLoading: waitingAppServerKey } = usePushNoti();
   const searchParams = new URLSearchParams(location.search);
   const redirect = searchParams.get('redirect') ?? null;
   const teamId = searchParams.get('teamId') ?? null;
@@ -78,6 +82,12 @@ export default function MainPage() {
       navigate(redirect, { state });
     }
   }, []);
+
+  useEffect(() => {
+    if (isFirstVisit && !waitingAppServerKey) {
+      showModal(<OnboardingNotice setPushNoti={setPushNoti} />);
+    }
+  }, [waitingAppServerKey]);
 
   useEffect(() => {
     clearData();

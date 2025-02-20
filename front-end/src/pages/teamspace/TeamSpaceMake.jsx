@@ -155,7 +155,11 @@ export default function TeamSpaceMake({ isFirst = false }) {
             className={
               'rounded-300 flex h-[56px] w-full items-center justify-center px-4 py-2 text-gray-300'
             }
-            onClick={() => navigate('/main')}
+            onClick={() =>
+              navigate('/main', {
+                state: { init: true },
+              })
+            }
           >
             <a>나중에 만들기</a>
           </div>
