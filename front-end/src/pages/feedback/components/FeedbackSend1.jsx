@@ -4,6 +4,10 @@ import FooterWrapper from '../../../components/wrappers/FooterWrapper';
 import LargeButton from '../../../components/buttons/LargeButton';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { showToast } from '../../../utility/handleToast';
+import Icon from '../../../components/Icon';
+import Tag, { TagType } from '../../../components/Tag';
+import AiButton from '../../../components/buttons/AiButton';
+import TextArea from '../../../components/TextArea';
 
 export default function FeedbackSend1() {
   const navigate = useNavigate();
@@ -32,6 +36,15 @@ export default function FeedbackSend1() {
         isNextStep={isNextStep}
         onClick={(feeling) => setFeedbackFeeling(feeling)}
       />
+      <details className='flex flex-col gap-3'>
+        <summary className='flex size-fit cursor-pointer list-none items-center gap-2'>
+          <Icon name='info' />
+          <p className='rounded-300 button-2 size-fit bg-gray-800 px-2 py-1.5 text-gray-300'>
+            상대방이 요청한 피드백이에요
+          </p>
+        </summary>
+        <TextArea />
+      </details>
 
       <FooterWrapper>
         <LargeButton
