@@ -14,7 +14,6 @@ import com.feedhanjum.back_end.schedule.exception.ScheduleIsAlreadyEndException;
 import com.feedhanjum.back_end.schedule.repository.ScheduleMemberRepository;
 import com.feedhanjum.back_end.schedule.repository.ScheduleQueryRepository;
 import com.feedhanjum.back_end.schedule.repository.ScheduleRepository;
-import com.feedhanjum.back_end.schedule.service.ScheduleService;
 import com.feedhanjum.back_end.schedule.service.dto.ScheduleRequestDto;
 import com.feedhanjum.back_end.team.domain.Team;
 import com.feedhanjum.back_end.team.domain.TeamMember;
@@ -75,9 +74,6 @@ class TeamPlanOrchestrationServiceTest {
 
     @InjectMocks
     TeamPlanOrchestrationService teamPlanOrchestrationService;
-
-    @InjectMocks
-    ScheduleService scheduleService;
 
     @Nested
     @DisplayName("팀 정보 업데이트")
