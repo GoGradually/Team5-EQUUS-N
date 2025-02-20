@@ -1,24 +1,26 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useFeedbackReceived } from '../../api/useFeedback';
 import { useEffect, useRef, useState } from 'react';
+import { useFeedbackReceived, useFeedbackSent } from '../../api/useFeedback';
+import { useGetSelfFeedback } from '../../api/useMyPage';
 import NavBar2 from '../../components/NavBar2';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import { DropdownSmall } from '../../components/Dropdown';
 import Icon from '../../components/Icon';
-import FeedBack from './components/FeedBack';
+import FeedBack, { FeedBackType } from './components/FeedBack';
 import { useUser } from '../../useUser';
 import { useTeam } from '../../useTeam';
 
-export default function FeedbackReceived() {
+export default function FeedbackHistory() {
   const location = useLocation();
-  const defaultTeamName = new URLSearchParams(location.search).get('teamName');
-
+  const pageType = useRef(
+    location.pathname === '/feedback/received' ? FeedBackType.RECEIVE
+    : location.pathname === '/feedback/sent' ? FeedBackType.SEND
+    : FeedBackType.SELF,
+  ).current;
   const navigate = useNavigate();
   const [feedbacks, setFeedbacks] = useState([]);
   const { teams } = useTeam();
-  const [selectedTeam, setSelectedTeam] = useState(
-    defaultTeamName ?? '전체 보기',
-  );
+  const [selectedTeam, setSelectedTeam] = useState('전체 보기');
   const [onlyLiked, setOnlyLiked] = useState(false);
   const [sortBy, setSortBy] = useState('createdAt:desc');
   const [loadedPage, setLoadedPage] = useState(0);
@@ -28,18 +30,37 @@ export default function FeedbackReceived() {
   const { userId } = useUser();
 
   const {
-    data: feedbackReceived,
+    data: feedbackData,
     isLoading,
     refetch,
-  } = useFeedbackReceived(userId, {
-    teamId:
-      selectedTeam === '전체 보기' ? null : (
-        teams.find((t) => t.name === selectedTeam)?.id
-      ),
-    onlyLiked,
-    sortBy,
-    page: loadedPage,
-  });
+  } = pageType === FeedBackType.RECEIVE ?
+      useFeedbackReceived(userId, {
+        teamId:
+          selectedTeam === '전체 보기' ? null : (
+            teams.find((t) => t.name === selectedTeam)?.id
+          ),
+        onlyLiked,
+        sortBy,
+        page: loadedPage,
+      })
+    : pageType === FeedBackType.SEND ?
+      useFeedbackSent(userId, {
+        teamId:
+          selectedTeam === '전체 보기' ? null : (
+            teams.find((t) => t.name === selectedTeam)?.id
+          ),
+        onlyLiked,
+        sortBy,
+        page: loadedPage,
+      })
+    : useGetSelfFeedback(userId, {
+        teamId:
+          selectedTeam === '전체 보기' ? null : (
+            teams.find((t) => t.name === selectedTeam)?.id
+          ),
+        sortBy,
+        page: loadedPage,
+      });
 
   useEffect(() => {
     const container = scrollRef.current;
@@ -67,13 +88,13 @@ export default function FeedbackReceived() {
   }, [loadedPage, refetch]);
 
   useEffect(() => {
-    if (!feedbackReceived) return;
-    if (!feedbackReceived.hasNext) {
+    if (!feedbackData) return;
+    if (!feedbackData.hasNext) {
       setNoMoreData(true);
     }
 
-    setFeedbacks((prev) => [...prev, ...(feedbackReceived?.content ?? [])]);
-  }, [feedbackReceived]);
+    setFeedbacks((prev) => [...prev, ...(feedbackData?.content ?? [])]);
+  }, [feedbackData]);
 
   function refreshData() {
     setFeedbacks([]);
@@ -93,7 +114,12 @@ export default function FeedbackReceived() {
         <NavBar2
           canPop={true}
           canClose={false}
-          title='받은 피드백'
+          title={
+            pageType === FeedBackType.RECEIVE ? '받은 피드백'
+            : pageType === FeedBackType.SEND ?
+              '보낸 피드백'
+            : '나의 회고'
+          }
           onClickPop={() => navigate(-1)}
         />
         <div className='flex justify-between gap-4 border-b border-gray-700 py-5'>
@@ -106,17 +132,23 @@ export default function FeedbackReceived() {
             items={teams.map((team) => team.name)}
           />
           <div className='button-2 flex items-center gap-2 text-gray-100'>
-            <button
-              onClick={() => {
-                setOnlyLiked(!onlyLiked);
-                refreshData();
-              }}
-            >
-              <p className={onlyLiked ? 'caption-2 text-lime-500' : ''}>
-                도움 받은 피드백
-              </p>
-            </button>
-            <p>•</p>
+            {pageType !== FeedBackType.SELF && (
+              <>
+                <button
+                  onClick={() => {
+                    setOnlyLiked(!onlyLiked);
+                    refreshData();
+                  }}
+                >
+                  <p className={onlyLiked ? 'caption-2 text-lime-500' : ''}>
+                    {pageType === FeedBackType.RECEIVE ?
+                      '도움 받은 피드백'
+                    : '도움 준 피드백'}
+                  </p>
+                </button>
+                <p>•</p>
+              </>
+            )}
             <button
               className='flex items-center gap-1'
               onClick={() => {
@@ -139,14 +171,20 @@ export default function FeedbackReceived() {
           {feedbacks.map((feedback) => {
             return (
               <li key={feedback.feedbackId}>
-                <FeedBack feedbackType='RECEIVE' data={feedback} />
+                <FeedBack feedbackType={pageType} data={feedback} />
               </li>
             );
           })}
         </ul>
       : <div className='flex h-full flex-col items-center justify-center gap-4 text-gray-300'>
           <p className='text-5xl'>📭</p>
-          <p>받은 피드백이 없어요</p>
+          <p>
+            {pageType === FeedBackType.RECEIVE ?
+              '받은 피드백이 없어요'
+            : pageType === FeedBackType.SEND ?
+              '보낸 피드백이 없어요'
+            : '작성한 회고가 없어요'}
+          </p>
         </div>
       }
     </div>
