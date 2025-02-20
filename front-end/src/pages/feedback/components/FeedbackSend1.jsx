@@ -4,10 +4,8 @@ import FooterWrapper from '../../../components/wrappers/FooterWrapper';
 import LargeButton from '../../../components/buttons/LargeButton';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { showToast } from '../../../utility/handleToast';
-import Icon from '../../../components/Icon';
-import Tag, { TagType } from '../../../components/Tag';
-import AiButton from '../../../components/buttons/AiButton';
-import TextArea from '../../../components/TextArea';
+import { motion } from 'motion/react';
+import RequestedContent from './RequestedContent';
 
 export default function FeedbackSend1() {
   const navigate = useNavigate();
@@ -27,7 +25,7 @@ export default function FeedbackSend1() {
   }, [isNextStep]);
 
   return (
-    <div className='flex size-full flex-col gap-8'>
+    <div className='flex w-full flex-col gap-8 pb-28'>
       <h1 className='header-2 text-gray-0 mt-3 whitespace-pre-line'>
         {`${locationState.receiver.name}님에게\n어떤 피드백을 보낼까요?`}
       </h1>
@@ -36,15 +34,15 @@ export default function FeedbackSend1() {
         isNextStep={isNextStep}
         onClick={(feeling) => setFeedbackFeeling(feeling)}
       />
-      <details className='flex flex-col gap-3'>
-        <summary className='flex size-fit cursor-pointer list-none items-center gap-2'>
-          <Icon name='info' />
-          <p className='rounded-300 button-2 size-fit bg-gray-800 px-2 py-1.5 text-gray-300'>
-            상대방이 요청한 피드백이에요
-          </p>
-        </summary>
-        <TextArea />
-      </details>
+      {locationState.requestedContent && !isNextStep && (
+        <motion.details
+          className='flex flex-col gap-3'
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { delay: 0.5 } }}
+        >
+          <RequestedContent content={locationState.requestedContent} />
+        </motion.details>
+      )}
 
       <FooterWrapper>
         <LargeButton

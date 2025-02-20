@@ -6,6 +6,7 @@ import FooterWrapper from '../../../components/wrappers/FooterWrapper';
 import LargeButton from '../../../components/buttons/LargeButton';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
+import RequestedContent from './RequestedContent';
 
 export default function FeedbackSend2() {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ export default function FeedbackSend2() {
   };
 
   return (
-    <div className='flex size-full flex-col gap-8'>
+    <div className='flex w-full flex-col gap-8 pb-28'>
       <h1 className='header-2 text-gray-0 mt-3 whitespace-pre-line'>
         {'보낼 피드백 키워드를\n선택해 주세요'}
       </h1>
@@ -62,6 +63,15 @@ export default function FeedbackSend2() {
           </ul>
         )}
       </AnimatePresence>
+      {locationState.requestedContent && !isNextStep && (
+        <motion.details
+          className='flex flex-col gap-3'
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { delay: 0.5 } }}
+        >
+          <RequestedContent content={locationState.requestedContent} />
+        </motion.details>
+      )}
       <FooterWrapper>
         <LargeButton
           isOutlined={false}

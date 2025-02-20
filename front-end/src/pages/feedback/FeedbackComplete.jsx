@@ -41,7 +41,7 @@ export default function FeedbackComplete() {
         className='header-2 my-6 text-gray-100'
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ type: 'spring', bounce: 0.32, delay: 0.5 }}
+        transition={{ type: 'spring', bounce: 0.32, delay: 0.4 }}
       >
         {completeType[typeKey]}
       </motion.h1>

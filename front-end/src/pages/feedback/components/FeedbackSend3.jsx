@@ -20,6 +20,7 @@ import { hideModal, showModal } from '../../../utility/handleModal';
 import Modal, { ModalType } from '../../../components/modals/Modal';
 import MediumButton from '../../../components/buttons/MediumButton';
 import { AnimatePresence, motion } from 'motion/react';
+import RequestedContent from './RequestedContent';
 
 export default function FeedbackSend3() {
   const navigate = useNavigate();
@@ -234,6 +235,15 @@ export default function FeedbackSend3() {
           </motion.div>
         )}
       </AnimatePresence>
+      {locationState.requestedContent && !isNextStep && (
+        <motion.details
+          className='mt-5 flex flex-col gap-3'
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { delay: 0.5 } }}
+        >
+          <RequestedContent content={locationState.requestedContent} />
+        </motion.details>
+      )}
       <FooterWrapper>
         <LargeButton
           isOutlined={false}
