@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 @Getter
-public class EmailSignupToken implements java.io.Serializable {
+public class EmailSignupToken {
     public static final int TOKEN_LENGTH = 4;
     public static final int EXPIRE_MINUTE = 5;
     private final String email;
