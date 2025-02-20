@@ -38,28 +38,6 @@ export default function FeedbackSend2() {
     : showToast('키워드는 5개까지 선택 가능해요');
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: 'spring',
-        bounce: 0.32,
-      },
-    },
-  };
-
   return (
     <div className='flex size-full flex-col gap-8'>
       <h1 className='header-2 text-gray-0 mt-3 whitespace-pre-line'>
@@ -67,25 +45,20 @@ export default function FeedbackSend2() {
       </h1>
       <AnimatePresence>
         {step === 2 && objectives && (
-          <motion.ul
-            className='scrollbar-hidden flex w-full gap-8 overflow-x-auto p-1 whitespace-nowrap'
-            variants={containerVariants}
-            initial='hidden'
-            animate='show'
-          >
+          <ul className='scrollbar-hidden flex w-full gap-8 overflow-x-auto p-1 whitespace-nowrap'>
             {Object.keys(objectives[locationState.feedbackFeeling]).map(
               (title, index) => (
                 <ObjectiveColumn
                   key={index}
+                  index={index}
                   title={title}
                   keywords={objectives[locationState.feedbackFeeling][title]}
                   selectedKeywords={selectedObjectives}
                   onClick={onKeywordButtonClick}
-                  itemVariants={itemVariants}
                 />
               ),
             )}
-          </motion.ul>
+          </ul>
         )}
       </AnimatePresence>
       <FooterWrapper>
@@ -101,17 +74,19 @@ export default function FeedbackSend2() {
 }
 
 const ObjectiveColumn = ({
+  index,
   title,
   keywords,
   selectedKeywords,
   onClick,
-  itemVariants,
 }) => {
   return (
     <motion.li
       className='inline-block w-80'
-      variants={itemVariants}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, x: -30 }}
+      transition={{ type: 'spring', bounce: 0.32, delay: index * 0.1 }}
     >
       <h2 className='subtitle-1 text-gray-0 mb-3'>{title}</h2>
       <ul className='flex flex-col gap-2'>

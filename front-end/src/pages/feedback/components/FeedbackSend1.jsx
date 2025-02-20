@@ -17,7 +17,7 @@ export default function FeedbackSend1() {
         navigate('../2', {
           state: { ...locationState, feedbackFeeling },
         });
-    }, 500);
+    }, 400);
   }, [step]);
 
   return (
