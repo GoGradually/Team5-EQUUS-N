@@ -9,8 +9,8 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 public record TeamUpdateRequest(
-        @Schema(description = "팀 이름 (1~20자)")
-        @NotBlank @Size(min = 1, max = 20) String name,
+        @Schema(description = "팀 이름 (1~10자)")
+        @NotBlank @Size(min = 1, max = 10) String name,
         @Schema(description = "시작 날짜")
         @NotNull LocalDate startDate,
         @Schema(description = "종료 날짜")

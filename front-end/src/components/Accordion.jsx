@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import TextButton, { TextButtonType } from './buttons/TextButton';
 import Icon from './Icon';
 import { useNavigate } from 'react-router-dom';
+import usePushNoti from '../api/usePushNoti';
 
 /**
  * 아코디언 컴포넌트... 그냥 네비바 같은디..?
@@ -27,7 +28,7 @@ export default function Accordion({
   showAllSchedule = false,
 }) {
   const detailsRef = useRef(null);
-
+  const { setPushNoti, isLoading: waitingAppServerKey } = usePushNoti();
   const navigate = useNavigate();
 
   return (
@@ -88,7 +89,12 @@ export default function Accordion({
       {isMainPage ?
         <div className='flex gap-4 divide-gray-600'>
           {teamList.length > 0 && (
-            <button onClick={() => navigate('/main/notification')}>
+            <button
+              onClick={() => {
+                navigate('/main/notification');
+                setPushNoti();
+              }}
+            >
               <Icon name={isAllAlarmRead ? 'bellOff' : 'bellOn'} />
             </button>
           )}

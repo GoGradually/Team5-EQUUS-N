@@ -1,5 +1,6 @@
-import { precacheAndRoute } from 'workbox-precaching';
+import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching';
 
+cleanupOutdatedCaches();
 // self.__WB_MANIFEST는 프리캐시할 파일 목록을 자동으로 생성합니다.
 precacheAndRoute(self.__WB_MANIFEST);
 

@@ -15,7 +15,6 @@ import com.feedhanjum.back_end.team.repository.TeamJoinTokenRepository;
 import com.feedhanjum.back_end.team.repository.TeamQueryRepository;
 import com.feedhanjum.back_end.team.repository.TeamRepository;
 import com.feedhanjum.back_end.team.service.dto.TeamCreateDto;
-import com.feedhanjum.back_end.team.service.dto.TeamUpdateDto;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -98,34 +97,6 @@ public class TeamService {
         eventPublisher.publishEvent(new TeamLeaderChangedEvent(teamId, newLeaderId));
     }
 
-    /**
-     * @throws IllegalArgumentException 시작 시간이 종료 시간보다 앞서지 않을 경우
-     * @throws EntityNotFoundException  팀이 존재하지 않는 경우
-     * @throws SecurityException        요청자가 팀장이 아닐 경우
-     */
-    @Transactional
-    public Team updateTeamInfo(Long leaderId, Long teamId, TeamUpdateDto teamUpdateDto) {
-        Team team = teamRepository.findById(teamId)
-                .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
-        Member leader = memberRepository.findById(leaderId)
-                .orElseThrow(() -> new EntityNotFoundException("멤버를 찾을 수 없습니다"));
-
-        LocalDateTime earliestStartTime = scheduleQueryRepository.findEarliestStartTimeByTeamId(teamId).orElse(null);
-        LocalDateTime latestEndTime = scheduleQueryRepository.findLatestEndTimeByTeamId(teamId).orElse(null);
-
-        if (earliestStartTime != null && teamUpdateDto.startDate().atStartOfDay().isAfter(earliestStartTime)) {
-            throw new IllegalArgumentException("팀 시작 날짜는 팀 내 존재하는 일정의 가장 빠른 시작 시점보다 빠를 수 없습니다.");
-        }
-
-        if (latestEndTime != null
-                && teamUpdateDto.endDate() != null
-                && teamUpdateDto.endDate().plusDays(1).atStartOfDay().isBefore(latestEndTime)) {
-            throw new IllegalArgumentException("팀 종료 날짜는 팀 내 존재하는 일정의 가장 늦은 종료 시점보다 느릴 수 없습니다.");
-        }
-
-        team.updateInfo(leader, teamUpdateDto.teamName(), teamUpdateDto.startDate(), teamUpdateDto.endDate(), teamUpdateDto.feedbackType(), LocalDate.now(clock));
-        return team;
-    }
 
 
     /**
@@ -176,7 +147,6 @@ public class TeamService {
 
 
     private void deleteTeam(Team team) {
-        // TODO: 팀 삭제 로직 결정
         teamRepository.delete(team);
     }
 }
