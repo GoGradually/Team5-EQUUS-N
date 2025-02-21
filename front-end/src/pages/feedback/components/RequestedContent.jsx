@@ -12,7 +12,7 @@ export default function RequestedContent({ content }) {
           상대방이 요청한 피드백이에요
         </p>
       </summary>
-      <div className='text-gray-0 rounded-300 scrollbar-hidden h-48 w-full overflow-auto p-5 break-words ring ring-gray-500'>
+      <div className='text-gray-0 rounded-300 scrollbar-hidden mt-3 h-48 w-full overflow-auto p-5 break-words ring ring-gray-500'>
         {content}
       </div>
     </>
