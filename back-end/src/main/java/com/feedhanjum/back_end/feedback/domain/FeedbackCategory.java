@@ -5,9 +5,9 @@ import lombok.Getter;
 
 @Getter
 public enum FeedbackCategory {
-    EFFORT( "노력"),
-    COMMUNICATION( "협업 능력"),
-    ATTITUDE_AND_POSTURE( "태도와 자세");
+    EFFORT("노력"),
+    ATTITUDE_AND_POSTURE("태도와 자세"),
+    COMMUNICATION("협업 능력");
 
     @Getter(onMethod_ = @JsonValue)
     private final String description;
