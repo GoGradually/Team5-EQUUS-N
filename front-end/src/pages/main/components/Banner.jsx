@@ -3,6 +3,9 @@ import Lottie from 'lottie-react';
 import boxLottie from '../../../assets/lotties/box.json';
 import fileLottie from '../../../assets/lotties/file.json';
 import letterLottie from '../../../assets/lotties/letter.json';
+import letter from '../../../assets/images/letter.webp';
+import file from '../../../assets/images/file.webp';
+import box from '../../../assets/images/box.webp';
 import Icon from '../../../components/Icon';
 import { useNavigate } from 'react-router-dom';
 import { handleFreqFeedbackReq } from './Alarm';
@@ -31,28 +34,28 @@ export default function Banner({ banner, onClose }) {
     switch (notification.type) {
       case notiType.UNREAD:
         return {
-          animationData: letterLottie,
+          image: letter,
           message: '확인하지 않은\n피드백이 있어요!',
           buttonText: '피드백 확인하기',
           routeAction: () => navigate('/feedback/received'),
         };
       case notiType.NEW:
         return {
-          animationData: letterLottie,
+          image: letter,
           message: '새로운 피드백이\n도착했어요!',
           buttonText: '피드백 확인하기',
           routeAction: () => navigate('/feedback/received'),
         };
       case notiType.REPORT:
         return {
-          animationData: fileLottie,
+          image: file,
           message: `${notification.receiverName}님의 피드백을\n정리했어요!`,
           buttonText: '피드백 리포트 확인하기',
           routeAction: () => navigate('/mypage/report'),
         };
       case notiType.REQUEST:
         return {
-          animationData: boxLottie,
+          image: file,
           message:
             ids.length > 1 ?
               `${notification.senderName}님 외 ${ids.length - 1}명이\n피드백을 요청했어요!`
@@ -69,12 +72,12 @@ export default function Banner({ banner, onClose }) {
     }
   };
 
-  const { animationData, message, buttonText, routeAction } = getContent();
+  const { image, message, buttonText, routeAction } = getContent();
 
   return (
     <div
       className={classNames(
-        'rounded-400 relative w-full',
+        'rounded-400 relative h-[148px] w-full pt-5 pb-4 pl-6',
         (
           notification.type === notiType.REQUEST ||
             notification.type === notiType.UNREAD
@@ -83,34 +86,33 @@ export default function Banner({ banner, onClose }) {
         : 'bg-lime-500',
       )}
     >
-      <Lottie animationData={animationData} />
-
-      <p className='header-4 absolute top-5 left-6 whitespace-pre-line'>
-        {message}
-      </p>
-
-      <button
-        className='absolute bottom-4 left-6 flex items-center gap-0.5 text-gray-600'
-        onClick={() => {
-          routeAction();
-          onClose({ notificationIds: ids });
-        }}
-      >
-        <p className='caption-2'>{buttonText}</p>
-        <Icon name='chevronDown' className='-rotate-90' />
-      </button>
-
+      <div className='flex h-full w-4/7 flex-col justify-between'>
+        <p className='header-4 line-clamp-2 whitespace-pre-line'>{message}</p>
+        <button
+          className='flex items-center gap-0.5 text-gray-600'
+          onClick={() => {
+            routeAction();
+            onClose({ notificationIds: ids });
+          }}
+        >
+          <p className='caption-2'>{buttonText}</p>
+          <Icon name='chevronDown' className='-rotate-90' />
+        </button>
+      </div>
+      <div className='absolute -top-3 right-6 flex flex-col items-center'>
+        <img src={image} className='scale-50' />
+        <div className='-mt-5 h-[30px] w-22 rounded-tl-[7px] rounded-tr-[7px] bg-gradient-to-b from-[#2a2a2a] from-60% to-transparent'>
+          <p className='mt-1 text-center text-[10px] font-thin text-gray-100'>
+            NEW
+          </p>
+        </div>
+      </div>
       <button
         className='absolute top-4 right-4'
         onClick={() => onClose({ notificationIds: ids })}
       >
         <Icon name='delete' className='text-gray-500' />
       </button>
-      <div className='absolute right-[14.6%] bottom-2 h-[30px] w-[24%] rounded-tl-[7px] rounded-tr-[7px] bg-gradient-to-b from-[#2a2a2a] from-60% to-transparent'>
-        <p className='mt-1 text-center text-[10px] font-thin text-gray-100'>
-          NEW
-        </p>
-      </div>
     </div>
   );
 }
