@@ -1,6 +1,7 @@
 package com.feedhanjum.back_end.auth.controller;
 
-import com.feedhanjum.back_end.auth.controller.dto.*;
+import com.feedhanjum.back_end.auth.controller.dto.request.*;
+import com.feedhanjum.back_end.auth.controller.dto.response.*;
 import com.feedhanjum.back_end.auth.controller.mapper.MemberMapper;
 import com.feedhanjum.back_end.auth.domain.EmailSignupToken;
 import com.feedhanjum.back_end.auth.domain.GoogleSignupToken;

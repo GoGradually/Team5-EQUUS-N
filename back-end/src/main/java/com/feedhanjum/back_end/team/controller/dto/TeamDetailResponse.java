@@ -1,6 +1,6 @@
 package com.feedhanjum.back_end.team.controller.dto;
 
-import com.feedhanjum.back_end.member.controller.dto.MemberDto;
+import com.feedhanjum.back_end.member.controller.dto.MemberResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -19,5 +19,5 @@ public class TeamDetailResponse {
     private LocalDateTime latestScheduleEndTime;
 
     @Schema(description = "팀 멤버 목록")
-    private List<MemberDto> members;
+    private List<MemberResponse> members;
 }

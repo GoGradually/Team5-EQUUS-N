@@ -1,8 +1,8 @@
 package com.feedhanjum.back_end.notification.service;
 
 import com.feedhanjum.back_end.core.domain.JobRecord;
+import com.feedhanjum.back_end.core.event.EventPublisher;
 import com.feedhanjum.back_end.core.repository.JobRecordRepository;
-import com.feedhanjum.back_end.event.EventPublisher;
 import com.feedhanjum.back_end.feedback.domain.Feedback;
 import com.feedhanjum.back_end.feedback.domain.FeedbackType;
 import com.feedhanjum.back_end.member.domain.Member;

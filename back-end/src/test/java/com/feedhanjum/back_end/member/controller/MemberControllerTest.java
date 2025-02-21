@@ -1,6 +1,6 @@
 package com.feedhanjum.back_end.member.controller;
 
-import com.feedhanjum.back_end.member.controller.dto.MemberDto;
+import com.feedhanjum.back_end.member.controller.dto.MemberResponse;
 import com.feedhanjum.back_end.member.controller.dto.ProfileChangeRequest;
 import com.feedhanjum.back_end.member.domain.FeedbackPreference;
 import com.feedhanjum.back_end.member.domain.Member;
@@ -41,7 +41,7 @@ class MemberControllerTest {
         when(memberService.getMemberById(memberId)).thenReturn(member);
 
         //when
-        ResponseEntity<MemberDto> result = memberController.getMemberById(memberId);
+        ResponseEntity<MemberResponse> result = memberController.getMemberById(memberId);
 
         //then
         assertThat(result.getBody()).isNotNull();
@@ -64,11 +64,11 @@ class MemberControllerTest {
         when(memberService.changeProfile(memberId, newName, profileImage)).thenReturn(member);
         ProfileChangeRequest profileChangeRequest = new ProfileChangeRequest(newName, profileImage);
         // when
-        ResponseEntity<MemberDto> response = memberController.changeProfile(memberId, profileChangeRequest);
+        ResponseEntity<MemberResponse> response = memberController.changeProfile(memberId, profileChangeRequest);
         // then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        MemberDto memberDto = response.getBody();
-        assertThat(memberDto).isNotNull();
-        assertThat(memberDto.name()).isEqualTo(newName);
+        MemberResponse memberResponse = response.getBody();
+        assertThat(memberResponse).isNotNull();
+        assertThat(memberResponse.name()).isEqualTo(newName);
     }
 }

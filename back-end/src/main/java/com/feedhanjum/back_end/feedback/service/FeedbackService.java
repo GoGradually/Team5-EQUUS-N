@@ -1,6 +1,6 @@
 package com.feedhanjum.back_end.feedback.service;
 
-import com.feedhanjum.back_end.event.EventPublisher;
+import com.feedhanjum.back_end.core.event.EventPublisher;
 import com.feedhanjum.back_end.feedback.domain.*;
 import com.feedhanjum.back_end.feedback.event.*;
 import com.feedhanjum.back_end.feedback.exception.NoRegularFeedbackRequestException;

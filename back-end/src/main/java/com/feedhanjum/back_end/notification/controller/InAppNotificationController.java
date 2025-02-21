@@ -1,8 +1,8 @@
 package com.feedhanjum.back_end.notification.controller;
 
 import com.feedhanjum.back_end.auth.infra.Login;
-import com.feedhanjum.back_end.notification.controller.dto.MultipleNotificationReadRequest;
-import com.feedhanjum.back_end.notification.controller.dto.notification.InAppNotificationDto;
+import com.feedhanjum.back_end.notification.controller.dto.request.MultipleNotificationReadRequest;
+import com.feedhanjum.back_end.notification.controller.dto.response.InAppNotificationDto;
 import com.feedhanjum.back_end.notification.service.InAppNotificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

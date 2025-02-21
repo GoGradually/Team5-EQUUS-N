@@ -2,9 +2,9 @@ package com.feedhanjum.back_end.member.controller;
 
 import com.feedhanjum.back_end.auth.infra.Login;
 import com.feedhanjum.back_end.feedback.service.FeedbackService;
-import com.feedhanjum.back_end.member.controller.dto.LoginMemberDto;
-import com.feedhanjum.back_end.member.controller.dto.MemberDto;
-import com.feedhanjum.back_end.member.controller.dto.MemberFeedbackPreferenceDto;
+import com.feedhanjum.back_end.member.controller.dto.LoginMemberResponse;
+import com.feedhanjum.back_end.member.controller.dto.MemberFeedbackPreferenceResponse;
+import com.feedhanjum.back_end.member.controller.dto.MemberResponse;
 import com.feedhanjum.back_end.member.controller.dto.ProfileChangeRequest;
 import com.feedhanjum.back_end.member.domain.FeedbackPreference;
 import com.feedhanjum.back_end.member.domain.ProfileImage;
@@ -34,9 +34,9 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "해당 회원이 존재하지 않을 경우", content = @Content)
     })
     @GetMapping("/member/{id}")
-    public ResponseEntity<MemberDto> getMemberById(@PathVariable Long id) {
-        MemberDto memberDto = new MemberDto(memberService.getMemberById(id));
-        return new ResponseEntity<>(memberDto, HttpStatus.OK);
+    public ResponseEntity<MemberResponse> getMemberById(@PathVariable Long id) {
+        MemberResponse memberResponse = new MemberResponse(memberService.getMemberById(id));
+        return new ResponseEntity<>(memberResponse, HttpStatus.OK);
     }
 
     @Operation(summary = "특정 회원 정보 조회", description = "특정 회원의 정보를 조회합니다.")
@@ -45,13 +45,13 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "해당 회원이 존재하지 않을 경우", content = @Content)
     })
     @GetMapping("/member")
-    public ResponseEntity<LoginMemberDto> getLoginMember(@Login Long id) {
-        LoginMemberDto loginMemberDto = new LoginMemberDto(
+    public ResponseEntity<LoginMemberResponse> getLoginMember(@Login Long id) {
+        LoginMemberResponse loginMemberResponse = new LoginMemberResponse(
                 memberService.getMemberById(id),
                 feedbackService.getReceivedFeedbackCount(id),
                 feedbackService.getSentFeedbackCount(id)
         );
-        return new ResponseEntity<>(loginMemberDto, HttpStatus.OK);
+        return new ResponseEntity<>(loginMemberResponse, HttpStatus.OK);
     }
 
     @Operation(summary = "회원의 정보를 변경한다.")
@@ -62,11 +62,11 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "해당 회원이 존재하지 않을 경우", content = @Content)
     })
     @PostMapping("/member")
-    public ResponseEntity<MemberDto> changeProfile(@Login Long memberId, @Valid @RequestBody ProfileChangeRequest profileChangeRequest) {
+    public ResponseEntity<MemberResponse> changeProfile(@Login Long memberId, @Valid @RequestBody ProfileChangeRequest profileChangeRequest) {
         String name = profileChangeRequest.name();
         ProfileImage profileImage = profileChangeRequest.profileImage();
-        MemberDto memberDto = new MemberDto(memberService.changeProfile(memberId, name, profileImage));
-        return new ResponseEntity<>(memberDto, HttpStatus.OK);
+        MemberResponse memberResponse = new MemberResponse(memberService.changeProfile(memberId, name, profileImage));
+        return new ResponseEntity<>(memberResponse, HttpStatus.OK);
     }
 
 
@@ -76,8 +76,8 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "해당 회원이 존재하지 않을 경우", content = @Content)
     })
     @GetMapping("/member/feedback-prefer")
-    public ResponseEntity<MemberFeedbackPreferenceDto> getFeedbackPreference(Long findMemberId) {
-        MemberFeedbackPreferenceDto memberDto = new MemberFeedbackPreferenceDto(memberService.getMemberFeedbackPreference(findMemberId));
+    public ResponseEntity<MemberFeedbackPreferenceResponse> getFeedbackPreference(Long findMemberId) {
+        MemberFeedbackPreferenceResponse memberDto = new MemberFeedbackPreferenceResponse(memberService.getMemberFeedbackPreference(findMemberId));
         return new ResponseEntity<>(memberDto, HttpStatus.OK);
     }
 
@@ -89,8 +89,8 @@ public class MemberController {
             @ApiResponse(responseCode = "404", description = "해당 회원이 존재하지 않을 경우", content = @Content)
     })
     @PostMapping("/member/feedback-prefer")
-    public ResponseEntity<MemberFeedbackPreferenceDto> changeFeedbackPreference(@Login Long memberId, @Valid @RequestBody List<FeedbackPreference> feedbackPreferences) {
-        MemberFeedbackPreferenceDto memberDto = new MemberFeedbackPreferenceDto(memberService.changeFeedbackPreference(memberId, feedbackPreferences));
+    public ResponseEntity<MemberFeedbackPreferenceResponse> changeFeedbackPreference(@Login Long memberId, @Valid @RequestBody List<FeedbackPreference> feedbackPreferences) {
+        MemberFeedbackPreferenceResponse memberDto = new MemberFeedbackPreferenceResponse(memberService.changeFeedbackPreference(memberId, feedbackPreferences));
         return new ResponseEntity<>(memberDto, HttpStatus.OK);
     }
 }

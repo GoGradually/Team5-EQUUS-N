@@ -1,7 +1,7 @@
 package com.feedhanjum.back_end.team.controller;
 
 import com.feedhanjum.back_end.feedback.domain.FeedbackType;
-import com.feedhanjum.back_end.member.controller.dto.MemberDto;
+import com.feedhanjum.back_end.member.controller.dto.MemberResponse;
 import com.feedhanjum.back_end.member.domain.FeedbackPreference;
 import com.feedhanjum.back_end.member.domain.Member;
 import com.feedhanjum.back_end.member.service.MemberService;
@@ -61,7 +61,7 @@ class TeamControllerTest {
                 endDate, FeedbackType.ANONYMOUS);
         TeamCreateDto teamCreateDto = new TeamCreateDto(request);
         TeamResponse teamResponse = new TeamResponse(null, "haha", startDate,
-                endDate, FeedbackType.ANONYMOUS, new MemberDto(new Member("haha", "haha@hoho", null, feedbackPreferences)));
+                endDate, FeedbackType.ANONYMOUS, new MemberResponse(new Member("haha", "haha@hoho", null, feedbackPreferences)));
         when(teamService.createTeam(memberId, teamCreateDto))
                 .thenReturn(new Team("haha", new Member("haha", "haha@hoho", null, feedbackPreferences),
                         request.startDate(), request.endDate(), request.feedbackType(), LocalDate.now()));
@@ -131,11 +131,11 @@ class TeamControllerTest {
         assertThat(teamResponse.leader().name()).isEqualTo(dummyTeam.getLeader().getName());
         assertThat(teamResponse.leader().email()).isEqualTo(dummyTeam.getLeader().getEmail());
 
-        List<MemberDto> members = teamDetailResponse.getMembers();
+        List<MemberResponse> members = teamDetailResponse.getMembers();
         assertThat(members).hasSize(memberList.size());
-        MemberDto memberDto = members.get(0);
-        assertThat(memberDto.name()).isEqualTo(dummyMember.getName());
-        assertThat(memberDto.email()).isEqualTo(dummyMember.getEmail());
+        MemberResponse memberResponse = members.get(0);
+        assertThat(memberResponse.name()).isEqualTo(dummyMember.getName());
+        assertThat(memberResponse.email()).isEqualTo(dummyMember.getEmail());
     }
 
     @Test
@@ -152,16 +152,16 @@ class TeamControllerTest {
         when(memberService.getMembersByTeam(memberId, teamId)).thenReturn(memberList);
 
         // when
-        ResponseEntity<List<MemberDto>> responseEntity = teamController.getTeamMembers(memberId, teamId);
+        ResponseEntity<List<MemberResponse>> responseEntity = teamController.getTeamMembers(memberId, teamId);
 
         // then
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        List<MemberDto> memberDtos = responseEntity.getBody();
-        assertThat(memberDtos).isNotNull();
-        assertThat(memberDtos).hasSize(memberList.size());
-        MemberDto memberDto = memberDtos.get(0);
-        assertThat(memberDto.name()).isEqualTo(dummyMember.getName());
-        assertThat(memberDto.email()).isEqualTo(dummyMember.getEmail());
+        List<MemberResponse> memberResponses = responseEntity.getBody();
+        assertThat(memberResponses).isNotNull();
+        assertThat(memberResponses).hasSize(memberList.size());
+        MemberResponse memberResponse = memberResponses.get(0);
+        assertThat(memberResponse.name()).isEqualTo(dummyMember.getName());
+        assertThat(memberResponse.email()).isEqualTo(dummyMember.getEmail());
     }
 
     @Test
@@ -210,7 +210,7 @@ class TeamControllerTest {
 
     @Test
     @DisplayName("팀 정보 변경 API 호출")
-    void updateTeamInfo(){
+    void updateTeamInfo() {
         // given
         Long teamId = 1L;
         Long memberId = 100L;
