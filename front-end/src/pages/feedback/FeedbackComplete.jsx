@@ -49,7 +49,11 @@ export default function FeedbackComplete() {
         <LargeButton
           isOutlined={false}
           text='확인'
-          onClick={() => navigate('/main')}
+          onClick={() =>
+            location.state?.needToRedirectSelectionPage ?
+              navigate(-4)
+            : navigate('/main')
+          }
         />
       </FooterWrapper>
     </div>

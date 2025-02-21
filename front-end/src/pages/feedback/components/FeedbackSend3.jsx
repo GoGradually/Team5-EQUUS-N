@@ -50,7 +50,16 @@ export default function FeedbackSend3() {
 
   useEffect(() => {
     if (isNextStep) {
-      setTimeout(() => navigate('../../complete?type=SEND'), 500);
+      setTimeout(
+        () =>
+          navigate('../../complete?type=SEND', {
+            state: {
+              needToRedirectSelectionPage:
+                locationState.needToRedirectSelectionPage,
+            },
+          }),
+        500,
+      );
     }
   }, [isNextStep]);
 
@@ -116,8 +125,6 @@ export default function FeedbackSend3() {
       return;
     }
 
-    // 조건 통과
-
     const { receiver, isRegular, ...rest } = locationState;
     feedbackMutation.mutate(
       {
@@ -142,15 +149,17 @@ export default function FeedbackSend3() {
       <AnimatePresence>
         {!isNextStep && (
           <motion.h1
+            key='header'
             exit={{ opacity: 0, y: -30 }}
             transition={{ duration: 0.5, ease: 'backIn' }}
-            className='header-2 text-gray-0 z-1000 mt-3 whitespace-pre-line'
+            className='header-2 text-gray-0 mt-3 whitespace-pre-line'
           >
             {'자세한 내용을 작성해 보세요!'}
           </motion.h1>
         )}
         {!isNextStep && favoriteKeywords && (
           <motion.div
+            key='keywords'
             className='flex flex-col'
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -165,13 +174,12 @@ export default function FeedbackSend3() {
             <div className='mb-5 flex flex-wrap gap-2'>
               {favoriteKeywords.feedbackPreferences.map((keyword, index) => (
                 <motion.div
-                  initial={{ opacity: 0, x: 10 }}
+                  key={index}
+                  initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.12 }}
                 >
-                  <Tag key={index} type={TagType.KEYWORD}>
-                    {keyword}
-                  </Tag>
+                  <Tag type={TagType.KEYWORD}>{keyword}</Tag>
                 </motion.div>
               ))}
             </div>
@@ -234,7 +242,7 @@ export default function FeedbackSend3() {
       </AnimatePresence>
       {locationState.requestedContent && !isNextStep && (
         <motion.details
-          className='mt-5 flex flex-col gap-3'
+          className='mt-5 flex flex-col'
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, transition: { delay: 0.5 } }}
         >

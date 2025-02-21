@@ -36,7 +36,7 @@ export default function FeedbackSend1() {
       />
       {locationState.requestedContent && !isNextStep && (
         <motion.details
-          className='flex flex-col gap-3'
+          className='flex flex-col'
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, transition: { delay: 0.5 } }}
         >

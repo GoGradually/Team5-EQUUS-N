@@ -22,6 +22,27 @@ export default function FeedbackSelf() {
   const { selectedTeam } = useTeam();
   const mutation = useFeedbackSelf();
 
+  const validation = () => {
+    if (titleContent.length === 0) {
+      showToast('제목을 입력해주세요');
+      return false;
+    }
+    if (titleContent.length > 30) {
+      showToast('제목을 30자 이하로 작성해주세요');
+      return false;
+    }
+    if (textLength === 0) {
+      showToast('내용을 입력해주세요');
+      return false;
+    }
+    if (textLength > 400) {
+      showToast('내용을 400byte 이하로 작성해주세요');
+      return false;
+    }
+
+    return true;
+  };
+
   return (
     <div className='flex size-full flex-col'>
       <StickyWrapper>
@@ -54,9 +75,7 @@ export default function FeedbackSelf() {
             textLength === 0 || titleContent.length === 0 ? true : false
           }
           onClick={() => {
-            if (textLength === 0) showToast('내용을 입력해주세요');
-            else if (textLength > 400) showToast('400자 이하로 작성해주세요');
-            else
+            if (validation())
               mutation.mutate(
                 {
                   writerId: userId,
