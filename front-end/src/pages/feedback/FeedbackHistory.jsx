@@ -126,8 +126,10 @@ export default function FeedbackHistory() {
           <DropdownSmall
             triggerText={selectedTeam}
             setTriggerText={(text) => {
-              setSelectedTeam(text);
-              refreshData();
+              if (text !== selectedTeam) {
+                setSelectedTeam(text);
+                refreshData();
+              }
             }}
             items={teams.map((team) => team.name)}
           />
