@@ -108,7 +108,11 @@ export default function MainPage() {
   }, [recentScheduleData]);
 
   useEffect(() => {
-    if (teams.length > 0 && !selectedTeam) {
+    if (
+      teams.length > 0 &&
+      (!selectedTeam ||
+        teams.find((team) => team.id === selectedTeam) === undefined)
+    ) {
       selectTeam(teams[0].id);
     }
   }, [teams]);

@@ -83,7 +83,7 @@ export default function FeedBack({ feedbackType, data }) {
           {/* 익명으로 보낸 경우 익명태그 표시 */}
         </div>
       </div>
-      <p className='body-1 text-gray-0'>
+      <p className='body-1 text-gray-0 break-words'>
         {feedbackType === FeedBackType.SELF ?
           data.content
         : data.subjectiveFeedback}

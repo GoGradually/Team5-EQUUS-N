@@ -112,5 +112,6 @@ export const useWhoNeedFreqFeedback = (teamId) => {
         url: `/api/feedbacks/frequent/request`,
         params: { teamId },
       }),
+    gcTime: 0,
   });
 };

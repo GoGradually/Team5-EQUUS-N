@@ -22,7 +22,7 @@ export default function Accordion({
   selectedTeamId,
   teamList = [],
   onTeamClick,
-  isAllAlarmRead = false,
+  isAllAlarmRead = true,
   canClose = true,
   onClickLastButton,
   showAllSchedule = false,
