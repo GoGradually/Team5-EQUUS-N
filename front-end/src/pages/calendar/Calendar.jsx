@@ -87,7 +87,7 @@ export default function Calendar() {
                   <ScheduleCard
                     schedule={schedule}
                     todos={schedule.scheduleMemberNestedDtoList}
-                    isFinished={checkIsFinished(schedule.endTime)}
+                    isFinished={checkIsFinished(schedule.endTime, new Date())}
                     onClickEdit={() => {
                       setSelectedSchedule(schedule);
                       setActionType(ScheduleActionType.EDIT);
