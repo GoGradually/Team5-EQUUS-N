@@ -26,6 +26,7 @@ import {
 } from '../../../api/useCalendar';
 import { useTeam } from '../../../useTeam';
 import useScheduleAction from '../hooks/useScheduleAction';
+import { useUser } from '../../../useUser';
 
 export const ScheduleActionType = Object.freeze({
   ADD: 'add',
@@ -57,6 +58,7 @@ export default function ScheduleAction({
   setParentDate = () => {},
 }) {
   const { selectedTeam } = useTeam();
+  const { userId } = useUser();
   const scrollRef = useRef(null);
   const { selectedDate, setSelectedDate, clearData } = useScheduleAction(
     selectedDateFromParent,
@@ -70,6 +72,10 @@ export default function ScheduleAction({
     scheduleStartTime: actionInfo.startTime,
   });
   const [dataReady, setDataReady] = useState(false);
+  const canEdit =
+    selectedScheduleFromParent?.leaderId === userId ||
+    selectedScheduleFromParent?.ownerId === userId ||
+    type === ScheduleActionType.ADD;
 
   useEffect(() => {
     if (
@@ -166,7 +172,7 @@ export default function ScheduleAction({
         <h1 className='subtitle-1 pt-5 text-center text-white'>
           {type === ScheduleActionType.ADD ? '일정 추가하기' : '일정 수정하기'}
         </h1>
-        {type === ScheduleActionType.EDIT && (
+        {canEdit && type === ScheduleActionType.EDIT && (
           <button onClick={handleDeleteButton}>
             <Icon name='remove' className='absolute top-5 left-0 text-white' />
           </button>
@@ -200,8 +206,12 @@ export default function ScheduleAction({
             dateFormat='yyyy-MM-dd eee'
             date={selectedDate}
             setDate={(newDate) => {
-              setSelectedDate(newDate);
-              setParentDate(newDate);
+              if (canEdit) {
+                setSelectedDate(newDate);
+                setParentDate(newDate);
+              } else {
+                showToast('일정 정보는 팀장 또는 일정 생성자만 변경 가능해요');
+              }
             }}
             customInput={<DatePickerButton />}
           />
@@ -212,7 +222,7 @@ export default function ScheduleAction({
       <CustomInput
         label='일정 이름'
         content={actionInfo?.scheduleName ?? ''}
-        setContent={actionInfo?.setScheduleName ?? ''}
+        setContent={canEdit ? actionInfo?.setScheduleName : null}
         isOutlined={false}
         bgColor='gray-700'
       />
@@ -220,9 +230,21 @@ export default function ScheduleAction({
 
       <TimeSelector
         startTime={actionInfo?.startTime ?? selectedDate}
-        setStartTime={actionInfo?.setStartTime}
+        setStartTime={(time) => {
+          if (canEdit) {
+            actionInfo?.setStartTime(time);
+          } else {
+            showToast('일정 정보는 팀장 또는 일정 생성자만 변경 가능해요');
+          }
+        }}
         endTime={actionInfo?.endTime ?? selectedDate}
-        setEndTime={actionInfo?.setEndTime}
+        setEndTime={(time) => {
+          if (canEdit) {
+            actionInfo?.setEndTime(time);
+          } else {
+            showToast('일정 정보는 팀장 또는 일정 생성자만 변경 가능해요');
+          }
+        }}
       />
 
       <div className='h-11 shrink-0' />
