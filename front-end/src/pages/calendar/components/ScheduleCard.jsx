@@ -55,15 +55,19 @@ export default function ScheduleCard({
             <p className='subtitle-2 text-gray-100'>{schedule.scheduleName}</p>
           </div>
         </div>
-        {/* 일정 종료 전에만 수정 버튼 표시 */}
-        {!isFinished && (
-          <button onClick={() => onClickEdit()}>
-            <Icon
-              name='edit'
-              className={classNames('h-max w-max', schedule.teamName && 'pt-1')}
-            />
-          </button>
-        )}
+        {/* 일정 종료 전이고, 사용자가 팀 리더 또는 일정 생성자인 경우에만 수정 버튼 표시 */}
+        {!isFinished &&
+          (schedule.leaderId === userId || schedule.ownerId === userId) && (
+            <button onClick={() => onClickEdit()}>
+              <Icon
+                name='edit'
+                className={classNames(
+                  'h-max w-max',
+                  schedule.teamName && 'pt-1',
+                )}
+              />
+            </button>
+          )}
       </div>
       <hr className='w-full border-gray-500' />
       {/* 나의 역할 */}
