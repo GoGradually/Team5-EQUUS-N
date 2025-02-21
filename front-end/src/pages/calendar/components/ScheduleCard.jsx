@@ -42,7 +42,7 @@ export default function ScheduleCard({
         schedule.teamName ? 'p-4' : 'px-4 py-5',
       )}
     >
-      <div className='flex'>
+      <div className='flex items-start'>
         <div className='flex flex-1 flex-col gap-3'>
           {schedule.teamName && (
             <Tag type={TagType.TEAM_NAME}>{schedule.teamName}</Tag>

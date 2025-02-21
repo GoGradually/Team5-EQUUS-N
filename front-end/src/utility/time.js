@@ -119,10 +119,11 @@ export function timeInPeriod(stdDate, startDate, endDate) {
 /**
  * 현 시간 기준 일정이 종료되었는지 확인하는 함수
  * @param {Date} date - 일정 종료 날짜
+ * @param {Data} stdDate - 기준 날짜
  * @returns {boolean} - 일정이 종료되었는지 여부
  */
-export function checkIsFinished(date) {
-  if (new Date(date) < new Date(toYMD(new Date()))) {
+export function checkIsFinished(date, stdDate = new Date(toYMD(new Date()))) {
+  if (new Date(date) < stdDate) {
     return true;
   } else {
     return false;
