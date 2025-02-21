@@ -86,6 +86,8 @@ export default function MainPage() {
   useEffect(() => {
     if (isFirstVisit && !waitingAppServerKey) {
       showModal(<OnboardingNotice setPushNoti={setPushNoti} />);
+    } else if (!waitingAppServerKey) {
+      setPushNoti();
     }
   }, [waitingAppServerKey]);
 

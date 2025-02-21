@@ -6,6 +6,7 @@ import { useUser } from '../useUser';
 import { useJoinTeam } from './useTeamspace';
 import { useTeam } from '../useTeam';
 import { getRandomProfile } from '../components/ProfileImage';
+import { stopPush } from './usePushNoti';
 
 export const useSendVerifMail = () => {
   return useMutation({
@@ -69,6 +70,7 @@ export const useLogout = () => {
     onSuccess: () => {
       removeTeams();
       removeUserId();
+      stopPush();
       navigate('/', { replace: true });
     },
   });

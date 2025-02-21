@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { api } from './baseApi';
 import { useUser } from '../useUser';
 import { useCallback } from 'react';
+import { registerSW } from 'virtual:pwa-register';
 
 const useSubscribe = () => {
   return useMutation({
@@ -84,4 +85,16 @@ export default function usePushNoti() {
   );
 
   return { setPushNoti, isLoading };
+}
+
+export function stopPush() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.ready.then((registration) => {
+      registration.pushManager.getSubscription().then((subscription) => {
+        if (subscription) {
+          subscription.unsubscribe();
+        }
+      });
+    });
+  }
 }
