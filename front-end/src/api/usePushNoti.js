@@ -88,14 +88,11 @@ export default function usePushNoti() {
 }
 
 export function stopPush() {
-  console.log('logout');
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then((registration) => {
       registration.pushManager.getSubscription().then((subscription) => {
         if (subscription) {
-          subscription.unsubscribe().then(() => {
-            console.log('Push 구독 해제 완료');
-          });
+          subscription.unsubscribe();
         }
       });
     });
