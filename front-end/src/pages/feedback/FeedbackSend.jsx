@@ -67,6 +67,7 @@ export default function FeedbackSend() {
                     navigate('1', {
                       state: {
                         receiver: { name: member.name, id: member.id },
+                        needToRedirectSelectionPage: requesters.length > 1,
                         ...locationState,
                       },
                     })
