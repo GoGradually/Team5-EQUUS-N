@@ -56,7 +56,9 @@ export default function MainPage() {
   const { data: matesData } = useMainCard2(selectedTeam);
   const { data: notificationsData, markAsRead } = useNotification(selectedTeam);
 
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(
+    new Date(new Date().setSeconds(0, 0)),
+  );
 
   const { actionInfo, clearData } = useScheduleAction(
     selectedDate,
