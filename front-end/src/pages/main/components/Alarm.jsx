@@ -92,8 +92,7 @@ const filterDataWithType = ({ data, type }) => {
     // data.teamName, data.receiverName
     case alarmType.REPORT_RECEIVED:
       title = '피드백 리포트가 도착했어요';
-      content = `${data.teamName} 프로젝트 잘 마무리 하셨나요?
-      ${data.receiverName} 님이 받은 피드백을 정리했어요`;
+      content = `${data.receiverName} 님이 받은 피드백을 정리했어요`;
       image = '/src/assets/images/folder.png';
       imageAlt = 'folder';
       handleFunction = (navigate) => handleReportCreate(navigate);
