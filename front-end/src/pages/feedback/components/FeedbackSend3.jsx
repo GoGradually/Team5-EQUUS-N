@@ -223,6 +223,7 @@ export default function FeedbackSend3() {
                   <AiButton
                     isActive={true}
                     onClick={() => generateGptContent()}
+                    disalbed={gptMutation.isPending}
                   >
                     재생성하기
                   </AiButton>
@@ -231,6 +232,7 @@ export default function FeedbackSend3() {
                   <AiButton
                     isActive={true}
                     onClick={() => generateGptContent()}
+                    disalbed={gptMutation.isPending}
                   >
                     AI 글 다듬기
                   </AiButton>
@@ -252,7 +254,8 @@ export default function FeedbackSend3() {
       <FooterWrapper>
         <LargeButton
           isOutlined={false}
-          text={feedbackMutation.isPending ? '로딩중' : '보내기'}
+          realDisabled={!feedbackMutation.isIdle}
+          text={'보내기'}
           onClick={() => onSendButtonClick()}
         />
       </FooterWrapper>

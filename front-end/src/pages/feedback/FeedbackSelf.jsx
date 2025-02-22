@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import CustomInput from '../../components/CustomInput';
 import { useUser } from '../../useUser';
 import { useTeam } from '../../useTeam';
+import { checkLength } from '../../utility/inputChecker';
 
 export default function FeedbackSelf() {
   const [titleContent, setTitleContent] = useState('');
@@ -22,12 +23,15 @@ export default function FeedbackSelf() {
   const { selectedTeam } = useTeam();
   const mutation = useFeedbackSelf();
 
+  const titleMaxLength = 30;
+  const contentMaxLength = 400;
+
   const validation = () => {
     if (titleContent.length === 0) {
       showToast('제목을 입력해주세요');
       return false;
     }
-    if (titleContent.length > 30) {
+    if (titleContent.length > titleMaxLength) {
       showToast('제목을 30자 이하로 작성해주세요');
       return false;
     }
@@ -35,7 +39,7 @@ export default function FeedbackSelf() {
       showToast('내용을 입력해주세요');
       return false;
     }
-    if (textLength > 400) {
+    if (textLength > contentMaxLength) {
       showToast('내용을 400byte 이하로 작성해주세요');
       return false;
     }
@@ -57,7 +61,10 @@ export default function FeedbackSelf() {
       <div className='h-6' />
       <CustomInput
         content={titleContent}
-        setContent={setTitleContent}
+        setContent={(value) => {
+          const newValue = checkLength(value, titleMaxLength);
+          setTitleContent(newValue);
+        }}
         isForRetrospect={true}
         hint='제목을 입력해주세요'
       />
@@ -70,7 +77,8 @@ export default function FeedbackSelf() {
       <FooterWrapper>
         <LargeButton
           isOutlined={false}
-          text={mutation.isPending ? '로딩중' : '완료'} // 로딩 중일 때 버튼 텍스트 변경... 추후 수정 필요
+          realDisabled={!mutation.isIdle}
+          text={'완료'}
           disabled={
             textLength === 0 || titleContent.length === 0 ? true : false
           }

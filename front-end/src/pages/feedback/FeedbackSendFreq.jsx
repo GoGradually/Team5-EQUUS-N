@@ -93,7 +93,9 @@ export default function FeedbackSendFreq() {
                     name: selectedRequester.requester.name,
                     id: selectedRequester.requester.id,
                   },
-                  needToRedirectSelectionPage: whoNeedFreqFeedback.length > 1,
+                  needToRedirectSelectionPage:
+                    locationState.memberId == null &&
+                    whoNeedFreqFeedback?.length > 1,
                   requestedContent: selectedRequester.requestedContent,
                   ...locationState,
                 },

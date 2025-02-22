@@ -46,7 +46,8 @@ export default function FeedbackRequest() {
       <FooterWrapper>
         <LargeButton
           isOutlined={false}
-          text={mutation.isPending ? '로딩중' : '보내기'} // 로딩 중일 때 버튼 텍스트 변경... 추후 수정 필요
+          realDisabled={!mutation.isIdle}
+          text={'보내기'}
           disabled={textLength === 0 ? true : false}
           onClick={() => {
             setTextContent((prev) => prev.trim());
