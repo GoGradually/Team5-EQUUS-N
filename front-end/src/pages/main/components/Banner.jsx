@@ -95,7 +95,11 @@ export default function Banner({ banner, onClose }) {
           <Icon name='chevronDown' className='-rotate-90' />
         </button>
       </div>
-      <div className='absolute -top-8 right-6 flex flex-col items-center'>
+      <div className='absolute top-4 right-30 flex -rotate-12'>
+        {eyesAnime}
+        {eyesAnime}
+      </div>
+      <div className='absolute -top-7 right-6 flex flex-col items-center'>
         <motion.img
           src={image}
           className='scale-50'
@@ -117,3 +121,27 @@ export default function Banner({ banner, onClose }) {
     </div>
   );
 }
+
+const eyesAnime = (
+  <div className='flex h-[17px] w-3 flex-col items-end justify-center rounded-[50%] bg-white shadow-sm shadow-black/4'>
+    <motion.div
+      animate={{ x: [0, -6, -6, 0], height: [8, 1, 8] }}
+      transition={{
+        x: {
+          duration: 0.7,
+          repeat: Infinity,
+          repeatDelay: 2,
+          ease: 'easeInOut',
+        },
+        height: {
+          duration: 0.4,
+          repeat: Infinity,
+          repeatDelay: 5,
+          delay: 0.8,
+          ease: 'easeInOut',
+        },
+      }}
+      className='h-2 w-[6.4px] rounded-[50%] bg-gray-600'
+    />
+  </div>
+);
