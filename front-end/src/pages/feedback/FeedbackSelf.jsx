@@ -77,7 +77,8 @@ export default function FeedbackSelf() {
       <FooterWrapper>
         <LargeButton
           isOutlined={false}
-          text={mutation.isPending ? '로딩중' : '완료'} // 로딩 중일 때 버튼 텍스트 변경... 추후 수정 필요
+          realDisabled={!mutation.isIdle}
+          text={'완료'}
           disabled={
             textLength === 0 || titleContent.length === 0 ? true : false
           }
