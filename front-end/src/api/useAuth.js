@@ -83,16 +83,20 @@ export const useGetGoogleUrl = () => {
   });
 };
 
-export const useGoogleLogin = () => {
+export const useGoogleLogin = (teamCode) => {
   const { setUserId } = useUser();
+  const { mutate: joinTeam } = useJoinTeam();
   const navigate = useNavigate();
   return useMutation({
     mutationFn: (code) =>
       api.post({ url: '/api/auth/google/login', body: { code } }),
     onSuccess: (data) => {
-      console.log(data);
       if (data.isAuthenticated) {
         setUserId(data.loginResponse.userId);
+        if (teamCode) {
+          joinTeam(teamCode);
+          localStorage.removeItem('tempTeamCode');
+        }
         navigate('/main', { replace: true });
       } else {
         const token = data.googleSignupToken.token;
