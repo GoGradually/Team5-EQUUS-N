@@ -1,6 +1,6 @@
 package com.feedhanjum.back_end.team.service;
 
-import com.feedhanjum.back_end.event.EventPublisher;
+import com.feedhanjum.back_end.core.event.EventPublisher;
 import com.feedhanjum.back_end.member.domain.Member;
 import com.feedhanjum.back_end.member.repository.MemberRepository;
 import com.feedhanjum.back_end.schedule.repository.ScheduleQueryRepository;
@@ -96,7 +96,6 @@ public class TeamService {
         team.changeLeader(currentLeader, newLeader);
         eventPublisher.publishEvent(new TeamLeaderChangedEvent(teamId, newLeaderId));
     }
-
 
 
     /**

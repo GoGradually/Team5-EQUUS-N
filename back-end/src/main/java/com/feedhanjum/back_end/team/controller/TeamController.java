@@ -1,7 +1,7 @@
 package com.feedhanjum.back_end.team.controller;
 
 import com.feedhanjum.back_end.auth.infra.Login;
-import com.feedhanjum.back_end.member.controller.dto.MemberDto;
+import com.feedhanjum.back_end.member.controller.dto.MemberResponse;
 import com.feedhanjum.back_end.member.service.MemberService;
 import com.feedhanjum.back_end.schedule.service.ScheduleService;
 import com.feedhanjum.back_end.team.controller.dto.*;
@@ -74,8 +74,8 @@ public class TeamController {
     @GetMapping("/{teamId}")
     public ResponseEntity<TeamDetailResponse> getTeamDetail(@Login Long memberId, @PathVariable Long teamId) {
         Team team = teamService.getTeam(teamId);
-        List<MemberDto> membersByTeam = memberService.getMembersByTeam(memberId, teamId)
-                .stream().map(MemberDto::new).toList();
+        List<MemberResponse> membersByTeam = memberService.getMembersByTeam(memberId, teamId)
+                .stream().map(MemberResponse::new).toList();
         LocalDateTime earliestStartTime = scheduleService.getEarliestScheduleStartTime(teamId);
         LocalDateTime latestEndTime = scheduleService.getLatestScheduleEndTime(teamId);
         TeamDetailResponse teamDetailResponse = new TeamDetailResponse();
@@ -92,9 +92,9 @@ public class TeamController {
             @ApiResponse(responseCode = "404", description = "해당 팀에 대한 조회 권한이 없을 경우 - 정보 숨김", content = @Content)
     })
     @GetMapping("/{teamId}/members")
-    public ResponseEntity<List<MemberDto>> getTeamMembers(@Login Long memberId, @PathVariable Long teamId) {
-        List<MemberDto> membersByTeam = memberService.getMembersByTeam(memberId, teamId)
-                .stream().map(MemberDto::new).toList();
+    public ResponseEntity<List<MemberResponse>> getTeamMembers(@Login Long memberId, @PathVariable Long teamId) {
+        List<MemberResponse> membersByTeam = memberService.getMembersByTeam(memberId, teamId)
+                .stream().map(MemberResponse::new).toList();
         return ResponseEntity.ok(membersByTeam);
     }
 

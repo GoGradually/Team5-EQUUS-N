@@ -1,7 +1,7 @@
 package com.feedhanjum.back_end.auth.controller.mapper;
 
-import com.feedhanjum.back_end.auth.controller.dto.MemberSignupRequest;
-import com.feedhanjum.back_end.auth.controller.dto.MemberSignupResponse;
+import com.feedhanjum.back_end.auth.controller.dto.request.MemberSignupRequest;
+import com.feedhanjum.back_end.auth.controller.dto.response.MemberSignupResponse;
 import com.feedhanjum.back_end.auth.domain.MemberDetails;
 import org.springframework.stereotype.Component;
 

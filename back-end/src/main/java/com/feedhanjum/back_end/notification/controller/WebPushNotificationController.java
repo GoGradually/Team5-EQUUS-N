@@ -1,8 +1,8 @@
 package com.feedhanjum.back_end.notification.controller;
 
 import com.feedhanjum.back_end.auth.infra.Login;
-import com.feedhanjum.back_end.notification.controller.dto.ApplicationServerKeyResponse;
 import com.feedhanjum.back_end.notification.controller.dto.SubscribePushNotificationRequest;
+import com.feedhanjum.back_end.notification.controller.dto.response.ApplicationServerKeyResponse;
 import com.feedhanjum.back_end.notification.service.WebPushService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

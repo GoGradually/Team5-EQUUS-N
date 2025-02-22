@@ -1,6 +1,6 @@
 package com.feedhanjum.back_end.teamplanorchestration.service;
 
-import com.feedhanjum.back_end.event.EventPublisher;
+import com.feedhanjum.back_end.core.event.EventPublisher;
 import com.feedhanjum.back_end.feedback.domain.FeedbackType;
 import com.feedhanjum.back_end.member.domain.Member;
 import com.feedhanjum.back_end.member.repository.MemberQueryRepository;

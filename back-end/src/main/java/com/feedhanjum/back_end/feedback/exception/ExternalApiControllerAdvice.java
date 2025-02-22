@@ -1,6 +1,6 @@
 package com.feedhanjum.back_end.feedback.exception;
 
-import com.feedhanjum.back_end.event.EventPublisher;
+import com.feedhanjum.back_end.core.event.EventPublisher;
 import com.feedhanjum.back_end.feedback.event.FeedbackRefineCountCompensationEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;

@@ -3,10 +3,7 @@ package com.feedhanjum.back_end.feedback.domain;
 import jakarta.annotation.Nullable;
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class FeedbackReport {
     public static final Integer REQUIRED_FEEDBACK_COUNT = 10;
@@ -24,6 +21,10 @@ public class FeedbackReport {
     private FeedbackReport() {
         this.feedbackCount = 0;
         this.overviews = new EnumMap<>(FeedbackCategory.class);
+        for (FeedbackCategory category : FeedbackCategory.values()) {
+            overviews.put(category, new CategoryCount(category));
+        }
+
         this.allKeywords = new EnumMap<>(ObjectiveFeedback.class);
     }
 
@@ -48,9 +49,9 @@ public class FeedbackReport {
             return null;
         List<KeywordCount> topKeywords = new ArrayList<>();
         List<KeywordCount> sortedAllKeywords = getAllKeywords();
-        sortedAllKeywords.stream().filter(keywordCount -> keywordCount.feeling == FeedbackFeeling.CONSTRUCTIVE).findFirst()
-                .ifPresent(topKeywords::add);
         sortedAllKeywords.stream().filter(keywordCount -> keywordCount.feeling == FeedbackFeeling.POSITIVE).findFirst()
+                .ifPresent(topKeywords::add);
+        sortedAllKeywords.stream().filter(keywordCount -> keywordCount.feeling == FeedbackFeeling.CONSTRUCTIVE).findFirst()
                 .ifPresent(topKeywords::add);
         return topKeywords;
     }
@@ -79,16 +80,12 @@ public class FeedbackReport {
             value.increaseCount();
             return value;
         });
-        overviews.compute(category, (key, value) -> {
-            if (value == null) {
-                value = new CategoryCount(category);
-            }
-            switch (feeling) {
-                case POSITIVE -> value.increaseGoodCount();
-                case CONSTRUCTIVE -> value.increaseBadCount();
-            }
-            return value;
-        });
+        CategoryCount value = Objects.requireNonNullElseGet(overviews.get(category), () -> new CategoryCount(category));
+        switch (feeling) {
+            case POSITIVE -> value.increaseGoodCount();
+            case CONSTRUCTIVE -> value.increaseBadCount();
+        }
+        overviews.put(category, value);
     }
 
     public static FeedbackReport fromFeedbacks(List<Feedback> feedbacks) {
