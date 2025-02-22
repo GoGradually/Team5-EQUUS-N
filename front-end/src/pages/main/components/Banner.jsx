@@ -34,6 +34,7 @@ export default function Banner({ banner, onClose }) {
           message: '확인하지 않은\n피드백이 있어요!',
           buttonText: '피드백 확인하기',
           routeAction: () => navigate('/feedback/received'),
+          needColorfulWave: true,
         };
       case notiType.NEW:
         return {
@@ -62,13 +63,53 @@ export default function Banner({ banner, onClose }) {
               teamId: notification.teamId,
               senderId: ids.length > 1 ? null : notification.senderId,
             }),
+          needColorfulWave: true,
         };
       default:
         throw new Error('Invalid notiType');
     }
   };
 
-  const { image, message, buttonText, routeAction } = getContent();
+  const { image, message, buttonText, routeAction, needColorfulWave } =
+    getContent();
+
+  const eyesAnime = (
+    <div className='flex h-[17px] w-3 flex-col items-end justify-center rounded-[50%] bg-white shadow-sm shadow-black/4'>
+      <motion.div
+        animate={{ x: [0, -6, -6, 0], height: [8, 1, 8] }}
+        transition={{
+          x: {
+            duration: 0.7,
+            repeat: Infinity,
+            repeatDelay: 2,
+            ease: 'easeInOut',
+          },
+          height: {
+            duration: 0.4,
+            repeat: Infinity,
+            repeatDelay: 5,
+            delay: 0.8,
+            ease: 'easeInOut',
+          },
+        }}
+        className='h-2 w-[6.4px] rounded-[50%] bg-gray-600'
+      />
+    </div>
+  );
+
+  const waveAnime = (
+    <motion.div
+      className={`absolute top-13 size-20 rounded-full border-2 ${needColorfulWave ? 'border-lime-600' : 'border-white'}`}
+      animate={{ scale: [0.5, 1.2], opacity: [0, 1, 0] }}
+      transition={{
+        duration: 1.2,
+        repeat: Infinity,
+        ease: 'easeOut',
+        repeatDelay: 0.8,
+        delay: 0.4,
+      }}
+    />
+  );
 
   return (
     <div
@@ -95,22 +136,23 @@ export default function Banner({ banner, onClose }) {
           <Icon name='chevronDown' className='-rotate-90' />
         </button>
       </div>
-      <div className='absolute top-4 right-30 flex -rotate-12'>
+      <div className='absolute top-5 right-30 flex -rotate-12'>
         {eyesAnime}
         {eyesAnime}
       </div>
       <div className='absolute -top-7 right-6 flex flex-col items-center'>
         <motion.img
           src={image}
-          className='scale-50'
+          className='z-10 scale-50'
           animate={{ y: [0, 20, 0] }}
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
         />
-        <div className='-mt-11 h-[30px] w-22 rounded-tl-[7px] rounded-tr-[7px] bg-gradient-to-b from-[#2a2a2a] from-60% to-transparent'>
+        <div className='z-10 -mt-11 h-[30px] w-22 rounded-tl-[7px] rounded-tr-[7px] bg-gradient-to-b from-[#2a2a2a] from-60% to-transparent'>
           <p className='mt-1 text-center text-[10px] font-thin text-gray-100'>
             NEW
           </p>
         </div>
+        {waveAnime}
       </div>
       <button
         className='absolute top-4 right-4'
@@ -121,27 +163,3 @@ export default function Banner({ banner, onClose }) {
     </div>
   );
 }
-
-const eyesAnime = (
-  <div className='flex h-[17px] w-3 flex-col items-end justify-center rounded-[50%] bg-white shadow-sm shadow-black/4'>
-    <motion.div
-      animate={{ x: [0, -6, -6, 0], height: [8, 1, 8] }}
-      transition={{
-        x: {
-          duration: 0.7,
-          repeat: Infinity,
-          repeatDelay: 2,
-          ease: 'easeInOut',
-        },
-        height: {
-          duration: 0.4,
-          repeat: Infinity,
-          repeatDelay: 5,
-          delay: 0.8,
-          ease: 'easeInOut',
-        },
-      }}
-      className='h-2 w-[6.4px] rounded-[50%] bg-gray-600'
-    />
-  </div>
-);
