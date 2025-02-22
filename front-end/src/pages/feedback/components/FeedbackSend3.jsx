@@ -252,7 +252,8 @@ export default function FeedbackSend3() {
       <FooterWrapper>
         <LargeButton
           isOutlined={false}
-          text={feedbackMutation.isPending ? '로딩중' : '보내기'}
+          realDisabled={!feedbackMutation.isIdle}
+          text={'보내기'}
           onClick={() => onSendButtonClick()}
         />
       </FooterWrapper>
