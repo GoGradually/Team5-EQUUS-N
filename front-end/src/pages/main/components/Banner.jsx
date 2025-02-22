@@ -5,6 +5,7 @@ import box from '../../../assets/images/box2.webp';
 import Icon from '../../../components/Icon';
 import { useNavigate } from 'react-router-dom';
 import { handleFreqFeedbackReq } from './Alarm';
+import { motion } from 'motion/react';
 
 export const notiType = Object.freeze({
   REQUEST: 'frequentFeedbackRequest',
@@ -24,8 +25,7 @@ export default function Banner({ banner, onClose }) {
 
   const { notification, ids } = banner;
 
-  // TODO: 파동 애니메이션 추가
-  // TODO: delete 아이콘, 화살표 아이콘 수정
+  // TODO: 파동 애니메이션..?
   const getContent = () => {
     switch (notification.type) {
       case notiType.UNREAD:
@@ -96,7 +96,12 @@ export default function Banner({ banner, onClose }) {
         </button>
       </div>
       <div className='absolute -top-8 right-6 flex flex-col items-center'>
-        <img src={image} className='scale-50' />
+        <motion.img
+          src={image}
+          className='scale-50'
+          animate={{ y: [0, 20, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        />
         <div className='-mt-11 h-[30px] w-22 rounded-tl-[7px] rounded-tr-[7px] bg-gradient-to-b from-[#2a2a2a] from-60% to-transparent'>
           <p className='mt-1 text-center text-[10px] font-thin text-gray-100'>
             NEW
