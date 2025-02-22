@@ -11,7 +11,11 @@ import CustomInput from '../../../components/CustomInput';
 import LargeButton from '../../../components/buttons/LargeButton';
 import StickyWrapper from '../../../components/wrappers/StickyWrapper';
 import { showToast } from '../../../utility/handleToast';
-import { checkNewSchedule, isEmpty } from '../../../utility/inputChecker';
+import {
+  checkLength,
+  checkNewSchedule,
+  isEmpty,
+} from '../../../utility/inputChecker';
 import TimeSelector from './TimeSelector';
 import Todo from './Todo';
 import { hideModal, showModal } from '../../../utility/handleModal';
@@ -57,6 +61,7 @@ export default function ScheduleAction({
   setAllSchedules,
   setParentDate = () => {},
 }) {
+  const nameLengthLimit = 20;
   const { selectedTeam } = useTeam();
   const { userId } = useUser();
   const scrollRef = useRef(null);
@@ -222,7 +227,14 @@ export default function ScheduleAction({
       <CustomInput
         label='일정 이름'
         content={actionInfo?.scheduleName ?? ''}
-        setContent={canEdit ? actionInfo?.setScheduleName : null}
+        setContent={
+          canEdit ?
+            (text) => {
+              const newName = checkLength(text, nameLengthLimit);
+              actionInfo?.setScheduleName(newName);
+            }
+          : null
+        }
         isOutlined={false}
         bgColor='gray-700'
       />

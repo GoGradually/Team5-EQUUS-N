@@ -1,7 +1,9 @@
 import CustomInput from '../../../components/CustomInput';
 import Icon from '../../../components/Icon';
+import { checkLength } from '../../../utility/inputChecker';
 
 export default function Todo({ todos, setTodo, scrollRef }) {
+  const todoMaxLength = 50;
   return (
     <div className='flex flex-col gap-2'>
       <h3 className='subtitle-2 text-gray-0'>내 역할</h3>
@@ -12,10 +14,11 @@ export default function Todo({ todos, setTodo, scrollRef }) {
               <CustomInput
                 content={todo}
                 setContent={(value) => {
+                  const newValue = checkLength(value, todoMaxLength);
                   setTodo(
                     todos.map((todo, index2) => {
                       if (index2 === index) {
-                        return value;
+                        return newValue;
                       }
                       return todo;
                     }),

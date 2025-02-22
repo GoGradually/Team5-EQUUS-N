@@ -221,3 +221,17 @@ export const checkResetPWInfos = (certState, password, passwordConfirm) => {
   }
   return true;
 };
+
+/**
+ * 역할 길이 검사
+ * @param {string} text
+ * @param {int} std
+ */
+export const checkLength = (text, std) => {
+  let result = text;
+  if (text.length > std) {
+    result = text.slice(0, std);
+    showToast(`최대 ${std}자까지 작성 가능해요`);
+  }
+  return result;
+};

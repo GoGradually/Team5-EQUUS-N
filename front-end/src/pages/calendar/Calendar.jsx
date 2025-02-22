@@ -97,7 +97,7 @@ export default function Calendar() {
                 </li>
               );
             })}
-          {checkIsFinished(toKST(selectedDate)) || (
+          {!checkIsFinished(toKST(selectedDate)) && !showAllSchedule && (
             <li className='mb-5'>
               <LargeButton
                 text={
