@@ -45,6 +45,9 @@ export default function Splash() {
   }, [member]);
 
   const handleGoogleButton = () => {
+    if (teamCode) {
+      localStorage.setItem('tempTeamCode', teamCode);
+    }
     window.location.href = googleAuthUrl.loginUrl;
   };
 

@@ -48,6 +48,7 @@ html,
 body {
   overscroll-behavior-y: none;
   user-select: none;
+  touch-action: pan-y;
 }
 
 body {
