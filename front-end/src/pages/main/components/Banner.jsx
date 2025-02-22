@@ -85,9 +85,9 @@ export default function Banner({ banner, onClose }) {
             ease: 'easeInOut',
           },
           height: {
-            duration: 0.4,
+            duration: 0.3,
             repeat: Infinity,
-            repeatDelay: 5,
+            repeatDelay: 5.1,
             delay: 0.8,
             ease: 'easeInOut',
           },
@@ -99,7 +99,7 @@ export default function Banner({ banner, onClose }) {
 
   const waveAnime = (
     <motion.div
-      className={`absolute top-13 size-20 rounded-full border-2 ${needColorfulWave ? 'border-lime-600' : 'border-white'}`}
+      className={`absolute top-14 size-20 rounded-full border-2 ${needColorfulWave ? 'border-lime-500' : 'border-white'}`}
       animate={{ scale: [0.5, 1.2], opacity: [0, 1, 0] }}
       transition={{
         duration: 1.2,
@@ -136,7 +136,7 @@ export default function Banner({ banner, onClose }) {
           <Icon name='chevronDown' className='-rotate-90' />
         </button>
       </div>
-      <div className='absolute top-5 right-30 flex -rotate-12'>
+      <div className='absolute top-4.5 right-30 flex -rotate-12'>
         {eyesAnime}
         {eyesAnime}
       </div>
