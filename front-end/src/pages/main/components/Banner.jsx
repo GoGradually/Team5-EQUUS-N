@@ -1,11 +1,7 @@
 import classNames from 'classnames';
-import Lottie from 'lottie-react';
-import boxLottie from '../../../assets/lotties/box.json';
-import fileLottie from '../../../assets/lotties/file.json';
-import letterLottie from '../../../assets/lotties/letter.json';
-import letter from '../../../assets/images/letter.webp';
-import file from '../../../assets/images/file.webp';
-import box from '../../../assets/images/box.webp';
+import letter from '../../../assets/images/letter2.webp';
+import file from '../../../assets/images/file2.webp';
+import box from '../../../assets/images/box2.webp';
 import Icon from '../../../components/Icon';
 import { useNavigate } from 'react-router-dom';
 import { handleFreqFeedbackReq } from './Alarm';
@@ -55,7 +51,7 @@ export default function Banner({ banner, onClose }) {
         };
       case notiType.REQUEST:
         return {
-          image: file,
+          image: box,
           message:
             ids.length > 1 ?
               `${notification.senderName}님 외 ${ids.length - 1}명이\n피드백을 요청했어요!`
@@ -99,9 +95,9 @@ export default function Banner({ banner, onClose }) {
           <Icon name='chevronDown' className='-rotate-90' />
         </button>
       </div>
-      <div className='absolute -top-3 right-6 flex flex-col items-center'>
+      <div className='absolute -top-8 right-6 flex flex-col items-center'>
         <img src={image} className='scale-50' />
-        <div className='-mt-5 h-[30px] w-22 rounded-tl-[7px] rounded-tr-[7px] bg-gradient-to-b from-[#2a2a2a] from-60% to-transparent'>
+        <div className='-mt-11 h-[30px] w-22 rounded-tl-[7px] rounded-tr-[7px] bg-gradient-to-b from-[#2a2a2a] from-60% to-transparent'>
           <p className='mt-1 text-center text-[10px] font-thin text-gray-100'>
             NEW
           </p>

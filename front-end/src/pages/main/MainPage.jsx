@@ -158,7 +158,7 @@ export default function MainPage() {
           )}
         </StickyWrapper>
         {banners?.length > 0 && (
-          <Slider {...sliderSettings} className='my-4'>
+          <Slider {...sliderSettings} className='my-4 pb-2'>
             {banners.map((banner, index) => (
               <div className='px-[6px]' key={index}>
                 <Banner banner={banner} onClose={markAsRead} />
