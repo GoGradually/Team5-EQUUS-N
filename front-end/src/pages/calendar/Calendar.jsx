@@ -128,7 +128,6 @@ export default function Calendar() {
           actionInfo={actionInfo}
           dateFixed={actionType === ScheduleActionType.ADD}
           setAllSchedules={setAllSchedules}
-          setParentDate={setSelectedDate}
         />
       )}
     </div>

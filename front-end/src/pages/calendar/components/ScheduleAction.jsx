@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import {
   changeDayName,
   combineDateTime,
+  getNearest10MinTime,
   toKST,
   toYMD,
 } from '../../../utility/time';
@@ -47,7 +48,7 @@ export const ScheduleActionType = Object.freeze({
  * @param {object} props.selectedScheduleFromParent - 선택된 일정
  * @param {object} props.actionInfo - 일정 정보
  * @param {boolean} props.dateFixed - 날짜 고정 여부
- * @param {function} props.setParentDate - 부모 컴포넌트의 날짜 설정 함수
+ * @param {function} props.setParentDate - 부모 컴포넌트의 날짜 설정 함수 : 메인페이지의 ScheduleAction인지, 일정페이지의 ScheduleAction인지 구분하는 용도로도 쓰임
  * @returns {JSX.Element}
  */
 export default function ScheduleAction({
@@ -59,7 +60,7 @@ export default function ScheduleAction({
   actionInfo,
   dateFixed,
   setAllSchedules,
-  setParentDate = () => {},
+  setParentDate = null,
 }) {
   const nameLengthLimit = 20;
   const { selectedTeam } = useTeam();
@@ -70,32 +71,56 @@ export default function ScheduleAction({
     selectedScheduleFromParent,
   );
 
-  const { mutate: postSchedule } = usePostSchedule(selectedTeam);
-  const { mutate: editSchedule } = useEditSchedule(selectedTeam);
+  const { mutate: postSchedule } = usePostSchedule(selectedTeam); // 일정 추가 API
+  const { mutate: editSchedule } = useEditSchedule(selectedTeam); // 일정 수정 API
   const { mutate: deleteSchedule } = useDeleteSchedule({
+    // 일정 삭제 API
     teamId: selectedTeam,
     scheduleStartTime: actionInfo.startTime,
   });
   const [dataReady, setDataReady] = useState(false);
+  const [scheduleName, setScheduleName] = useState(actionInfo?.scheduleName); // 일정 제목 = 기존 제목으로 초기화
+  const [startTime, setStartTime] = useState(actionInfo?.startTime); // 일정 시작일 = 기존 시작일로 초기화
+  const [endTime, setEndTime] = useState(actionInfo?.endTime); // 일정 종료일 = 기존 종료일로 초기화
+  const [todos, setTodos] = useState(actionInfo?.todos); // 역할 = 기존 역할로 초기화
+  // 수정 가능 여부 = 팀 리더이거나, 일정 생성한 사람이거나, 일정 생성중이거나
   const canEdit =
     selectedScheduleFromParent?.leaderId === userId ||
     selectedScheduleFromParent?.ownerId === userId ||
     type === ScheduleActionType.ADD;
 
+  // 일정 내용이 바뀐 경우 해당 내용 반영
   useEffect(() => {
-    if (
-      dataReady &&
-      checkNewSchedule(
-        actionInfo.scheduleName,
-        actionInfo.startTime,
-        actionInfo.endTime,
-      )
-    ) {
+    // setParentDate가 null일때 == 일정 화면에서 작업중일때
+    if (!setParentDate) {
+      // 해당 일정 내용을 반영
+      setScheduleName(actionInfo?.scheduleName);
+      setStartTime(actionInfo?.startTime);
+      setEndTime(actionInfo?.endTime);
+      setTodos(actionInfo?.todos);
+    }
+  }, [actionInfo]);
+
+  // 추가/수정 바텀시트가 닫힐때 내용 초기화
+  useEffect(() => {
+    // 닫혀있고 setParentDate가 null이 아닐때 == 메인 페이지에서 창 닫을때
+    if (!isOpen && setParentDate) {
+      // 내용 초기화
+      setScheduleName(null);
+      setStartTime(getNearest10MinTime(new Date()));
+      setEndTime(getNearest10MinTime(new Date().valueOf() + 1000 * 60 * 10));
+      setTodos([]);
+    }
+  }, [isOpen]);
+
+  // 데이터 준비 되면 전송
+  useEffect(() => {
+    if (dataReady && checkNewSchedule(scheduleName, startTime, endTime)) {
       const sendingData = {
-        name: actionInfo.scheduleName,
-        startTime: toKST(actionInfo.startTime).toISOString(),
-        endTime: toKST(actionInfo.endTime).toISOString(),
-        todos: actionInfo.todos,
+        name: scheduleName,
+        startTime: toKST(startTime).toISOString(),
+        endTime: toKST(endTime).toISOString(),
+        todos: todos,
       };
       if (type === ScheduleActionType.ADD) {
         postSchedule(sendingData, {
@@ -127,17 +152,16 @@ export default function ScheduleAction({
     }
   }, [dataReady]);
 
+  // 완료 버튼 누르면 데이터 적절히 다듬어서 전송할 데이터 세팅 시키기
   const handleSubmitButton = () => {
-    const newTodos = actionInfo.todos.filter((todo) => !isEmpty(todo));
-    actionInfo.setTodo(newTodos);
+    // 빈 투두 없애기
+    const newTodos = todos.filter((todo) => !isEmpty(todo));
+    setTodos(newTodos);
     if (!dateFixed) {
-      if (toYMD(selectedDate) !== toYMD(actionInfo.startTime)) {
-        actionInfo.setStartTime(
-          combineDateTime(selectedDate, actionInfo.startTime),
-        );
-        actionInfo.setEndTime(
-          combineDateTime(selectedDate, actionInfo.endTime),
-        );
+      // 선택한 날짜와 선택한 시간 적용
+      if (toYMD(selectedDate) !== toYMD(startTime)) {
+        setStartTime(combineDateTime(selectedDate, startTime));
+        setEndTime(combineDateTime(selectedDate, endTime));
       }
     }
     setDataReady(true);
@@ -213,7 +237,9 @@ export default function ScheduleAction({
             setDate={(newDate) => {
               if (canEdit) {
                 setSelectedDate(newDate);
-                setParentDate(newDate);
+                if (setParentDate) {
+                  setParentDate(newDate);
+                }
               } else {
                 showToast('일정 정보는 팀장 또는 일정 생성자만 변경 가능해요');
               }
@@ -226,12 +252,12 @@ export default function ScheduleAction({
 
       <CustomInput
         label='일정 이름'
-        content={actionInfo?.scheduleName ?? ''}
+        content={scheduleName ?? ''}
         setContent={
           canEdit ?
             (text) => {
               const newName = checkLength(text, nameLengthLimit);
-              actionInfo?.setScheduleName(newName);
+              setScheduleName(newName);
             }
           : null
         }
@@ -241,18 +267,18 @@ export default function ScheduleAction({
       <div className='h-11 shrink-0' />
 
       <TimeSelector
-        startTime={actionInfo?.startTime ?? selectedDate}
+        startTime={startTime ?? selectedDate}
         setStartTime={(time) => {
           if (canEdit) {
-            actionInfo?.setStartTime(time);
+            setStartTime(time);
           } else {
             showToast('일정 정보는 팀장 또는 일정 생성자만 변경 가능해요');
           }
         }}
-        endTime={actionInfo?.endTime ?? selectedDate}
+        endTime={endTime ?? selectedDate}
         setEndTime={(time) => {
           if (canEdit) {
-            actionInfo?.setEndTime(time);
+            setEndTime(time);
           } else {
             showToast('일정 정보는 팀장 또는 일정 생성자만 변경 가능해요');
           }
@@ -261,11 +287,7 @@ export default function ScheduleAction({
 
       <div className='h-11 shrink-0' />
 
-      <Todo
-        todos={actionInfo?.todos ?? []}
-        setTodo={actionInfo?.setTodo}
-        scrollRef={scrollRef}
-      />
+      <Todo todos={todos ?? []} setTodo={setTodos} scrollRef={scrollRef} />
 
       <div className='h-11 shrink-0' />
       <div className='flex-1' />
