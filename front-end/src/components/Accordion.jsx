@@ -3,9 +3,9 @@ import TextButton, { TextButtonType } from './buttons/TextButton';
 import Icon from './Icon';
 import { useNavigate } from 'react-router-dom';
 import usePushNoti from '../api/usePushNoti';
+import { checkIsFinished } from '../utility/time';
 
 /**
- * 아코디언 컴포넌트... 그냥 네비바 같은디..?
  * @param {object} props
  * @param {boolean} props.isMainPage - 메인 페이지 여부
  * @param {number} props.selectedTeamId - 선택된 팀 ID
@@ -31,16 +31,21 @@ export default function Accordion({
   const { setPushNoti, isLoading: waitingAppServerKey } = usePushNoti();
   const navigate = useNavigate();
 
+  // 종료된 팀 필터링
+  const filteredTeamList = teamList.filter(
+    (team) => !checkIsFinished(team.endDate, new Date()),
+  );
+
   return (
     <header className='relative flex h-[60px] w-full items-center justify-between'>
-      {teamList.length === 0 ?
+      {filteredTeamList.length === 0 ?
         <Icon name='logo' />
       : <details ref={detailsRef} className='group z-0'>
           <summary className='header-3 flex cursor-pointer list-none items-center gap-0.5 text-white'>
             {showAllSchedule ?
               '전체 일정'
-            : (teamList.find((team) => team.id === selectedTeamId)?.name ??
-              '선택 안됨')
+            : (filteredTeamList.find((team) => team.id === selectedTeamId)
+                ?.name ?? '선택 안됨')
             }
             <Icon
               name='unfoldMore'
@@ -48,7 +53,7 @@ export default function Accordion({
             />
           </summary>
           <div className='rounded-400 scrollbar-hidden absolute top-full flex max-h-96 w-full flex-col divide-y-1 divide-gray-600 overflow-y-auto bg-gray-800 px-5'>
-            {teamList.map((team) => (
+            {filteredTeamList.map((team) => (
               <TextButton
                 key={team.id}
                 type={
@@ -88,7 +93,7 @@ export default function Accordion({
       }
       {isMainPage ?
         <div className='flex gap-4 divide-gray-600'>
-          {teamList.length > 0 && (
+          {filteredTeamList.length > 0 && (
             <button
               onClick={() => {
                 navigate('/main/notification');
