@@ -13,7 +13,7 @@ import { useLocation } from 'react-router-dom';
 import useSchedule from './hooks/useSchedule';
 import useScheduleAction from './hooks/useScheduleAction';
 import useCalendarScroll from './hooks/useCalendarScroll';
-import { useTeam } from '../../useTeam';
+import { useTeam } from '../../store/useTeam';
 import Spinner from '../../components/Spinner';
 
 export default function Calendar() {

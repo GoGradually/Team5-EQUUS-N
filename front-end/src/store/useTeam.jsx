@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useMyTeams } from './api/useMainPage';
+import { useMyTeams } from '../api/useMainPage';
 import { useTeamContext } from './TeamContext';
 
 /**

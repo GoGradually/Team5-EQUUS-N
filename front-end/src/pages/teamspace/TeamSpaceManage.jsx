@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import Icon from '../../components/Icon';
 import MemberElement from './components/MemberElement';
 import { showToast } from '../../utility/handleToast';
-import { useUser } from '../../useUser';
+import { useUser } from '../../store/useUser';
 import { shareCode } from '../../utility/share';
 
 export default function TeamSpaceManage() {

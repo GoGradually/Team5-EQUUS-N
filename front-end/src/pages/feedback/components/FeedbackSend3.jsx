@@ -5,7 +5,7 @@ import {
 } from '../../../api/useFeedback';
 import Tag, { TagType } from '../../../components/Tag';
 import TextArea from '../../../components/TextArea';
-import { useTeam } from '../../../useTeam';
+import { useTeam } from '../../../store/useTeam';
 import { useEffect, useReducer, useState } from 'react';
 import AiButton from '../../../components/buttons/AiButton';
 import FooterWrapper from '../../../components/wrappers/FooterWrapper';

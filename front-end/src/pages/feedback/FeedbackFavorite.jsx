@@ -10,7 +10,7 @@ import FooterWrapper from '../../components/wrappers/FooterWrapper';
 import LargeButton from '../../components/buttons/LargeButton';
 import { useEmailSignUp, useGoogleSignup } from '../../api/useAuth';
 import { showToast } from '../../utility/handleToast';
-import { useUser } from '../../useUser';
+import { useUser } from '../../store/useUser';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import NavBar2 from '../../components/NavBar2';
 

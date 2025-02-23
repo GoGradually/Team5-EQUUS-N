@@ -15,7 +15,7 @@ import MediumButton from '../../components/buttons/MediumButton';
 import { hideModal, showModal } from '../../utility/handleModal';
 import { useEditTeam, useLeaveTeam } from '../../api/useTeamspace';
 import { reSelectTeam } from './components/MemberElement';
-import { useTeam } from '../../useTeam';
+import { useTeam } from '../../store/useTeam';
 
 /**
  * @param {object} props

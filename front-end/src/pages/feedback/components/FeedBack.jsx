@@ -8,7 +8,7 @@ import {
   useFeedbackLikeCancel,
   useFeedbackLike,
 } from '../../../api/useFeedback';
-import { useUser } from '../../../useUser';
+import { useUser } from '../../../store/useUser';
 
 export const FeedBackType = Object.freeze({
   SELF: 'SELF',

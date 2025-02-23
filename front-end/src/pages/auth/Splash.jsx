@@ -6,7 +6,7 @@ import googleLogo from '../../assets/images/google-logo.png';
 import Icon from '../../components/Icon';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useGetGoogleUrl, useGetMember } from '../../api/useAuth';
-import { useUser } from '../../useUser';
+import { useUser } from '../../store/useUser';
 import { useJoinTeam } from '../../api/useTeamspace';
 
 /**

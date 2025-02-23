@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import NavBar2 from '../../components/NavBar2';
 import ProfileImage from '../../components/ProfileImage';
 import { useSearchMember } from '../../api/useMyPage';
-import { useUser } from '../../useUser';
+import { useUser } from '../../store/useUser';
 import Icon from '../../components/Icon';
 import { useLogout } from '../../api/useAuth';
 
@@ -51,7 +51,7 @@ export default function MyPageHome() {
               count={member.sentFeedbackCount} // api 연결 후 수정
               onClick={() => navigate('/feedback/sent')}
             />
-            <div className='h-full w-px bg-gray-500' />
+            <div className='h-full w-1 bg-gray-500' />
             <FeedbackCount
               count={member.receivedFeedbackCount} // api 연결 후 수정
               onClick={() => navigate('/feedback/received')}

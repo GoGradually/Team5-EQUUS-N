@@ -12,8 +12,8 @@ import CustomDatePicker, {
   DatePickerDropdown,
 } from '../../components/CustomDatePicker';
 import { useMakeTeam } from '../../api/useTeamspace';
-import { useTeam } from '../../useTeam';
-import useHandlePop from '../../useHandlePop';
+import { useTeam } from '../../store/useTeam';
+import useHandlePop from '../../utility/useHandlePop';
 
 /**
  * @param {object} props

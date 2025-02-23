@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useGetSchedules } from '../../../api/useCalendar';
-import { useTeam } from '../../../useTeam';
+import { useTeam } from '../../../store/useTeam';
 import { changeDayName, getDateInfo, toKST } from '../../../utility/time';
 import classNames from 'classnames';
 

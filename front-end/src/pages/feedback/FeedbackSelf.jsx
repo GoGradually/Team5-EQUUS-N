@@ -8,8 +8,8 @@ import { showToast } from '../../utility/handleToast';
 import { useFeedbackSelf } from '../../api/useFeedback2';
 import { useNavigate } from 'react-router-dom';
 import CustomInput from '../../components/CustomInput';
-import { useUser } from '../../useUser';
-import { useTeam } from '../../useTeam';
+import { useUser } from '../../store/useUser';
+import { useTeam } from '../../store/useTeam';
 import { checkLength } from '../../utility/inputChecker';
 
 export default function FeedbackSelf() {

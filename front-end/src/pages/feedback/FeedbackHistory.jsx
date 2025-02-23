@@ -7,8 +7,8 @@ import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import { DropdownSmall } from '../../components/Dropdown';
 import Icon from '../../components/Icon';
 import FeedBack, { FeedBackType } from './components/FeedBack';
-import { useUser } from '../../useUser';
-import { useTeam } from '../../useTeam';
+import { useUser } from '../../store/useUser';
+import { useTeam } from '../../store/useTeam';
 import Spinner from '../../components/Spinner';
 
 export default function FeedbackHistory() {
