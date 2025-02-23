@@ -48,6 +48,16 @@ export default function TeamSpaceEdit({ isFirst = false }) {
     }
   };
 
+  const handleConfirmDeleteTeam = () => {
+    leaveTeam(null, {
+      onSuccess: () => {
+        hideModal();
+        reSelectTeam(teamId, selectedTeam, removeSelectedTeam);
+        navigate(-2);
+      },
+    });
+  };
+
   const deleteTeamModal = (
     <Modal
       type='DOUBLE'
@@ -56,15 +66,7 @@ export default function TeamSpaceEdit({ isFirst = false }) {
         <MediumButton
           text='삭제'
           isOutlined={false}
-          onClick={() => {
-            leaveTeam(null, {
-              onSuccess: () => {
-                hideModal();
-                reSelectTeam(teamId, selectedTeam, removeSelectedTeam);
-                navigate(-2);
-              },
-            });
-          }}
+          onClick={handleConfirmDeleteTeam}
         />
       }
       subButton={
@@ -91,6 +93,14 @@ export default function TeamSpaceEdit({ isFirst = false }) {
 
   const onClickPop = () => {
     navigate(-1);
+  };
+
+  const handleToggleAnonymous = () => {
+    setTeam({
+      ...team,
+      feedbackType:
+        team.feedbackType === 'IDENTIFIED' ? 'ANONYMOUS' : 'IDENTIFIED',
+    });
   };
 
   useEffect(() => {
@@ -165,15 +175,7 @@ export default function TeamSpaceEdit({ isFirst = false }) {
         addOn={
           <button
             className='flex h-full w-full items-center justify-center'
-            onClick={() => {
-              setTeam({
-                ...team,
-                feedbackType:
-                  team.feedbackType === 'IDENTIFIED' ?
-                    'ANONYMOUS'
-                  : 'IDENTIFIED',
-              });
-            }}
+            onClick={handleToggleAnonymous}
           >
             <Icon
               name={

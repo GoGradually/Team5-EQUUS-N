@@ -106,6 +106,16 @@ export default function FeedbackHistory() {
     refetch();
   }
 
+  const handleOnlyLikeButton = () => {
+    setOnlyLiked(!onlyLiked);
+    refreshData();
+  };
+
+  const handleSortOrderButton = () => {
+    setSortBy(sortBy === 'createdAt:desc' ? 'createdAt:asc' : 'createdAt:desc');
+    refreshData();
+  };
+
   return (
     <div
       className='scrollbar-hidden flex h-full flex-col overflow-x-hidden overflow-y-auto'
@@ -137,12 +147,7 @@ export default function FeedbackHistory() {
           <div className='button-2 flex items-center gap-2 text-gray-100'>
             {pageType !== FeedBackType.SELF && (
               <>
-                <button
-                  onClick={() => {
-                    setOnlyLiked(!onlyLiked);
-                    refreshData();
-                  }}
-                >
+                <button onClick={handleOnlyLikeButton}>
                   <p className={onlyLiked ? 'caption-2 text-lime-500' : ''}>
                     {pageType === FeedBackType.RECEIVE ?
                       '도움 받은 피드백'
@@ -154,14 +159,7 @@ export default function FeedbackHistory() {
             )}
             <button
               className='flex items-center gap-1'
-              onClick={() => {
-                setSortBy(
-                  sortBy === 'createdAt:desc' ? 'createdAt:asc' : (
-                    'createdAt:desc'
-                  ),
-                );
-                refreshData();
-              }}
+              onClick={handleSortOrderButton}
             >
               <p>{sortBy === 'createdAt:desc' ? '최신순' : '과거순'}</p>
               <Icon name='swapVert' />

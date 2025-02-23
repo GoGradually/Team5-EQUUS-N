@@ -31,6 +31,15 @@ export default function MainCard2({
     ...teamMates.filter((mate) => mate.id !== userId),
   ];
 
+  const handleClickInvite = () => {
+    inviteTeam(selectedTeam, {
+      onSuccess: (data) => {
+        const inviteCode = data.token;
+        shareCode(inviteCode);
+      },
+    });
+  };
+
   return (
     <div className={'rounded-400 mx-5 h-fit bg-gray-800 p-4'}>
       <p className='subtitle-2 pl-1 text-gray-100'>피드백 주고받기</p>
@@ -47,17 +56,7 @@ export default function MainCard2({
           );
         })}
         {teamMates.length < 4 && (
-          <ProfileImageWithText
-            text='팀원초대'
-            onClick={() => {
-              inviteTeam(selectedTeam, {
-                onSuccess: (data) => {
-                  const inviteCode = data.token;
-                  shareCode(inviteCode);
-                },
-              });
-            }}
-          />
+          <ProfileImageWithText text='팀원초대' onClick={handleClickInvite} />
         )}
       </div>
       <MediumButton

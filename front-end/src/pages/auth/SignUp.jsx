@@ -36,6 +36,21 @@ export default function SignUp() {
     setNickName(nickName.trim());
   }, [nickName]);
 
+  const handleClickNextButton = () => {
+    if (
+      checkSignUpInfos(certState, password, passwordConfirm, nickName) === true
+    ) {
+      navigate('/feedback/favorite?process=signup', {
+        state: {
+          email,
+          password,
+          name: nickName,
+          profileImage: getRandomProfile(),
+        },
+      });
+    }
+  };
+
   return (
     <div className='relative flex h-screen w-full flex-col justify-start'>
       <NavBar
@@ -129,25 +144,7 @@ export default function SignUp() {
             passwordConfirm !== password ||
             nickName.length === 0
           }
-          onClick={() => {
-            if (
-              checkSignUpInfos(
-                certState,
-                password,
-                passwordConfirm,
-                nickName,
-              ) === true
-            ) {
-              navigate('/feedback/favorite?process=signup', {
-                state: {
-                  email,
-                  password,
-                  name: nickName,
-                  profileImage: getRandomProfile(),
-                },
-              });
-            }
-          }}
+          onClick={handleClickNextButton}
         />
       </div>
     </div>

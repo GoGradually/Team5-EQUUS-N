@@ -66,6 +66,16 @@ export default function MemberElement({ teamId, member, leaderId, iamLeader }) {
     />
   );
 
+  const handleLeaveTeam = () => {
+    leaveTeam(null, {
+      onSuccess: () => {
+        hideModal();
+        reSelectTeam(teamId, selectedTeam, removeSelectedTeam);
+        navigate(-1);
+      },
+    });
+  };
+
   const leaveTeamModal = (
     <Modal
       type='SINGLE'
@@ -74,15 +84,7 @@ export default function MemberElement({ teamId, member, leaderId, iamLeader }) {
         <MediumButton
           text='확인'
           isOutlined={false}
-          onClick={() => {
-            leaveTeam(null, {
-              onSuccess: () => {
-                hideModal();
-                reSelectTeam(teamId, selectedTeam, removeSelectedTeam);
-                navigate(-1);
-              },
-            });
-          }}
+          onClick={handleLeaveTeam}
         />
       }
     />
