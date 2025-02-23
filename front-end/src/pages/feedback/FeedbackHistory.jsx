@@ -170,7 +170,7 @@ export default function FeedbackHistory() {
         </div>
       </StickyWrapper>
       {isLoading && feedbacks.length === 0 ?
-        <Spinner></Spinner>
+        <Spinner bgColor='bg-gray-900' />
       : feedbacks.length > 0 ?
         <ul>
           {feedbacks.map((feedback) => {
