@@ -165,7 +165,7 @@ a {
 }
 
 .scrollbar-hidden {
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
 
 summary::-webkit-details-marker {
