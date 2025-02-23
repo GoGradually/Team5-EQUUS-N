@@ -6,7 +6,7 @@ import StickyWrapper from '../../../components/wrappers/StickyWrapper';
 import { showToast } from '../../../utility/handleToast';
 import { isEmpty } from '../../../utility/inputChecker';
 import Todo from './Todo';
-import { useUser } from '../../../useUser';
+import { useUser } from '../../../store/useUser';
 import { useEditSchedule } from '../../../api/useCalendar';
 
 /**

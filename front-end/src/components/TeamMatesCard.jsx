@@ -1,7 +1,6 @@
 import { useInviteTeam } from '../api/useTeamspace';
-import { useTeam } from '../useTeam';
-import { useUser } from '../useUser';
-import { showToast } from '../utility/handleToast';
+import { useTeam } from '../store/useTeam';
+import { useUser } from '../store/useUser';
 import { shareCode } from '../utility/share';
 import MediumButton from './buttons/MediumButton';
 import { ProfileImageWithText } from './ProfileImage';
@@ -17,7 +16,7 @@ import { ProfileImageWithText } from './ProfileImage';
  * @param {function} props.onReceivedFeedbackClick - 피드백 보관함 클릭 이벤트
  * @returns {JSX.Element} - 메인 카드 2 컴포넌트
  */
-export default function MainCard2({
+export default function TeamMatesCard({
   teamMates,
   onClick,
   onReceivedFeedbackClick,

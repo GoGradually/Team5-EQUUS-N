@@ -8,8 +8,8 @@ import Icon from '../../../components/Icon';
 import Modal from '../../../components/modals/Modal';
 import ProfileImage from '../../../components/ProfileImage';
 import Tag, { TagType } from '../../../components/Tag';
-import { useTeam } from '../../../useTeam';
-import { useUser } from '../../../useUser';
+import { useTeam } from '../../../store/useTeam';
+import { useUser } from '../../../store/useUser';
 import { hideModal, showModal } from '../../../utility/handleModal';
 import { useNavigate } from 'react-router-dom';
 

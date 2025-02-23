@@ -5,13 +5,13 @@ import {
   useNotification,
 } from '../../api/useMainPage';
 import Accordion from '../../components/Accordion';
-import MainCard2 from '../../components/MainCard2';
+import TeamMatesCard from '../../components/TeamMatesCard';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import MainCard from './components/MainCard';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import '../../slider.css';
+import '../../styles/slider.css';
 import { filterNotifications } from '../../utility/handleNotification';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { hideModal, showModal } from '../../utility/handleModal';
@@ -23,10 +23,10 @@ import ScheduleAction, {
 } from '../calendar/components/ScheduleAction';
 import TodoAdd from '../calendar/components/TodoAdd';
 import { getScheduleTimeDiff } from '../../utility/time';
-import { useTeam } from '../../useTeam';
+import { useTeam } from '../../store/useTeam';
 import useScheduleAction from '../calendar/hooks/useScheduleAction';
-import { useUser } from '../../useUser';
-import useHandlePop from '../../useHandlePop';
+import { useUser } from '../../store/useUser';
+import useHandlePop from '../../utility/useHandlePop';
 import Banner from './components/Banner';
 import { handleFreqFeedbackReq } from './components/Alarm';
 import OnboardingNotice from './components/OnboardingNotice';
@@ -183,7 +183,7 @@ export default function MainPage() {
         )}
         <div className='h-8' />
         {matesData && (
-          <MainCard2
+          <TeamMatesCard
             teamMates={matesData}
             onReceivedFeedbackClick={() =>
               navigate(

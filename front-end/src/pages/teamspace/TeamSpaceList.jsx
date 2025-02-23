@@ -4,7 +4,7 @@ import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import { useNavigate } from 'react-router-dom';
 import TeamElement from './components/TeamElement';
 import { checkIsFinished } from '../../utility/time';
-import { useTeam } from '../../useTeam';
+import { useTeam } from '../../store/useTeam';
 
 export default function TeamSpaceList() {
   const navigate = useNavigate();

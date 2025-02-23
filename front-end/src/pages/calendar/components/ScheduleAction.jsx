@@ -29,9 +29,9 @@ import {
   useEditSchedule,
   usePostSchedule,
 } from '../../../api/useCalendar';
-import { useTeam } from '../../../useTeam';
+import { useTeam } from '../../../store/useTeam';
 import useScheduleAction from '../hooks/useScheduleAction';
-import { useUser } from '../../../useUser';
+import { useUser } from '../../../store/useUser';
 
 export const ScheduleActionType = Object.freeze({
   ADD: 'add',

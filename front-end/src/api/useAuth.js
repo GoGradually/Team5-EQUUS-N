@@ -2,9 +2,9 @@ import { api } from './baseApi';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { showToast } from '../utility/handleToast';
-import { useUser } from '../useUser';
+import { useUser } from '../store/useUser';
 import { useJoinTeam } from './useTeamspace';
-import { useTeam } from '../useTeam';
+import { useTeam } from '../store/useTeam';
 import { getRandomProfile } from '../components/ProfileImage';
 import { stopPush } from './usePushNoti';
 

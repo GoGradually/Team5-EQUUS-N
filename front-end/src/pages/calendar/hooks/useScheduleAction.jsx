@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ScheduleActionType } from '../components/ScheduleAction';
-import { useUser } from '../../../useUser';
+import { useUser } from '../../../store/useUser';
 import { getNearest10MinTime } from '../../../utility/time';
 
 export default function useScheduleAction(date, selectedSchedule) {

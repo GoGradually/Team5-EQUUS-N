@@ -4,7 +4,7 @@ import Icon from '../../../components/Icon';
 import MediumButton from '../../../components/buttons/MediumButton';
 import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { useUser } from '../../../useUser';
+import { useUser } from '../../../store/useUser';
 
 /**
  *

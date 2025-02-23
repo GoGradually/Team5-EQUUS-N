@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import guide1 from '../../../assets/images/guide1.png';
-import guide2 from '../../../assets/images/guide2.png';
+import guide1 from '../../../assets/images/guide1.webp';
+import guide2 from '../../../assets/images/guide2.webp';
 import { hideModal } from '../../../utility/handleModal';
 
 // showModal(<OnboardingNotice />);

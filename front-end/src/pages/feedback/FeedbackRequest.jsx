@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { showToast } from '../../utility/handleToast';
 import { useFeedbackRequest } from '../../api/useFeedback2';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useTeam } from '../../useTeam';
+import { useTeam } from '../../store/useTeam';
 
 export default function FeedbackRequest() {
   const [textLength, setTextLength] = useState(0);
