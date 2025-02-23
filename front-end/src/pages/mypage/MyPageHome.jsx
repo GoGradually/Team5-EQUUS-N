@@ -51,7 +51,7 @@ export default function MyPageHome() {
               count={member.sentFeedbackCount} // api 연결 후 수정
               onClick={() => navigate('/feedback/sent')}
             />
-            <div className='h-full w-1 bg-gray-500' />
+            <div className='h-full w-px bg-gray-500' />
             <FeedbackCount
               count={member.receivedFeedbackCount} // api 연결 후 수정
               onClick={() => navigate('/feedback/received')}
