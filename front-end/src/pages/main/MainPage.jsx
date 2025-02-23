@@ -219,8 +219,8 @@ export default function MainPage() {
                             teamId: selectedTeam,
                             senderId: mate.id,
                             senderName: mate.name,
-                          }),
-                          hideModal();
+                          });
+                        hideModal();
                       }}
                       isOutlined={false}
                       disabled={false}

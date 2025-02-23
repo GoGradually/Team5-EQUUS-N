@@ -52,8 +52,8 @@ function AnimatedRoutes() {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode='wait'>
-      <Routes key={location.pathname}>
+    <AnimatePresence>
+      <Routes key={location.pathname} location={location}>
         <Route element={<Layout />}>
           <Route path='/:teamCode?' element={<Splash />} />
           <Route path='/login/google' element={<SplashForOAuth />} />
@@ -103,7 +103,14 @@ function AnimatedRoutes() {
               />
             </Route>
             <Route path='mypage'>
-              <Route index element={<MyPageHome />} />
+              <Route
+                index
+                element={
+                  <PageWrapper>
+                    <MyPageHome />
+                  </PageWrapper>
+                }
+              />
               <Route path='self' element={<FeedbackHistory />} />
               <Route path='report' element={<Report />} />
               <Route path='edit' element={<ProfileEdit />} />
@@ -118,10 +125,13 @@ function AnimatedRoutes() {
 function PageWrapper({ children }) {
   return (
     <motion.div
-      initial={{ opacity: 0, x: 50 }} // 처음 로드될 때의 상태
+      initial={{ opacity: 0, x: 240 }} // 처음 로드될 때의 상태
       animate={{ opacity: 1, x: 0 }} // 활성화될 때
-      exit={{ opacity: 0, x: -50 }} // 제거될 때
-      transition={{ duration: 0.3 }}
+      exit={{ opacity: 0, x: 240, transition: { duration: 0.2 } }} // 제거될 때
+      transition={{
+        x: { ease: 'circOut' },
+        ease: 'linear',
+      }}
     >
       {children}
     </motion.div>
