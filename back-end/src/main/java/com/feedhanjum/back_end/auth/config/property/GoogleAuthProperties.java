@@ -1,4 +1,4 @@
-package com.feedhanjum.back_end.auth.config;
+package com.feedhanjum.back_end.auth.config.property;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile({"dev", "prod"})
 @ConfigurationProperties("google")
-public class GoogleAuthProperty {
+public class GoogleAuthProperties {
 
     private String clientId;
 
