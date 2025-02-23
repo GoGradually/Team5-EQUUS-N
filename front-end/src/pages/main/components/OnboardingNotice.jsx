@@ -7,6 +7,15 @@ import { hideModal } from '../../../utility/handleModal';
 
 export default function OnboardingNotice({ setPushNoti }) {
   const [page, setPage] = useState(1);
+
+  const handleClickNextButton =
+    page === 1 ?
+      () => setPage(2)
+    : async () => {
+        await setPushNoti();
+        hideModal();
+      };
+
   return (
     <div className='mobile:px-10 tablet:px-30 desktop:px-[30%] fixed inset-0 flex items-center justify-center px-5'>
       <div className='rounded-400 relative h-[466px] w-full bg-white p-7'>
@@ -46,15 +55,7 @@ export default function OnboardingNotice({ setPushNoti }) {
             }
             <button
               className='body-3 rounded-300 w-[98px] bg-lime-500 py-2.5'
-              onClick={
-                page === 1 ?
-                  () => setPage(2)
-                : async () => {
-                    setPage(1);
-                    await setPushNoti();
-                    hideModal();
-                  }
-              }
+              onClick={handleClickNextButton}
             >
               {page === 1 ? '다음' : '시작하기'}
             </button>

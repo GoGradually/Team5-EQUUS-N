@@ -189,6 +189,13 @@ export default function ScheduleAction({
       />,
     );
 
+  const handleCloseActionButton = () => {
+    if (type !== ScheduleActionType.EDIT) {
+      clearData();
+    }
+    onClose();
+  };
+
   return (
     <div
       ref={scrollRef}
@@ -206,14 +213,7 @@ export default function ScheduleAction({
             <Icon name='remove' className='absolute top-5 left-0 text-white' />
           </button>
         )}
-        <button
-          onClick={() => {
-            if (type !== ScheduleActionType.EDIT) {
-              clearData();
-            }
-            onClose();
-          }}
-        >
+        <button onClick={handleCloseActionButton}>
           <Icon name='delete' className='absolute top-5 right-0 text-white' />
         </button>
       </StickyWrapper>

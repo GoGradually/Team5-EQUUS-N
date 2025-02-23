@@ -34,6 +34,20 @@ export default function FeedbackSendFreq() {
     }
   }, [whoNeedFreqFeedback]);
 
+  const handleClickNext = () =>
+    navigate('/feedback/send/1', {
+      state: {
+        receiver: {
+          name: selectedRequester.requester.name,
+          id: selectedRequester.requester.id,
+        },
+        needToRedirectSelectionPage:
+          locationState.memberId == null && whoNeedFreqFeedback?.length > 1,
+        requestedContent: selectedRequester.requestedContent,
+        ...locationState,
+      },
+    });
+
   return (
     <div className='flex size-full flex-col gap-8'>
       {whoNeedFreqFeedback && whoNeedFreqFeedback.length > 0 ?
@@ -86,21 +100,7 @@ export default function FeedbackSendFreq() {
           <LargeButton
             isOutlined={false}
             text='다음'
-            onClick={() =>
-              navigate('/feedback/send/1', {
-                state: {
-                  receiver: {
-                    name: selectedRequester.requester.name,
-                    id: selectedRequester.requester.id,
-                  },
-                  needToRedirectSelectionPage:
-                    locationState.memberId == null &&
-                    whoNeedFreqFeedback?.length > 1,
-                  requestedContent: selectedRequester.requestedContent,
-                  ...locationState,
-                },
-              })
-            }
+            onClick={handleClickNext}
           />
         </FooterWrapper>
       )}

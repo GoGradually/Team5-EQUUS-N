@@ -4,6 +4,19 @@ import { checkLength } from '../../../utility/inputChecker';
 
 export default function Todo({ todos, setTodo, scrollRef }) {
   const todoMaxLength = 50;
+
+  const handleAddTodoButton = () => {
+    setTodo([...todos, '']);
+    scrollRef.current.scrollTo({
+      top: scrollRef.current.scrollHeight,
+      behavior: 'smooth',
+    });
+  };
+
+  const handleDeleteTodoButton = (index) => {
+    setTodo(todos.filter((_, index2) => index2 !== index));
+  };
+
   return (
     <div className='flex flex-col gap-2'>
       <h3 className='subtitle-2 text-gray-0'>내 역할</h3>
@@ -27,11 +40,7 @@ export default function Todo({ todos, setTodo, scrollRef }) {
                 isOutlined={false}
                 bgColor='gray-700'
                 addOn={
-                  <button
-                    onClick={() => {
-                      setTodo(todos.filter((_, index2) => index2 !== index));
-                    }}
-                  >
+                  <button onClick={() => handleDeleteTodoButton(index)}>
                     <Icon name='deleteSmall' className='text-gray-300' />
                   </button>
                 }
@@ -42,13 +51,7 @@ export default function Todo({ todos, setTodo, scrollRef }) {
       </ul>
       <button
         className='rounded-300 flex h-[52px] w-full items-center justify-center border border-gray-400'
-        onClick={() => {
-          setTodo([...todos, '']);
-          scrollRef.current.scrollTo({
-            top: scrollRef.current.scrollHeight,
-            behavior: 'smooth',
-          });
-        }}
+        onClick={handleAddTodoButton}
       >
         <Icon name='plusM' className='text-gray-400' />
       </button>

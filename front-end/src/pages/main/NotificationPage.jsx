@@ -18,6 +18,11 @@ export default function NotificationPage() {
     }
   }, [notificationsData]);
 
+  const handleReadAllButton = () =>
+    markAsRead({
+      notificationIds: [...notifications.map((noti) => noti.notificationId)],
+    });
+
   return (
     <div className='flex h-full flex-col'>
       <StickyWrapper>
@@ -33,15 +38,7 @@ export default function NotificationPage() {
       </StickyWrapper>
       <div className='mt-6 mb-2 flex justify-between'>
         <h2 className='subtitle-1 text-gray-0'>새로운 알림</h2>
-        <button
-          onClick={() =>
-            markAsRead({
-              notificationIds: [
-                ...notifications.map((noti) => noti.notificationId),
-              ],
-            })
-          }
-        >
+        <button onClick={handleReadAllButton}>
           <Tag type='TEAM_NAME'>모두 읽음</Tag>
         </button>
       </div>
