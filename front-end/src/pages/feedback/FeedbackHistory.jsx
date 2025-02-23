@@ -9,6 +9,7 @@ import Icon from '../../components/Icon';
 import FeedBack, { FeedBackType } from './components/FeedBack';
 import { useUser } from '../../useUser';
 import { useTeam } from '../../useTeam';
+import Spinner from '../../components/Spinner';
 
 export default function FeedbackHistory() {
   const location = useLocation();
@@ -168,11 +169,19 @@ export default function FeedbackHistory() {
           </div>
         </div>
       </StickyWrapper>
-      {feedbacks.length > 0 ?
+      {isLoading && feedbacks.length === 0 ?
+        <Spinner bgColor='bg-gray-900' />
+      : feedbacks.length > 0 ?
         <ul>
           {feedbacks.map((feedback) => {
             return (
-              <li key={feedback.feedbackId}>
+              <li
+                key={
+                  pageType === FeedBackType.SELF ?
+                    feedback.createdAt
+                  : feedback.feedbackId
+                }
+              >
                 <FeedBack feedbackType={pageType} data={feedback} />
               </li>
             );

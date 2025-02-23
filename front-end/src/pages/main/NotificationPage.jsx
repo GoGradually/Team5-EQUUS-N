@@ -5,10 +5,14 @@ import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import Alarm from './components/Alarm';
 import { useNavigate } from 'react-router-dom';
 import Tag from '../../components/Tag';
+import Spinner from '../../components/Spinner';
 export default function NotificationPage() {
-  const [selectedTeamId, setSelectedTeamId] = useState(1);
-  const { data: notificationsData, markAsRead } =
-    useNotification(selectedTeamId);
+  const [selectedTeamId] = useState(1);
+  const {
+    data: notificationsData,
+    isLoading,
+    markAsRead,
+  } = useNotification(selectedTeamId);
   const [notifications, setNotifications] = useState([]);
   const navigate = useNavigate();
 
@@ -19,7 +23,7 @@ export default function NotificationPage() {
   }, [notificationsData]);
 
   return (
-    <div className='flex h-full flex-col'>
+    <div className='flex h-dvh flex-col'>
       <StickyWrapper>
         <NavBar2
           isCloseLeft={true}
@@ -45,8 +49,10 @@ export default function NotificationPage() {
           <Tag type='TEAM_NAME'>모두 읽음</Tag>
         </button>
       </div>
-      <ul className='h-full'>
-        {notifications.length > 0 ?
+      <ul className='relative h-full'>
+        {isLoading ?
+          <Spinner bgColor='bg-gray-900' />
+        : notifications.length > 0 ?
           notifications.map((noti) => (
             <li
               key={noti.notificationId}

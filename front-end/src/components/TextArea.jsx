@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Icon from './Icon';
 import { transformToBytes } from '../utility/inputChecker';
+import Spinner from './Spinner';
 
 export default function TextArea({
   isWithGpt = false,
@@ -36,15 +37,11 @@ export default function TextArea({
   };
 
   const spinner = (
-    <div className='absolute inset-0 flex flex-col items-center justify-center'>
-      <div className='relative mt-6 mb-10 flex items-center justify-center'>
-        <div className='absolute size-10 animate-spin rounded-full bg-conic from-transparent from-5% to-lime-600' />
-        <div className='absolute size-[30px] rounded-full bg-gray-800' />
-      </div>
+    <Spinner>
       <p className='body-1 animate-pulse text-gray-300'>
         AI가 글을 다듬는 중...
       </p>
-    </div>
+    </Spinner>
   );
 
   const normalTextArea = (

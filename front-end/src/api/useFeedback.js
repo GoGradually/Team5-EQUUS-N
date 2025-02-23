@@ -6,7 +6,7 @@ import { showToast } from '../utility/handleToast';
 export const useFeedbackReceived = (userId, params) => {
   return useQuery({
     queryKey: ['feedback-received', userId, params],
-    retry: 0,
+    gcTime: 0,
     queryFn: () => {
       let sendingParams = {
         filterHelpful: params.onlyLiked,
@@ -27,7 +27,7 @@ export const useFeedbackReceived = (userId, params) => {
 export const useFeedbackSent = (userId, params) => {
   return useQuery({
     queryKey: ['feedback-sent', userId, params],
-    retry: 0,
+    gcTime: 0,
     queryFn: () => {
       let sendingParams = {
         filterHelpful: params.onlyLiked,
