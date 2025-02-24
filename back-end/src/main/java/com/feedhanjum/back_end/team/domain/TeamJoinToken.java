@@ -43,9 +43,11 @@ public class TeamJoinToken {
     }
 
     // 연관 팀에 가입
-    public void joinTeam(Member member) {
+    public Team joinTeam(Member member) {
         validate();
-        getTeam().join(member);
+        Team team = getTeam();
+        team.join(member);
+        return team;
     }
 
     public Team getTeamInfo() {
