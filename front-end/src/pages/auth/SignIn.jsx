@@ -6,6 +6,7 @@ import Icon from '../../components/Icon';
 import { useState } from 'react';
 import { useLogin } from '../../api/useAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { checkSignInInfos } from '../../utility/inputChecker';
 
 /**
  * 로그인 페이지
@@ -18,6 +19,12 @@ export default function SignIn() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const { mutate: login, isLoading } = useLogin(locationState);
   const navigate = useNavigate();
+
+  const handleLoginButton = () => {
+    if (checkSignInInfos(email, password)) {
+      login({ email: email, password: password });
+    }
+  };
 
   return (
     <div className='relative flex h-dvh w-full flex-col justify-start'>
@@ -77,7 +84,7 @@ export default function SignIn() {
         <LargeButton
           text='로그인하기'
           isOutlined={false}
-          onClick={() => login({ email: email, password: password })}
+          onClick={handleLoginButton}
           disabled={isLoading} // 로딩 중일 때 버튼 비활성화
         />
       </div>
