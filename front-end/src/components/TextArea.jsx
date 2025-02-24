@@ -17,23 +17,16 @@ export default function TextArea({
   gptContents,
   setGptContents,
 }) {
-  const [overflownIndex, setOverflownIndex] = useState();
-
   const onInput = (e) => {
-    const { byteCount, overflowedIndex } = transformToBytes(e.target.value);
-    setTextLength(byteCount);
-
-    if (byteCount >= 399) {
-      if (!overflownIndex) {
-        setOverflownIndex(overflowedIndex);
-      }
-      if (overflownIndex)
-        e.target.value = e.target.value.slice(0, overflownIndex);
+    const value = e.target.value;
+    const { byteCount, overflowedIndex } = transformToBytes(value, 400);
+    if (overflowedIndex !== -1) {
+      setTextLength(byteCount);
+      setTextContent(value.slice(0, overflowedIndex));
     } else {
-      if (overflownIndex) setOverflownIndex(null);
+      setTextLength(byteCount);
+      setTextContent(value);
     }
-
-    setTextContent(e.target.value);
   };
 
   const spinner = (

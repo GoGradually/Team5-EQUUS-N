@@ -28,7 +28,6 @@ export default function ReportTopKeywords({ topKeywords }) {
  * @param {keyword} keyword
  */
 const Card = ({ keyword }) => {
-  console.log(keyword);
   return (
     <div className='rounded-400 flex w-full flex-col items-center justify-between gap-6 bg-gray-800 p-5'>
       <div className='text-3xl'>

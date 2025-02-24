@@ -33,6 +33,9 @@ import ProfileEdit from './pages/mypage/ProfileEdit';
 import Report from './pages/mypage/Report';
 import PasswordReset from './pages/auth/PasswordReset';
 import { motion, AnimatePresence } from 'motion/react';
+import { ErrorBoundary } from 'react-error-boundary';
+import logo from './assets/images/logo.png';
+import MediumButton from './components/buttons/MediumButton';
 
 const queryClient = new QueryClient();
 
@@ -52,73 +55,75 @@ function AnimatedRoutes() {
   const location = useLocation();
 
   return (
-    <AnimatePresence>
-      <Routes key={location.pathname} location={location}>
-        <Route element={<Layout />}>
-          <Route path='/:teamCode?' element={<Splash />} />
-          <Route path='/login/google' element={<SplashForOAuth />} />
-          <Route path='signin' element={<SignIn />} />
-          <Route path='signup' element={<SignUp />} />
-          <Route path='password/reset' element={<PasswordReset />} />
-          {/* 이 아래는 로그인 해야 이용 가능 */}
-          <Route element={<ProtectedRoute />}>
-            <Route path='feedback'>
-              <Route path='request' element={<FeedbackRequest />} />
-              <Route path='send' element={<FeedbackSendLayout />}>
-                <Route index element={<FeedbackSend />} />
-                <Route path='frequent' element={<FeedbackSendFreq />} />
-                <Route path=':step' element={<FeedbackSendStep />} />
+    <ErrorBoundary fallback={<ErrorFallback />}>
+      <AnimatePresence>
+        <Routes key={location.pathname} location={location}>
+          <Route element={<Layout />}>
+            <Route path='/:teamCode?' element={<Splash />} />
+            <Route path='/login/google' element={<SplashForOAuth />} />
+            <Route path='signin' element={<SignIn />} />
+            <Route path='signup' element={<SignUp />} />
+            <Route path='password/reset' element={<PasswordReset />} />
+            {/* 이 아래는 로그인 해야 이용 가능 */}
+            <Route element={<ProtectedRoute />}>
+              <Route path='feedback'>
+                <Route path='request' element={<FeedbackRequest />} />
+                <Route path='send' element={<FeedbackSendLayout />}>
+                  <Route index element={<FeedbackSend />} />
+                  <Route path='frequent' element={<FeedbackSendFreq />} />
+                  <Route path=':step' element={<FeedbackSendStep />} />
+                </Route>
+                <Route path='self' element={<FeedbackSelf />} />
+                <Route path='complete' element={<FeedbackComplete />} />
+                <Route path='favorite' element={<FeedbackFavorite />} />
+                <Route path='received' element={<FeedbackHistory />} />
+                <Route path='sent' element={<FeedbackHistory />} />
               </Route>
-              <Route path='self' element={<FeedbackSelf />} />
-              <Route path='complete' element={<FeedbackComplete />} />
-              <Route path='favorite' element={<FeedbackFavorite />} />
-              <Route path='received' element={<FeedbackHistory />} />
-              <Route path='sent' element={<FeedbackHistory />} />
-            </Route>
-            <Route path='teamspace'>
-              <Route path='make'>
-                <Route index element={<TeamSpaceMake />} />
+              <Route path='teamspace'>
+                <Route path='make'>
+                  <Route index element={<TeamSpaceMake />} />
+                  <Route
+                    path='first'
+                    element={<TeamSpaceMake isFirst={true} />}
+                  />
+                  <Route path='success' element={<TeamSpaceMakeSuccess />} />
+                </Route>
+                <Route path='list' element={<TeamSpaceList />} />
+                <Route path='manage/:teamId'>
+                  <Route index element={<TeamSpaceManage />} />
+                  <Route path='edit' element={<TeamSpaceEdit />} />
+                </Route>
+              </Route>
+              <Route path='calendar' element={<Calendar />} />
+              <Route path='main'>
+                <Route index element={<MainPage />} />
                 <Route
-                  path='first'
-                  element={<TeamSpaceMake isFirst={true} />}
+                  path='notification'
+                  element={
+                    <PageWrapper>
+                      <NotificationPage />
+                    </PageWrapper>
+                  }
                 />
-                <Route path='success' element={<TeamSpaceMakeSuccess />} />
               </Route>
-              <Route path='list' element={<TeamSpaceList />} />
-              <Route path='manage/:teamId'>
-                <Route index element={<TeamSpaceManage />} />
-                <Route path='edit' element={<TeamSpaceEdit />} />
+              <Route path='mypage'>
+                <Route
+                  index
+                  element={
+                    <PageWrapper>
+                      <MyPageHome />
+                    </PageWrapper>
+                  }
+                />
+                <Route path='self' element={<FeedbackHistory />} />
+                <Route path='report' element={<Report />} />
+                <Route path='edit' element={<ProfileEdit />} />
               </Route>
-            </Route>
-            <Route path='calendar' element={<Calendar />} />
-            <Route path='main'>
-              <Route index element={<MainPage />} />
-              <Route
-                path='notification'
-                element={
-                  <PageWrapper>
-                    <NotificationPage />
-                  </PageWrapper>
-                }
-              />
-            </Route>
-            <Route path='mypage'>
-              <Route
-                index
-                element={
-                  <PageWrapper>
-                    <MyPageHome />
-                  </PageWrapper>
-                }
-              />
-              <Route path='self' element={<FeedbackHistory />} />
-              <Route path='report' element={<Report />} />
-              <Route path='edit' element={<ProfileEdit />} />
             </Route>
           </Route>
-        </Route>
-      </Routes>
-    </AnimatePresence>
+        </Routes>
+      </AnimatePresence>
+    </ErrorBoundary>
   );
 }
 
@@ -138,3 +143,25 @@ function PageWrapper({ children }) {
     </motion.div>
   );
 }
+
+const ErrorFallback = () => {
+  return (
+    <div className='flex h-dvh w-screen flex-col items-center justify-center gap-4 bg-gray-900'>
+      <div className='mx-10 flex flex-col items-center gap-8'>
+        <img src={logo} className='size-20' />
+        <h1 className='text-4xl font-semibold text-gray-100'>에러 발생</h1>
+        <p className='text-center whitespace-pre-line text-gray-300'>
+          {
+            '예상치 못한 에러가 발생했습니다.\n버튼을 눌러 메인화면으로 돌아갈 수 있습니다.'
+          }
+        </p>
+
+        <MediumButton
+          isOutlined={false}
+          text='메인으로'
+          onClick={() => (window.location.href = '/main')}
+        />
+      </div>
+    </div>
+  );
+};
