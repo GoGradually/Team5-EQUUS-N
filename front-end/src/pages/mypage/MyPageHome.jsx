@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import NavBar2 from '../../components/NavBar2';
+import NavBar from '../../components/NavBar';
 import ProfileImage from '../../components/ProfileImage';
 import { useSearchMember } from '../../api/useMyPage';
 import { useUser } from '../../store/useUser';
@@ -25,7 +25,7 @@ export default function MyPageHome() {
 
   return (
     <div className='flex size-full flex-col'>
-      <NavBar2 canClose={true} onClickClose={() => navigate('/main')} />
+      <NavBar canClose={true} onClickClose={() => navigate('/main')} />
       {member && (
         <>
           <div className='mx-auto flex flex-col items-center'>
@@ -51,7 +51,7 @@ export default function MyPageHome() {
               count={member.sentFeedbackCount} // api 연결 후 수정
               onClick={() => navigate('/feedback/sent')}
             />
-            <div className='h-full w-1 bg-gray-500' />
+            <div className='h-full w-px bg-gray-500' />
             <FeedbackCount
               count={member.receivedFeedbackCount} // api 연결 후 수정
               onClick={() => navigate('/feedback/received')}

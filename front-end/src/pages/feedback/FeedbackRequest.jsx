@@ -1,4 +1,4 @@
-import NavBar2 from '../../components/NavBar2';
+import NavBar from '../../components/NavBar';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import TextArea from '../../components/TextArea';
 import LargeButton from '../../components/buttons/LargeButton';
@@ -26,7 +26,7 @@ export default function FeedbackRequest() {
   return (
     <div className='flex size-full flex-col'>
       <StickyWrapper>
-        <NavBar2
+        <NavBar
           canPop={true}
           onClickPop={() => {
             navigate('/main');

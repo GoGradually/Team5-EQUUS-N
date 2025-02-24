@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import NavBar2 from '../../components/NavBar2';
+import NavBar from '../../components/NavBar';
 import Tag, { TagType } from '../../components/Tag';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import { useInviteTeam, useTeamInfo } from '../../api/useTeamspace';
@@ -53,7 +53,7 @@ export default function TeamSpaceManage() {
   return (
     <div className='flex flex-col'>
       <StickyWrapper>
-        <NavBar2
+        <NavBar
           canPop={true}
           title='팀 스페이스 관리'
           onClickPop={() => {

@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { useFeedbackReceived, useFeedbackSent } from '../../api/useFeedback';
 import { useGetSelfFeedback } from '../../api/useMyPage';
-import NavBar2 from '../../components/NavBar2';
+import NavBar from '../../components/NavBar';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import { DropdownSmall } from '../../components/Dropdown';
 import Icon from '../../components/Icon';
@@ -122,7 +122,7 @@ export default function FeedbackHistory() {
       ref={scrollRef}
     >
       <StickyWrapper>
-        <NavBar2
+        <NavBar
           canPop={true}
           canClose={false}
           title={

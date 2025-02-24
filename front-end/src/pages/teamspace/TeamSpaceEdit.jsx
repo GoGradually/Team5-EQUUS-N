@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import CustomInput from '../../components/CustomInput';
-import NavBar2 from '../../components/NavBar2';
+import NavBar from '../../components/NavBar';
 import Icon from '../../components/Icon';
 import LargeButton from '../../components/buttons/LargeButton';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -121,7 +121,7 @@ export default function TeamSpaceEdit({ isFirst = false }) {
 
   return (
     <div className='relative flex h-dvh w-full flex-col justify-start'>
-      <NavBar2
+      <NavBar
         canPop={false}
         title='팀 스페이스 수정하기'
         canClose={true}

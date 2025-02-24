@@ -132,6 +132,7 @@ function PageWrapper({ children }) {
         x: { ease: 'circOut' },
         ease: 'linear',
       }}
+      className='size-full'
     >
       {children}
     </motion.div>
