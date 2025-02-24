@@ -1,3 +1,5 @@
+import { showToast } from '../utility/handleToast';
+
 const BASE_URL = 'https://api.feedhanjum.com';
 
 /**
@@ -49,6 +51,10 @@ const request = async (method, url, params = {}, body) => {
     }
   } catch (error) {
     console.error('API Request', error);
+    if (error.message === 'Failed to fetch') {
+      showToast('서버가 응답하지 않습니다');
+      throw new CustomError(500, '서버가 응답하지 않습니다');
+    }
     throw error;
   }
 };

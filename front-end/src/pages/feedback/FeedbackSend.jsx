@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ProfileImageWithText } from '../../components/ProfileImage';
 import FooterWrapper from '../../components/wrappers/FooterWrapper';
-import { useRegularFeedback } from '../../api/useFeedback2';
+import { useRegularFeedback } from '../../api/useFeedback';
 import { hideModal, showModal } from '../../utility/handleModal';
 import Modal, { ModalType } from '../../components/modals/Modal';
 import MediumButton from '../../components/buttons/MediumButton';
