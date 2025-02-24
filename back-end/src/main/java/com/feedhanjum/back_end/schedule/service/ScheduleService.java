@@ -211,9 +211,14 @@ public class ScheduleService {
             Long scheduleMemberId = dto.getScheduleMemberId();
 
             ScheduleNestedDto scheduleNestedDto = scheduleNestedDtoMap.computeIfAbsent(scheduleId, id -> new ScheduleNestedDto(dto));
-            ScheduleMemberNestedDto scheduleMemberNestedDto = scheduleMemberNestedDtoMap.computeIfAbsent(scheduleMemberId, id -> new ScheduleMemberNestedDto(dto));
+            ScheduleMemberNestedDto scheduleMemberNestedDto;
+            if (scheduleMemberNestedDtoMap.get(scheduleMemberId) == null) {
+                scheduleMemberNestedDto = new ScheduleMemberNestedDto(dto);
+                scheduleMemberNestedDtoMap.put(scheduleMemberId, scheduleMemberNestedDto);
+                scheduleNestedDto.addScheduleMemberNestedDto(scheduleMemberNestedDto);
+            }
+            scheduleMemberNestedDto = scheduleMemberNestedDtoMap.get(scheduleMemberId);
 
-            scheduleNestedDto.addScheduleMemberNestedDto(scheduleMemberNestedDto);
             if (dto.getTodo() != null) scheduleMemberNestedDto.addTodo(dto.getTodo());
         }
         return new ArrayList<>(scheduleNestedDtoMap.values());
