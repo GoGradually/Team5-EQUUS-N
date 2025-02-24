@@ -1,14 +1,13 @@
 package com.feedhanjum.back_end.auth.controller;
 
-import com.feedhanjum.back_end.auth.controller.dto.*;
+import com.feedhanjum.back_end.auth.controller.dto.request.*;
+import com.feedhanjum.back_end.auth.controller.dto.response.*;
 import com.feedhanjum.back_end.auth.controller.mapper.MemberMapper;
 import com.feedhanjum.back_end.auth.domain.EmailSignupToken;
 import com.feedhanjum.back_end.auth.domain.GoogleSignupToken;
 import com.feedhanjum.back_end.auth.domain.MemberDetails;
 import com.feedhanjum.back_end.auth.domain.PasswordResetToken;
-import com.feedhanjum.back_end.auth.exception.PasswordResetTokenNotValidException;
 import com.feedhanjum.back_end.auth.exception.PasswordResetTokenVerifyRequiredException;
-import com.feedhanjum.back_end.auth.exception.SignupTokenNotValidException;
 import com.feedhanjum.back_end.auth.exception.SignupTokenVerifyRequiredException;
 import com.feedhanjum.back_end.auth.infra.SessionConst;
 import com.feedhanjum.back_end.auth.service.AuthService;
@@ -116,9 +115,8 @@ public class AuthController {
             @ApiResponse(responseCode = "429", description = "이메일 발송 지연으로 인해 실패", content = @Content)
     })
     @PostMapping(value = "/send-signup-verification-email", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SignupEmailSendResponse> sendSignupVerificationEmail(HttpSession session, @Valid @RequestBody SignupEmailSendRequest request) {
+    public ResponseEntity<SignupEmailSendResponse> sendSignupVerificationEmail(@Valid @RequestBody SignupEmailSendRequest request) {
         EmailSignupToken emailSignupToken = authService.sendSignupVerificationEmail(request.email());
-        session.setAttribute(SessionConst.SIGNUP_TOKEN, emailSignupToken);
         SignupEmailSendResponse signupEmailSendResponse = new SignupEmailSendResponse(emailSignupToken.getExpireDate());
         return ResponseEntity.ok(signupEmailSendResponse);
     }
@@ -130,15 +128,9 @@ public class AuthController {
     })
     @PostMapping("/verify-signup-email-token")
     public ResponseEntity<Void> verifySignupEmailToken(HttpSession session, @Valid @RequestBody SignupEmailVerifyRequest request) {
-        Object token = session.getAttribute(SessionConst.SIGNUP_TOKEN);
-        if (!(token instanceof EmailSignupToken emailSignupToken)) {
-            log.info("email signup token verification failed. token: {}, token class: {}", token, token.getClass().getName());
-            throw new SignupTokenNotValidException();
-        }
-        authService.validateSignupToken(emailSignupToken, request.email(), request.code());
-        session.setAttribute(SessionConst.SIGNUP_TOKEN_VERIFIED_EMAIL, emailSignupToken.getEmail());
-        session.removeAttribute(SessionConst.SIGNUP_TOKEN);
-        log.info("email signup token verification success. email: {}, token: {}", emailSignupToken.getEmail(), emailSignupToken.getCode());
+        authService.validateSignupToken(request.email(), request.code());
+        session.setAttribute(SessionConst.SIGNUP_TOKEN_VERIFIED_EMAIL, request.email());
+        log.info("email signup token verification success. email: {}, token: {}", request.email(), request.code());
         return ResponseEntity.noContent().build();
     }
 
@@ -150,7 +142,6 @@ public class AuthController {
     })
     @PostMapping(value = "/send-password-reset-email", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PasswordResetEmailSendResponse> sendPasswordResetEmail(
-            HttpSession session,
             @Valid @RequestBody PasswordResetEmailSendRequest request) {
         Optional<PasswordResetToken> passwordResetTokenOptional = authService.sendPasswordResetEmail(request.email());
         PasswordResetEmailSendResponse passwordResetEmailSendResponse;
@@ -158,7 +149,6 @@ public class AuthController {
             passwordResetEmailSendResponse = new PasswordResetEmailSendResponse(LocalDateTime.now().plusMinutes(PasswordResetToken.EXPIRE_MINUTE));
         } else {
             PasswordResetToken passwordResetToken = passwordResetTokenOptional.get();
-            session.setAttribute(SessionConst.PASSWORD_RESET_TOKEN, passwordResetToken);
             passwordResetEmailSendResponse = new PasswordResetEmailSendResponse(passwordResetToken.getExpireDate());
         }
         return ResponseEntity.ok(passwordResetEmailSendResponse);
@@ -171,13 +161,8 @@ public class AuthController {
     })
     @PostMapping("/verify-password-reset-token")
     public ResponseEntity<Void> verifyPasswordResetToken(HttpSession session, @Valid @RequestBody PasswordResetEmailVerifyRequest request) {
-        Object token = session.getAttribute(SessionConst.PASSWORD_RESET_TOKEN);
-        if (!(token instanceof PasswordResetToken passwordResetToken)) {
-            throw new PasswordResetTokenNotValidException();
-        }
-        authService.validatePasswordResetToken(passwordResetToken, request.email(), request.code());
-        session.setAttribute(SessionConst.PASSWORD_RESET_TOKEN_VERIFIED_EMAIL, passwordResetToken.getEmail());
-        session.removeAttribute(SessionConst.PASSWORD_RESET_TOKEN);
+        authService.validatePasswordResetToken(request.email(), request.code());
+        session.setAttribute(SessionConst.PASSWORD_RESET_TOKEN_VERIFIED_EMAIL, request.email());
         return ResponseEntity.noContent().build();
     }
 
@@ -227,7 +212,6 @@ public class AuthController {
         }
 
         GoogleSignupToken signupToken = loginResult.googleSignupToken();
-        session.setAttribute(SessionConst.GOOGLE_SIGNUP_TOKEN, signupToken);
         log.info("generate google signup token with email {} and code: {}", signupToken.getEmail(), signupToken.getCode());
         return ResponseEntity.ok(GoogleLoginResponse.signupRequired(signupToken));
     }
@@ -241,13 +225,8 @@ public class AuthController {
     })
     @PostMapping("/google/signup")
     public ResponseEntity<MemberSignupResponse> signupWithGoogle(HttpSession session, @Valid @RequestBody GoogleSignupRequest request) {
-        Object token = session.getAttribute(SessionConst.GOOGLE_SIGNUP_TOKEN);
-        if (!(token instanceof GoogleSignupToken googleSignupToken)) {
-            throw new SignupTokenNotValidException();
-        }
-        googleSignupToken.validateToken(request.token());
 
-        MemberDetails member = authService.registerGoogle(googleSignupToken, request.profileImage(), request.feedbackPreferences());
+        MemberDetails member = authService.registerGoogle(request.token(), request.profileImage(), request.feedbackPreferences());
 
         MemberSignupResponse response = memberMapper.toResponse(member);
 

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import NavBar2 from '../../components/NavBar2';
+import NavBar from '../../components/NavBar';
 import { useGetFeedbackReport } from '../../api/useMyPage';
 import ReportKeywords from './components/ReportKeywords';
 import ReportResults from './components/ReportResults';
@@ -14,7 +14,7 @@ export default function Report() {
 
   return (
     <div className='flex size-full flex-col items-center'>
-      <NavBar2
+      <NavBar
         canPop={true}
         onClickPop={() => navigate(-1)}
         title='피드백 리포트'
@@ -35,7 +35,7 @@ export default function Report() {
               onClick={() => navigate('/main')}
             />
           </div>
-        : <div className='flex flex-col gap-8 py-6'>
+        : <div className='flex size-full flex-col gap-8 py-6'>
             <ReportTopKeywords topKeywords={report.topKeywords} />
             <ReportResults results={report.overviews} />
             <ReportKeywords keywords={report.allKeywords} />

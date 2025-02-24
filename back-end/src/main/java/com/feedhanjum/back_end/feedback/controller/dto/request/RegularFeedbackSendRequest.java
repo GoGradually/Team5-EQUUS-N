@@ -5,7 +5,6 @@ import com.feedhanjum.back_end.feedback.domain.Feedback;
 import com.feedhanjum.back_end.feedback.domain.FeedbackFeeling;
 import com.feedhanjum.back_end.feedback.domain.ObjectiveFeedback;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -30,7 +29,6 @@ public record RegularFeedbackSendRequest(
         List<ObjectiveFeedback> objectiveFeedbacks,
 
         @Schema(description = "주관식 피드백")
-        @NotBlank
         @ByteLength(min = Feedback.MIN_SUBJECTIVE_FEEDBACK_BYTE, max = Feedback.MAX_SUBJECTIVE_FEEDBACK_BYTE, strip = true)
         String subjectiveFeedback,
 

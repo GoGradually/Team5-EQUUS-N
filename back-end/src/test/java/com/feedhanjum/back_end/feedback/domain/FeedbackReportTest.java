@@ -54,12 +54,11 @@ class FeedbackReportTest {
         // then
         assertThat(report.getFeedbackCount()).isEqualTo(10);
         List<FeedbackReport.CategoryCount> overviews = report.getOverviews();
-        assertThat(overviews).hasSize(1);
-        assertThat(overviews.get(0)).satisfies(overview -> {
-            assertThat(overview.getCategory()).isEqualTo(FeedbackCategory.EFFORT);
-            assertThat(overview.getGoodCount()).isEqualTo(6);
-            assertThat(overview.getBadCount()).isEqualTo(-4);
-        });
+        assertThat(overviews).filteredOn(o -> o.getCategory().equals(FeedbackCategory.EFFORT))
+                .first().satisfies(overview -> {
+                    assertThat(overview.getGoodCount()).isEqualTo(6);
+                    assertThat(overview.getBadCount()).isEqualTo(-4);
+                });
         List<FeedbackReport.KeywordCount> allKeywords = report.getAllKeywords();
         assertThat(allKeywords).hasSize(2);
         assertThat(allKeywords).filteredOn(keyword -> keyword.getKeyword().equals(LOGICAL)).first().satisfies(keyword -> {

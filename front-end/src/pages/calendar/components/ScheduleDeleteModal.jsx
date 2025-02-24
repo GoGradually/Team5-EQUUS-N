@@ -6,7 +6,7 @@ export default function ScheduleDeleteModal({ deleteSchedule, onClose }) {
   return (
     <Modal
       type={ModalType.DOUBLE}
-      content='일정을 삭제하시겠어요?'
+      title='일정을 삭제하시겠어요?'
       subButton={
         <MediumButton
           text='취소'
@@ -21,6 +21,7 @@ export default function ScheduleDeleteModal({ deleteSchedule, onClose }) {
           text='삭제'
           isOutlined={false}
           onClick={() => {
+            hideModal();
             deleteSchedule();
             onClose();
           }}

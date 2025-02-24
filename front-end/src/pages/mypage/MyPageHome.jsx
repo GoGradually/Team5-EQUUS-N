@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import NavBar2 from '../../components/NavBar2';
+import NavBar from '../../components/NavBar';
 import ProfileImage from '../../components/ProfileImage';
 import { useSearchMember } from '../../api/useMyPage';
-import { useUser } from '../../useUser';
+import { useUser } from '../../store/useUser';
 import Icon from '../../components/Icon';
 import { useLogout } from '../../api/useAuth';
 
@@ -25,7 +25,7 @@ export default function MyPageHome() {
 
   return (
     <div className='flex size-full flex-col'>
-      <NavBar2 canClose={true} onClickClose={() => navigate('/main')} />
+      <NavBar canClose={true} onClickClose={() => navigate('/main')} />
       {member && (
         <>
           <div className='mx-auto flex flex-col items-center'>

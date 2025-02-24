@@ -10,7 +10,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 export const useGetSelfFeedback = (userId, params) => {
   return useQuery({
     queryKey: ['feedback-received', userId, params],
-    retry: 0,
+    gcTime: 0,
     queryFn: () => {
       let sendingParams = {
         sortOrder: params.sortBy === 'createdAt:desc' ? 'DESC' : 'ASC',

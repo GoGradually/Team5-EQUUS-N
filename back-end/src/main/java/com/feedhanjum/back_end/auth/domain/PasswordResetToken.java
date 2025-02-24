@@ -1,18 +1,12 @@
 package com.feedhanjum.back_end.auth.domain;
 
-import com.feedhanjum.back_end.auth.exception.PasswordResetTokenNotValidException;
 import lombok.Getter;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Random;
 
 @Getter
-public class PasswordResetToken implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-
+public class PasswordResetToken {
     public static final int TOKEN_LENGTH = 4;
     public static final int EXPIRE_MINUTE = 5;
     private final String email;
@@ -37,15 +31,5 @@ public class PasswordResetToken implements Serializable {
 
     public static PasswordResetToken generateNewToken(String email) {
         return new PasswordResetToken(email, generateCode());
-    }
-
-    /**
-     * @throws PasswordResetTokenNotValidException 토큰 검증 실패
-     */
-    public void validateToken(String email, String code) {
-        if (!(this.email.equals(email) && this.code.equals(code)))
-            throw new PasswordResetTokenNotValidException();
-        if (LocalDateTime.now().isAfter(expireDate))
-            throw new PasswordResetTokenNotValidException();
     }
 }

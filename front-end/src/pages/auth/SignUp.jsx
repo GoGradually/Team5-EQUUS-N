@@ -1,4 +1,4 @@
-import NavBar from './components/NavBar';
+import AuthHeader from './components/AuthHeader';
 import CustomInput from '../../components/CustomInput';
 import LargeButton from '../../components/buttons/LargeButton';
 import logo from '../../assets/images/logo.png';
@@ -36,9 +36,24 @@ export default function SignUp() {
     setNickName(nickName.trim());
   }, [nickName]);
 
+  const handleClickNextButton = () => {
+    if (
+      checkSignUpInfos(certState, password, passwordConfirm, nickName) === true
+    ) {
+      navigate('/feedback/favorite?process=signup', {
+        state: {
+          email,
+          password,
+          name: nickName,
+          profileImage: getRandomProfile(),
+        },
+      });
+    }
+  };
+
   return (
     <div className='relative flex h-screen w-full flex-col justify-start'>
-      <NavBar
+      <AuthHeader
         title={
           <p className='flex items-center justify-between'>
             계정 만들기
@@ -129,25 +144,7 @@ export default function SignUp() {
             passwordConfirm !== password ||
             nickName.length === 0
           }
-          onClick={() => {
-            if (
-              checkSignUpInfos(
-                certState,
-                password,
-                passwordConfirm,
-                nickName,
-              ) === true
-            ) {
-              navigate('/feedback/favorite?process=signup', {
-                state: {
-                  email,
-                  password,
-                  name: nickName,
-                  profileImage: getRandomProfile(),
-                },
-              });
-            }
-          }}
+          onClick={handleClickNextButton}
         />
       </div>
     </div>

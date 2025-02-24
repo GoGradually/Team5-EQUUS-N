@@ -1,4 +1,4 @@
-import NavBar from './components/NavBar';
+import AuthHeader from './components/AuthHeader';
 import CustomInput from '../../components/CustomInput';
 import LargeButton from '../../components/buttons/LargeButton';
 import logo from '../../assets/images/logo.png';
@@ -6,6 +6,7 @@ import Icon from '../../components/Icon';
 import { useState } from 'react';
 import { useLogin } from '../../api/useAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { checkSignInInfos } from '../../utility/inputChecker';
 
 /**
  * 로그인 페이지
@@ -19,9 +20,15 @@ export default function SignIn() {
   const { mutate: login, isLoading } = useLogin(locationState);
   const navigate = useNavigate();
 
+  const handleLoginButton = () => {
+    if (checkSignInInfos(email, password)) {
+      login({ email: email, password: password });
+    }
+  };
+
   return (
     <div className='relative flex h-dvh w-full flex-col justify-start'>
-      <NavBar
+      <AuthHeader
         title={
           <p className='flex items-center justify-between'>
             로그인
@@ -77,7 +84,7 @@ export default function SignIn() {
         <LargeButton
           text='로그인하기'
           isOutlined={false}
-          onClick={() => login({ email: email, password: password })}
+          onClick={handleLoginButton}
           disabled={isLoading} // 로딩 중일 때 버튼 비활성화
         />
       </div>

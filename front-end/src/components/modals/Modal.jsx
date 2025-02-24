@@ -8,6 +8,7 @@ export const ModalType = Object.freeze({
   SINGLE_DELETE: 'SINGLE_DELETE',
   EXIT: 'EXIT',
   SKIP: 'SKIP',
+  CUSTOM: 'CUSTOM',
 });
 
 /**
@@ -15,6 +16,7 @@ export const ModalType = Object.freeze({
  * @param {object} props
  * @param {keyof ModalType} props.type - 모달 타입
  * @param {ReactElement} props.profileImage - 프사
+ * @param {string} props.title - 모달 내용
  * @param {string} props.content - 모달 내용
  * @param {ReactElement} props.mainButton - 메인 버튼
  * @param {ReactElement} props.subButton - 서브 버튼
@@ -23,6 +25,7 @@ export const ModalType = Object.freeze({
 export default function Modal({
   type,
   profileImage,
+  title,
   content,
   mainButton,
   subButton,
@@ -32,7 +35,7 @@ export default function Modal({
       {type === ModalType.PROFILE && (
         <div className='flex flex-col items-center justify-center gap-3 pt-10'>
           {profileImage}
-          <h2 className='subtitle-2 mb-7'>{content}</h2>
+          <h2 className='subtitle-2 mb-7'>{title}</h2>
           {subButton}
           {mainButton}
           <button
@@ -45,7 +48,7 @@ export default function Modal({
       )}
       {type === ModalType.DOUBLE && (
         <>
-          <h2 className='subtitle-2 mx-auto my-12'>{content}</h2>
+          <h2 className='subtitle-2 mx-auto my-12'>{title}</h2>
           <div className='flex gap-3'>
             {subButton}
             {mainButton}
@@ -54,13 +57,13 @@ export default function Modal({
       )}
       {type === ModalType.SINGLE && (
         <>
-          <h2 className='subtitle-2 mx-auto my-12'>{content}</h2>
+          <h2 className='subtitle-2 mx-auto my-12'>{title}</h2>
           {mainButton}
         </>
       )}
       {type === ModalType.SINGLE_DELETE && (
         <>
-          <h2 className='subtitle-2 mx-auto my-12'>{content}</h2>
+          <h2 className='subtitle-2 mx-auto my-12'>{title}</h2>
           {mainButton}
           <button
             className='absolute top-4 right-4'
@@ -72,7 +75,7 @@ export default function Modal({
       )}
       {type === ModalType.EXIT && (
         <>
-          <h2 className='subtitle-2 mx-auto mt-6'>{content}</h2>
+          <h2 className='subtitle-2 mx-auto mt-6'>{title}</h2>
           <p className='caption-1 my-5 text-center break-keep whitespace-pre-line text-gray-200'>
             {subButton ?
               '계정 탈퇴 시 피드백 보관함에 기록된 모든 피드백이 삭제되며, 탈퇴하고자 하는 계정에 재접근이 불가해요. 그래도 탈퇴하시겠어요?'
@@ -87,11 +90,23 @@ export default function Modal({
       )}
       {type === ModalType.SKIP && (
         <>
-          <h2 className='subtitle-2 mx-auto mt-6'>{content}</h2>
+          <h2 className='subtitle-2 mx-auto mt-6'>{title}</h2>
           <p className='caption-1 my-5 text-center break-keep whitespace-pre-line text-gray-200'>
             {
               '피드백을 건너뛰면, 이번 일정에 관한 피드백을 더이상 작성할 수 없어요.'
             }
+          </p>
+          <div className='flex gap-3'>
+            {subButton}
+            {mainButton}
+          </div>
+        </>
+      )}
+      {type === ModalType.CUSTOM && (
+        <>
+          <h2 className='subtitle-2 mx-auto mt-6'>{title}</h2>
+          <p className='caption-1 my-5 text-center break-keep whitespace-pre-line text-gray-200'>
+            {content}
           </p>
           <div className='flex gap-3'>
             {subButton}

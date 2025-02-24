@@ -4,9 +4,9 @@ package com.feedhanjum.back_end.team.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.feedhanjum.back_end.event.EventPublisher;
+import com.feedhanjum.back_end.core.event.EventPublisher;
 import com.feedhanjum.back_end.feedback.domain.FeedbackType;
-import com.feedhanjum.back_end.member.controller.dto.MemberDto;
+import com.feedhanjum.back_end.member.controller.dto.MemberResponse;
 import com.feedhanjum.back_end.member.domain.Member;
 import com.feedhanjum.back_end.member.repository.MemberRepository;
 import com.feedhanjum.back_end.team.controller.dto.*;
@@ -375,7 +375,7 @@ public class TeamControllerIntegrationTest {
                     .satisfies(result -> {
                         TeamDetailResponse response = mapper.readValue(result, TeamDetailResponse.class);
                         assertThat(response.getTeamResponse().name()).isEqualTo("team1");
-                        assertThat(response.getMembers()).extracting(MemberDto::name)
+                        assertThat(response.getMembers()).extracting(MemberResponse::name)
                                 .containsExactlyInAnyOrder(me.getName(), leader.getName());
                     });
         }
@@ -481,10 +481,10 @@ public class TeamControllerIntegrationTest {
             ).hasStatus(HttpStatus.OK)
                     .body()
                     .satisfies(result -> {
-                        List<MemberDto> members = mapper.readValue(result, new TypeReference<>() {
+                        List<MemberResponse> members = mapper.readValue(result, new TypeReference<>() {
                         });
                         assertThat(members).hasSize(2);
-                        assertThat(members).extracting(MemberDto::name)
+                        assertThat(members).extracting(MemberResponse::name)
                                 .containsExactlyInAnyOrder(me.getName(), otherMember.getName());
                     });
         }

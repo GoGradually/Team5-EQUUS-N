@@ -1,6 +1,6 @@
 package com.feedhanjum.back_end.feedback.service;
 
-import com.feedhanjum.back_end.event.EventPublisher;
+import com.feedhanjum.back_end.core.event.EventPublisher;
 import com.feedhanjum.back_end.feedback.domain.*;
 import com.feedhanjum.back_end.feedback.event.*;
 import com.feedhanjum.back_end.feedback.exception.NoRegularFeedbackRequestException;
@@ -209,14 +209,14 @@ public class FeedbackService {
         Feedback feedback = feedbackRepository
                 .findById(feedbackId).orElseThrow(() -> new EntityNotFoundException("feedback id에 해당하는 feedback이 없습니다."));
 
-        Member receiver = memberRepository.findById(feedback.getReceiver().getId())
+        Member feedbackReceiver = memberRepository.findById(feedback.getReceiver().getId())
                 .orElseThrow();
-        Member sender = memberRepository.findById(feedback.getSender().getId())
+        Member feedbackSender = memberRepository.findById(feedback.getSender().getId())
                 .orElseThrow();
         Team team = teamRepository.findById(feedback.getTeam().getId())
                 .orElseThrow();
 
-        team.removeFeedbackRequest(sender, receiver);
+        team.removeFeedbackRequest(feedbackReceiver, feedbackSender);
 
     }
 

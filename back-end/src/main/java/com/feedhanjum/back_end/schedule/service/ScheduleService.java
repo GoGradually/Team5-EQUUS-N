@@ -1,8 +1,8 @@
 package com.feedhanjum.back_end.schedule.service;
 
 import com.feedhanjum.back_end.core.domain.JobRecord;
+import com.feedhanjum.back_end.core.event.EventPublisher;
 import com.feedhanjum.back_end.core.repository.JobRecordRepository;
-import com.feedhanjum.back_end.event.EventPublisher;
 import com.feedhanjum.back_end.feedback.repository.RegularFeedbackRequestQueryRepository;
 import com.feedhanjum.back_end.member.domain.Member;
 import com.feedhanjum.back_end.member.repository.MemberQueryRepository;
@@ -50,9 +50,6 @@ public class ScheduleService {
     private final JobRecordRepository jobRecordRepository;
     private final EventPublisher eventPublisher;
     private final RegularFeedbackRequestQueryRepository regularFeedbackRequestQueryRepository;
-
-
-
 
 
     @Transactional(readOnly = true)

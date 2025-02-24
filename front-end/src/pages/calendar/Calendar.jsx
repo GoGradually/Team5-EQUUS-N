@@ -6,20 +6,22 @@ import ScheduleCard from './components/ScheduleCard';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import LargeButton from '../../components/buttons/LargeButton';
 import Icon from '../../components/Icon';
-import { checkIsFinished } from '../../utility/time';
+import { checkIsFinished, toKST } from '../../utility/time';
 import { ScheduleActionType } from './components/ScheduleAction';
 import ScheduleAction from './components/ScheduleAction';
 import { useLocation } from 'react-router-dom';
 import useSchedule from './hooks/useSchedule';
 import useScheduleAction from './hooks/useScheduleAction';
 import useCalendarScroll from './hooks/useCalendarScroll';
-import { useTeam } from '../../useTeam';
+import { useTeam } from '../../store/useTeam';
+import Spinner from '../../components/Spinner';
 
 export default function Calendar() {
   const location = useLocation();
   // 팀 불러오기
   const { teams, selectedTeam, selectTeam } = useTeam();
   const [showAllSchedule, setShowAllSchedule] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // 날짜 지정
   const [selectedDate, setSelectedDate] = useState(
@@ -76,44 +78,57 @@ export default function Calendar() {
           setSelectedDate={setSelectedDate}
           scheduleSet={scheduleSet}
           setAllSchedules={setAllSchedules}
+          setIsLoading={setIsLoading}
         />
-        <ul className='flex flex-col gap-6'>
-          {scheduleOnDate &&
-            scheduleOnDate.map((schedule, index) => {
-              if (!showAllSchedule && schedule.teamId !== selectedTeam)
-                return null;
-              return (
-                <li key={index} className='last:mb-5'>
-                  <ScheduleCard
-                    schedule={schedule}
-                    todos={schedule.scheduleMemberNestedDtoList}
-                    isFinished={checkIsFinished(schedule.endTime)}
-                    onClickEdit={() => {
-                      setSelectedSchedule(schedule);
-                      setActionType(ScheduleActionType.EDIT);
+        <ul
+          className={`relative flex flex-col gap-6 ${isLoading && 'h-[50%]'}`}
+        >
+          {isLoading ?
+            <Spinner bgColor='bg-gray-900' />
+          : <>
+              {scheduleOnDate &&
+                scheduleOnDate.map((schedule, index) => {
+                  if (!showAllSchedule && schedule.teamId !== selectedTeam)
+                    return null;
+                  return (
+                    <li key={index} className='last:mb-5'>
+                      <ScheduleCard
+                        schedule={schedule}
+                        todos={schedule.scheduleMemberNestedDtoList}
+                        isFinished={checkIsFinished(
+                          schedule.endTime,
+                          new Date(),
+                        )}
+                        onClickEdit={() => {
+                          setSelectedSchedule(schedule);
+                          setActionType(ScheduleActionType.EDIT);
+                          setDoingAction(true);
+                        }}
+                      />
+                    </li>
+                  );
+                })}
+              {!checkIsFinished(toKST(selectedDate)) && !showAllSchedule && (
+                <li className='mb-5'>
+                  <LargeButton
+                    text={
+                      <p className='button-1 flex items-center gap-2 text-gray-300'>
+                        <Icon name='plusS' />
+                        새로운 일정 추가
+                      </p>
+                    }
+                    onClick={() => {
+                      clearData();
+                      setActionType(ScheduleActionType.ADD);
                       setDoingAction(true);
                     }}
+                    isOutlined={true}
+                    disabled={true}
                   />
                 </li>
-              );
-            })}
-          <li className='mb-5'>
-            <LargeButton
-              text={
-                <p className='button-1 flex items-center gap-2 text-gray-300'>
-                  <Icon name='plusS' />
-                  새로운 일정 추가
-                </p>
-              }
-              onClick={() => {
-                clearData();
-                setActionType(ScheduleActionType.ADD);
-                setDoingAction(true);
-              }}
-              isOutlined={true}
-              disabled={true}
-            />
-          </li>
+              )}
+            </>
+          }
         </ul>
       </div>
       {scheduleOnDate && (
@@ -125,7 +140,7 @@ export default function Calendar() {
           onClose={() => setDoingAction(false)}
           actionInfo={actionInfo}
           dateFixed={actionType === ScheduleActionType.ADD}
-          setParentDate={setSelectedDate}
+          setAllSchedules={setAllSchedules}
         />
       )}
     </div>

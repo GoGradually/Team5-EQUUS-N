@@ -1,9 +1,9 @@
 package com.feedhanjum.back_end.auth.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.feedhanjum.back_end.auth.controller.dto.LoginRequest;
-import com.feedhanjum.back_end.auth.controller.dto.MemberSignupRequest;
-import com.feedhanjum.back_end.auth.controller.dto.MemberSignupResponse;
+import com.feedhanjum.back_end.auth.controller.dto.request.LoginRequest;
+import com.feedhanjum.back_end.auth.controller.dto.request.MemberSignupRequest;
+import com.feedhanjum.back_end.auth.controller.dto.response.MemberSignupResponse;
 import com.feedhanjum.back_end.auth.controller.mapper.MemberMapper;
 import com.feedhanjum.back_end.auth.domain.MemberDetails;
 import com.feedhanjum.back_end.auth.exception.EmailAlreadyExistsException;

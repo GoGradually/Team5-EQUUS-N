@@ -8,8 +8,8 @@ import Icon from '../../../components/Icon';
 import Modal from '../../../components/modals/Modal';
 import ProfileImage from '../../../components/ProfileImage';
 import Tag, { TagType } from '../../../components/Tag';
-import { useTeam } from '../../../useTeam';
-import { useUser } from '../../../useUser';
+import { useTeam } from '../../../store/useTeam';
+import { useUser } from '../../../store/useUser';
 import { hideModal, showModal } from '../../../utility/handleModal';
 import { useNavigate } from 'react-router-dom';
 
@@ -35,7 +35,7 @@ export default function MemberElement({ teamId, member, leaderId, iamLeader }) {
   const changeLeaderModal = (
     <Modal
       type='SINGLE'
-      content={`팀장을 ${member.name} 님으로 변경할까요?`}
+      title={`팀장을 ${member.name} 님으로 변경할까요?`}
       mainButton={
         <MediumButton
           text='확인'
@@ -52,7 +52,7 @@ export default function MemberElement({ teamId, member, leaderId, iamLeader }) {
   const kickMemberModal = (
     <Modal
       type='SINGLE'
-      content={`${member.name} 님을 팀에서 제외할까요?`}
+      title={`${member.name} 님을 팀에서 제외할까요?`}
       mainButton={
         <MediumButton
           text='확인'
@@ -66,23 +66,25 @@ export default function MemberElement({ teamId, member, leaderId, iamLeader }) {
     />
   );
 
+  const handleLeaveTeam = () => {
+    leaveTeam(null, {
+      onSuccess: () => {
+        hideModal();
+        reSelectTeam(teamId, selectedTeam, removeSelectedTeam);
+        navigate(-1);
+      },
+    });
+  };
+
   const leaveTeamModal = (
     <Modal
       type='SINGLE'
-      content={`정말 팀에서 떠나시겠어요?`}
+      title={`정말 팀에서 떠나시겠어요?`}
       mainButton={
         <MediumButton
           text='확인'
           isOutlined={false}
-          onClick={() => {
-            leaveTeam(null, {
-              onSuccess: () => {
-                hideModal();
-                reSelectTeam(teamId, selectedTeam, removeSelectedTeam);
-                navigate('/teamspace/list');
-              },
-            });
-          }}
+          onClick={handleLeaveTeam}
         />
       }
     />

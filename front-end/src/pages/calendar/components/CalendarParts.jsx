@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useGetSchedules } from '../../../api/useCalendar';
-import { useTeam } from '../../../useTeam';
+import { useTeam } from '../../../store/useTeam';
 import { changeDayName, getDateInfo, toKST } from '../../../utility/time';
 import classNames from 'classnames';
 
@@ -57,6 +57,9 @@ function CalendarDate({ date, isSelected, haveSchedule }) {
  * @param {Date} props.curSunday - 현재 주의 일요일
  * @param {Date} props.selectedDate - 선택된 날짜
  * @param {function} props.setSelectedDate - 선택된 날짜 설정 함수
+ * @param {Set} props.scheduleSet - 일정 집합
+ * @param {function} props.setAllSchedules - 전체 일정 설정 함수
+ * @param {boolean} props.setIsLoading - 로딩 상태
  * @returns {JSX.Element} - 주 컴포넌트
  */
 export function CalendarWeek({
@@ -65,25 +68,28 @@ export function CalendarWeek({
   setSelectedDate,
   scheduleSet,
   setAllSchedules,
+  setIsLoading,
 }) {
-  const { selectedTeam, teams } = useTeam();
+  const dateList = getDateList(curSunday);
+
   const {
     data: schedules,
     isLoading: isSchedulesLoading,
     refetch,
   } = useGetSchedules({
-    startDay: new Date(curSunday).toISOString().split('T')[0],
-    endDay: new Date(new Date().setDate(new Date(curSunday).getDate() + 7))
-      .toISOString()
-      .split('T')[0],
+    startDay: toKST(dateList[0]).toISOString().split('T')[0],
+    endDay: toKST(dateList[6]).toISOString().split('T')[0],
   });
+
+  useEffect(() => {
+    setIsLoading(isSchedulesLoading);
+  }, [isSchedulesLoading]);
 
   useEffect(() => {
     if (!schedules || isSchedulesLoading) return;
     setAllSchedules((prev) => removeDuplicate([...prev, ...schedules]));
   }, [schedules, isSchedulesLoading]);
 
-  const dateList = getDateList(curSunday);
   return (
     <div className='min-w-full'>
       <div className='grid w-full grid-cols-7 gap-4'>

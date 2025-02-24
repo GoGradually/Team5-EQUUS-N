@@ -5,13 +5,13 @@ import {
   useNotification,
 } from '../../api/useMainPage';
 import Accordion from '../../components/Accordion';
-import MainCard2 from '../../components/MainCard2';
+import TeamMatesCard from '../../components/TeamMatesCard';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import MainCard from './components/MainCard';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import '../../slider.css';
+import '../../styles/slider.css';
 import { filterNotifications } from '../../utility/handleNotification';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { hideModal, showModal } from '../../utility/handleModal';
@@ -22,15 +22,20 @@ import ScheduleAction, {
   ScheduleActionType,
 } from '../calendar/components/ScheduleAction';
 import TodoAdd from '../calendar/components/TodoAdd';
-import { getScheduleTimeDiff } from '../../utility/time';
-import { useTeam } from '../../useTeam';
+import { checkIsFinished, getScheduleTimeDiff } from '../../utility/time';
+import { useTeam } from '../../store/useTeam';
 import useScheduleAction from '../calendar/hooks/useScheduleAction';
-import { useUser } from '../../useUser';
-import useBlockPop from '../../useBlockPop';
+import { useUser } from '../../store/useUser';
+import useHandlePop from '../../utility/useHandlePop';
 import Banner from './components/Banner';
+import { handleFreqFeedbackReq } from './components/Alarm';
+import OnboardingNotice from './components/OnboardingNotice';
+import usePushNoti from '../../api/usePushNoti';
 
 export default function MainPage() {
   const location = useLocation();
+  const isFirstVisit = location.state?.init ?? false;
+  const { setPushNoti, isLoading: waitingAppServerKey } = usePushNoti();
   const searchParams = new URLSearchParams(location.search);
   const redirect = searchParams.get('redirect') ?? null;
   const teamId = searchParams.get('teamId') ?? null;
@@ -43,6 +48,7 @@ export default function MainPage() {
   const [timeDiff, setTimeDiff] = useState();
   const [isTodoAddOpen, toggleTodoAdd] = useReducer((prev) => !prev, false);
   const [isScheduleOpen, toggleSchedule] = useReducer((prev) => !prev, false);
+  const [filteredTeams, setFilteredTeams] = useState([]);
 
   const { teams, selectedTeam, selectTeam } = useTeam(true);
   const { userId } = useUser();
@@ -51,7 +57,9 @@ export default function MainPage() {
   const { data: matesData } = useMainCard2(selectedTeam);
   const { data: notificationsData, markAsRead } = useNotification(selectedTeam);
 
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(
+    new Date(new Date().setSeconds(0, 0)),
+  );
 
   const { actionInfo, clearData } = useScheduleAction(
     selectedDate,
@@ -59,8 +67,9 @@ export default function MainPage() {
   );
 
   // TODO: 로딩 중 혹은 에러 발생 시 처리
-
-  useBlockPop(location.pathname);
+  useHandlePop(() => {
+    navigate(location.pathname, { replace: true });
+  });
 
   useEffect(() => {
     let state = {};
@@ -78,12 +87,20 @@ export default function MainPage() {
   }, []);
 
   useEffect(() => {
+    if (isFirstVisit && !waitingAppServerKey) {
+      showModal(<OnboardingNotice setPushNoti={setPushNoti} />);
+    } else if (!waitingAppServerKey) {
+      setPushNoti();
+    }
+  }, [waitingAppServerKey]);
+
+  useEffect(() => {
     clearData();
   }, [isScheduleOpen]);
 
   useEffect(() => {
     if (notificationsData) {
-      setBanners(filterNotifications(notificationsData));
+      setBanners(filterNotifications(notificationsData, selectedTeam));
     }
   }, [notificationsData]);
 
@@ -96,8 +113,19 @@ export default function MainPage() {
   }, [recentScheduleData]);
 
   useEffect(() => {
-    if (teams.length > 0 && !selectedTeam) {
-      selectTeam(teams[0].id);
+    let filteredTeamList = [];
+
+    if (teams.length > 0) {
+      filteredTeamList = teams.filter((team) => !checkIsFinished(team.endDate));
+      setFilteredTeams(filteredTeamList);
+    }
+
+    if (
+      filteredTeamList.length > 0 &&
+      (!selectedTeam ||
+        filteredTeamList.find((team) => team.id === selectedTeam) === undefined)
+    ) {
+      selectTeam(filteredTeamList[0].id);
     }
   }, [teams]);
 
@@ -124,11 +152,11 @@ export default function MainPage() {
     <div className='relative flex size-full flex-col overflow-hidden'>
       <div className='scrollbar-hidden size-full overflow-x-hidden overflow-y-auto'>
         <StickyWrapper className='px-5'>
-          {teams && (
+          {filteredTeams && (
             <Accordion
               isMainPage={true}
               selectedTeamId={selectedTeam}
-              teamList={teams}
+              teamList={filteredTeams}
               onTeamClick={selectTeam}
               isAllAlarmRead={
                 notificationsData &&
@@ -139,15 +167,11 @@ export default function MainPage() {
             />
           )}
         </StickyWrapper>
-        {banners && banners.length > 0 && (
-          <Slider {...sliderSettings} className='my-4'>
+        {banners?.length > 0 && (
+          <Slider {...sliderSettings} className='my-4 pb-2'>
             {banners.map((banner, index) => (
               <div className='px-[6px]' key={index}>
-                <Banner
-                  banner={banner}
-                  onClick={() => console.log('노티 클릭')}
-                  onClose={markAsRead}
-                />
+                <Banner banner={banner} onClose={markAsRead} />
               </div>
             ))}
           </Slider>
@@ -157,7 +181,7 @@ export default function MainPage() {
         {timeDiff !== undefined && (
           <MainCard
             userId={userId}
-            isInTeam={teams.length > 0}
+            isInTeam={filteredTeams.length > 0}
             recentSchedule={recentScheduleData}
             scheduleDifferece={timeDiff}
             onClickMainButton={getOnMainButtonClick()}
@@ -167,11 +191,11 @@ export default function MainPage() {
         )}
         <div className='h-8' />
         {matesData && (
-          <MainCard2
+          <TeamMatesCard
             teamMates={matesData}
             onReceivedFeedbackClick={() =>
               navigate(
-                `/feedback/received?teamName=${teams.find((team) => team.id === selectedTeam).name}`,
+                `/feedback/received?teamName=${filteredTeams.find((team) => team.id === selectedTeam).name}`,
               )
             }
             onClick={(mate) =>
@@ -186,7 +210,7 @@ export default function MainPage() {
                       />
                     </div>
                   }
-                  content={
+                  title={
                     mate.id === userId ?
                       `${mate.name}(나)`
                     : `${mate.name}님에게`
@@ -199,11 +223,10 @@ export default function MainPage() {
                       onClick={() => {
                         mate.id === userId ?
                           navigate(`/feedback/self`)
-                        : navigate(`/feedback/send/1`, {
-                            state: {
-                              isRegular: false,
-                              receiver: { name: mate.name, id: mate.id },
-                            },
+                        : handleFreqFeedbackReq(navigate, {
+                            teamId: selectedTeam,
+                            senderId: mate.id,
+                            senderName: mate.name,
                           });
                         hideModal();
                       }}

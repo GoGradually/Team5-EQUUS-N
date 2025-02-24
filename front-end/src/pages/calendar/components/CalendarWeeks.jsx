@@ -8,6 +8,9 @@ import classNames from 'classnames';
  * @param {object} props
  * @param {Date} props.selectedDate - 선택된 날짜
  * @param {function} props.setSelectedDate - 선택된 날짜 설정 함수
+ * @param {Array} props.scheduleSet - 일정 데이터
+ * @param {function} props.setAllSchedules - 전체 일정 설정 함수
+ * @param {boolean} props.setIsLoading - 로딩 상태 설정 함수
  * @returns {JSX.Element} - 캘린더 컴포넌트
  */
 export default function CalendarWeeks({
@@ -15,6 +18,7 @@ export default function CalendarWeeks({
   setSelectedDate,
   scheduleSet,
   setAllSchedules,
+  setIsLoading,
 }) {
   const [curSunday, setCurSunday] = useState(getRecentSunday(selectedDate));
   const [isDragging, setIsDragging] = useState(false);
@@ -135,6 +139,7 @@ export default function CalendarWeeks({
           setSelectedDate={setSelectedDate}
           scheduleSet={scheduleSet}
           setAllSchedules={setAllSchedules}
+          setIsLoading={setIsLoading}
         />
       </div>
       {/* 이번주 */}
@@ -145,6 +150,7 @@ export default function CalendarWeeks({
           setSelectedDate={setSelectedDate}
           scheduleSet={scheduleSet}
           setAllSchedules={setAllSchedules}
+          setIsLoading={setIsLoading}
         />
       </div>
       {/* 다음주 */}
@@ -155,6 +161,7 @@ export default function CalendarWeeks({
           setSelectedDate={setSelectedDate}
           scheduleSet={scheduleSet}
           setAllSchedules={setAllSchedules}
+          setIsLoading={setIsLoading}
         />
       </div>
     </div>

@@ -2,10 +2,11 @@ import { api } from './baseApi';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { showToast } from '../utility/handleToast';
-import { useUser } from '../useUser';
+import { useUser } from '../store/useUser';
 import { useJoinTeam } from './useTeamspace';
-import { useTeam } from '../useTeam';
+import { useTeam } from '../store/useTeam';
 import { getRandomProfile } from '../components/ProfileImage';
+import { stopPush } from './usePushNoti';
 
 export const useSendVerifMail = () => {
   return useMutation({
@@ -27,6 +28,7 @@ export const useVerifyToken = () => {
 export const useGetMember = (id) => {
   return useQuery({
     queryKey: ['member', id],
+    gcTime: 0,
     queryFn: () => api.get({ url: '/api/member', params: { id } }),
   });
 };
@@ -55,7 +57,9 @@ export const useLogin = (teamCode) => {
       navigate('/main');
     },
     onError: (error) => {
-      showToast(`로그인 실패: ${error.message}`);
+      if (error.status === 401) {
+        showToast('이메일 또는 비밀번호가 올바르지 않습니다');
+      }
     },
   });
 };
@@ -69,6 +73,7 @@ export const useLogout = () => {
     onSuccess: () => {
       removeTeams();
       removeUserId();
+      stopPush();
       navigate('/', { replace: true });
     },
   });
@@ -81,16 +86,20 @@ export const useGetGoogleUrl = () => {
   });
 };
 
-export const useGoogleLogin = () => {
+export const useGoogleLogin = (teamCode) => {
   const { setUserId } = useUser();
+  const { mutate: joinTeam } = useJoinTeam();
   const navigate = useNavigate();
   return useMutation({
     mutationFn: (code) =>
       api.post({ url: '/api/auth/google/login', body: { code } }),
     onSuccess: (data) => {
-      console.log(data);
       if (data.isAuthenticated) {
         setUserId(data.loginResponse.userId);
+        if (teamCode) {
+          joinTeam(teamCode);
+          localStorage.removeItem('tempTeamCode');
+        }
         navigate('/main', { replace: true });
       } else {
         const token = data.googleSignupToken.token;

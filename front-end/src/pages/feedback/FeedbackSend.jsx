@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ProfileImageWithText } from '../../components/ProfileImage';
 import FooterWrapper from '../../components/wrappers/FooterWrapper';
-import { useRegularFeedback } from '../../api/useFeedback2';
+import { useRegularFeedback } from '../../api/useFeedback';
 import { hideModal, showModal } from '../../utility/handleModal';
 import Modal, { ModalType } from '../../components/modals/Modal';
 import MediumButton from '../../components/buttons/MediumButton';
@@ -17,7 +17,7 @@ export default function FeedbackSend() {
   const modal = (
     <Modal
       type={ModalType.SKIP}
-      content='이번 피드백을 정말 건너뛰시겠어요?'
+      title='이번 피드백을 정말 건너뛰시겠어요?'
       mainButton={
         <MediumButton
           text='건너뛰기'
@@ -67,6 +67,7 @@ export default function FeedbackSend() {
                     navigate('1', {
                       state: {
                         receiver: { name: member.name, id: member.id },
+                        needToRedirectSelectionPage: requesters.length > 1,
                         ...locationState,
                       },
                     })

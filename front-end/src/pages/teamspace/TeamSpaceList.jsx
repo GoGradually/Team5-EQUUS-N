@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import NavBar2 from '../../components/NavBar2';
+import NavBar from '../../components/NavBar';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import { useNavigate } from 'react-router-dom';
 import TeamElement from './components/TeamElement';
 import { checkIsFinished } from '../../utility/time';
-import { useTeam } from '../../useTeam';
+import { useTeam } from '../../store/useTeam';
 
 export default function TeamSpaceList() {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ export default function TeamSpaceList() {
   return (
     <div className='scrollbar-hidden flex h-full flex-col overflow-x-hidden overflow-y-auto'>
       <StickyWrapper>
-        <NavBar2
+        <NavBar
           canPop={true}
           title='팀 스페이스 관리'
           onClickPop={() => {
@@ -42,7 +42,11 @@ export default function TeamSpaceList() {
             })
             .map((team) => (
               <button
-                onClick={() => navigate(`/teamspace/manage/${team.id}`)}
+                onClick={() =>
+                  navigate(`/teamspace/manage/${team.id}`, {
+                    state: { isEnded: showEndedTeams },
+                  })
+                }
                 key={team.id}
               >
                 <TeamElement

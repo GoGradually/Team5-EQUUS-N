@@ -1,24 +1,25 @@
 import { CertState } from '../components/Certification';
 import { showToast } from './handleToast';
 
-export function transformToBytes(str) {
+export function transformToBytes(str, maxByteCount = 400) {
   let byteCount = 0;
-
   let overflowedIndex = 0;
-  for (const ch of str) {
-    // 한글 완성형 (AC00-D7A3), 자음/모음 (3131-318E)
-    if (
-      (ch >= '\u3131' && ch <= '\u318E') ||
-      (ch >= '\uAC00' && ch <= '\uD7A3')
-    ) {
-      byteCount += 2;
+  for (let i = 0; i < str.length; i++) {
+    if (str.charCodeAt(i) < 128) {
+      if (byteCount + 1 > maxByteCount) {
+        return { byteCount, overflowedIndex };
+      }
+      byteCount++;
+      overflowedIndex++;
     } else {
-      byteCount += 1;
+      if (byteCount + 2 > maxByteCount) {
+        return { byteCount, overflowedIndex };
+      }
+      byteCount += 2;
+      overflowedIndex++;
     }
-    overflowedIndex++;
   }
-
-  return { byteCount: byteCount, overflowedIndex: overflowedIndex };
+  return { byteCount, overflowedIndex: -1 };
 }
 
 /**
@@ -119,7 +120,7 @@ export const checkSignInInfos = (email, password) => {
     showToast('이메일 형식이 올바르지 않습니다');
     return false;
   } else if (!isValidPassword(password)) {
-    showToast('비밀번호가 틀렸습니다');
+    showToast('이메일 또는 비밀번호가 올바르지 않습니다');
     return false;
   }
   return true;
@@ -133,6 +134,9 @@ export const checkSignInInfos = (email, password) => {
 export const isValidTeamName = (teamSpaceName) => {
   if (isEmpty(teamSpaceName)) {
     showToast('팀 이름을 입력해주세요');
+    return false;
+  } else if (teamSpaceName.length > 10) {
+    showToast('팀 이름은 최대 10자까지 가능해요');
     return false;
   }
   return true;
@@ -224,4 +228,18 @@ export const checkResetPWInfos = (certState, password, passwordConfirm) => {
     return false;
   }
   return true;
+};
+
+/**
+ * 역할 길이 검사
+ * @param {string} text
+ * @param {int} std
+ */
+export const checkLength = (text, std) => {
+  let result = text;
+  if (text.length > std) {
+    result = text.slice(0, std);
+    showToast(`최대 ${std}자까지 작성 가능해요`);
+  }
+  return result;
 };

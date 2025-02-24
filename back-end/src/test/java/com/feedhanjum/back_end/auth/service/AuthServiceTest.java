@@ -42,6 +42,9 @@ class AuthServiceTest {
     @Mock
     private GoogleAuthService googleAuthService;
 
+    @Mock
+    GoogleSignupTokenService googleSignupTokenService;
+
     @InjectMocks
     private AuthService authService;
 
@@ -221,9 +224,20 @@ class AuthServiceTest {
 
             GoogleLoginResultDto result = authService.authenticateGoogle(googleCode);
 
+            ArgumentCaptor<GoogleSignupToken> captor = ArgumentCaptor.captor();
+            verify(googleSignupTokenService).save(captor.capture());
+            GoogleSignupToken token = captor.getValue();
             assertThat(result.isAuthenticated()).isFalse();
-            assertThat(result.googleSignupToken().getEmail()).isEqualTo(email);
             assertThat(result.memberDetails()).isNull();
+            assertThat(result.googleSignupToken()).
+                    isNotNull()
+                    .satisfies(t -> {
+                        assertThat(t.getEmail())
+                                .isEqualTo(email)
+                                .isEqualTo(token.getEmail());
+                        assertThat(t.getCode())
+                                .isEqualTo(token.getCode());
+                    });
         }
     }
 
@@ -241,9 +255,10 @@ class AuthServiceTest {
             List<FeedbackPreference> feedbackPreferences = List.of(FeedbackPreference.PROGRESSIVE, FeedbackPreference.COMPLEMENTING);
             MemberDetails existGoogleUser = MemberDetails.createGoogleUser(1L, email);
 
+            when(googleSignupTokenService.find(token.getCode())).thenReturn(Optional.of(token));
             when(memberDetailsRepository.findByEmail(email)).thenReturn(Optional.of(existGoogleUser));
 
-            assertThatThrownBy(() -> authService.registerGoogle(token, image, feedbackPreferences))
+            assertThatThrownBy(() -> authService.registerGoogle(token.getCode(), image, feedbackPreferences))
                     .isInstanceOf(EmailAlreadyExistsException.class);
         }
 
@@ -258,12 +273,13 @@ class AuthServiceTest {
             List<FeedbackPreference> feedbackPreferences = List.of(FeedbackPreference.PROGRESSIVE, FeedbackPreference.COMPLEMENTING);
             ArgumentCaptor<Member> memberCaptor = ArgumentCaptor.captor();
 
+            when(googleSignupTokenService.find(token.getCode())).thenReturn(Optional.of(token));
             when(memberDetailsRepository.findByEmail(email)).thenReturn(Optional.empty());
             when(memberRepository.save(memberCaptor.capture())).thenAnswer(i -> i.getArgument(0));
             when(memberDetailsRepository.save(any(MemberDetails.class))).thenAnswer(i -> i.getArgument(0));
 
             // when
-            MemberDetails memberDetails = authService.registerGoogle(token, image, feedbackPreferences);
+            MemberDetails memberDetails = authService.registerGoogle(token.getCode(), image, feedbackPreferences);
 
             // then
             assertThat(memberDetails.getEmail()).isEqualTo(email);
