@@ -187,7 +187,9 @@ public class AuthService {
         }
 
         MemberDetails memberDetails = memberDetailsOptional.get();
-        memberDetails.validateGoogleAccount();
+        if (!memberDetails.getAccountType().equals(MemberDetails.Type.GOOGLE)) {
+            throw new EmailAlreadyExistsException("이메일로 회원가입한 계정이 이미 존재합니다.");
+        }
         return GoogleLoginResultDto.authenticated(memberDetails);
     }
 
