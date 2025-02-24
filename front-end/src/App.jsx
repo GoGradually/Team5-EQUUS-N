@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -230,7 +230,6 @@ const ErrorFallback = () => {
             '예상치 못한 에러가 발생했습니다.\n버튼을 눌러 메인화면으로 돌아갈 수 있습니다.'
           }
         </p>
-
         <MediumButton
           isOutlined={false}
           text='메인으로'
