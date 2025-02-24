@@ -660,7 +660,12 @@ public class TeamControllerIntegrationTest {
                             .uri("/api/team/join")
                             .queryParam("token", token.getToken())
                             .session(withLoginUser(notMember))
-            ).hasStatus(HttpStatus.NO_CONTENT);
+            ).hasStatus(HttpStatus.OK)
+                    .body()
+                    .satisfies(result -> {
+                        TeamResponse teamResponse = mapper.readValue(result, TeamResponse.class);
+                        assertThat(teamResponse.id()).isEqualTo(team.getId());
+                    });
 
             Team updatedTeam = teamRepository.findById(team.getId()).orElseThrow();
             assertThat(updatedTeam.isTeamMember(notMember)).isTrue();
