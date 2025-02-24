@@ -11,8 +11,6 @@ export default function FeedbackSendLayout() {
   const location = useLocation();
   const lastPath = location.pathname.split('/').at(-1);
 
-  console.log(location.state);
-
   return (
     <div className='flex size-full flex-col'>
       <StickyWrapper>

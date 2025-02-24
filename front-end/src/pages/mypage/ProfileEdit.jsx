@@ -71,13 +71,6 @@ export default function ProfileEdit() {
         disabled={isDisabled(member, editedMember, isValidName)}
         isOutlined={false}
       />
-      <div className='flex-1' />
-      <a
-        className='body-1 mb-[50px] text-center text-gray-400'
-        onClick={() => console.log('서비스 탈퇴')}
-      >
-        서비스 탈퇴하기
-      </a>
     </div>
   );
 }
