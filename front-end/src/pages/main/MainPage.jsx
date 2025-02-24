@@ -22,7 +22,7 @@ import ScheduleAction, {
   ScheduleActionType,
 } from '../calendar/components/ScheduleAction';
 import TodoAdd from '../calendar/components/TodoAdd';
-import { getScheduleTimeDiff } from '../../utility/time';
+import { checkIsFinished, getScheduleTimeDiff } from '../../utility/time';
 import { useTeam } from '../../store/useTeam';
 import useScheduleAction from '../calendar/hooks/useScheduleAction';
 import { useUser } from '../../store/useUser';
@@ -48,6 +48,7 @@ export default function MainPage() {
   const [timeDiff, setTimeDiff] = useState();
   const [isTodoAddOpen, toggleTodoAdd] = useReducer((prev) => !prev, false);
   const [isScheduleOpen, toggleSchedule] = useReducer((prev) => !prev, false);
+  const [filteredTeams, setFilteredTeams] = useState([]);
 
   const { teams, selectedTeam, selectTeam } = useTeam(true);
   const { userId } = useUser();
@@ -112,12 +113,19 @@ export default function MainPage() {
   }, [recentScheduleData]);
 
   useEffect(() => {
+    let filteredTeamList = [];
+
+    if (teams.length > 0) {
+      filteredTeamList = teams.filter((team) => !checkIsFinished(team.endDate));
+      setFilteredTeams(filteredTeamList);
+    }
+
     if (
-      teams.length > 0 &&
+      filteredTeamList.length > 0 &&
       (!selectedTeam ||
-        teams.find((team) => team.id === selectedTeam) === undefined)
+        filteredTeamList.find((team) => team.id === selectedTeam) === undefined)
     ) {
-      selectTeam(teams[0].id);
+      selectTeam(filteredTeamList[0].id);
     }
   }, [teams]);
 
@@ -144,11 +152,11 @@ export default function MainPage() {
     <div className='relative flex size-full flex-col overflow-hidden'>
       <div className='scrollbar-hidden size-full overflow-x-hidden overflow-y-auto'>
         <StickyWrapper className='px-5'>
-          {teams && (
+          {filteredTeams && (
             <Accordion
               isMainPage={true}
               selectedTeamId={selectedTeam}
-              teamList={teams}
+              teamList={filteredTeams}
               onTeamClick={selectTeam}
               isAllAlarmRead={
                 notificationsData &&
@@ -173,7 +181,7 @@ export default function MainPage() {
         {timeDiff !== undefined && (
           <MainCard
             userId={userId}
-            isInTeam={teams.length > 0}
+            isInTeam={filteredTeams.length > 0}
             recentSchedule={recentScheduleData}
             scheduleDifferece={timeDiff}
             onClickMainButton={getOnMainButtonClick()}
@@ -187,7 +195,7 @@ export default function MainPage() {
             teamMates={matesData}
             onReceivedFeedbackClick={() =>
               navigate(
-                `/feedback/received?teamName=${teams.find((team) => team.id === selectedTeam).name}`,
+                `/feedback/received?teamName=${filteredTeams.find((team) => team.id === selectedTeam).name}`,
               )
             }
             onClick={(mate) =>
