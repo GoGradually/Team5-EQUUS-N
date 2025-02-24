@@ -114,7 +114,7 @@ public class AuthService {
     @Transactional(readOnly = true)
     public Optional<PasswordResetToken> sendPasswordResetEmail(String email) {
         Optional<MemberDetails> memberDetails = memberDetailsRepository.findByEmail(email);
-        if (memberDetails.isEmpty()) {
+        if (memberDetails.isEmpty() || !memberDetails.get().getAccountType().equals(MemberDetails.Type.EMAIL)) {
             return Optional.empty();
         }
 
