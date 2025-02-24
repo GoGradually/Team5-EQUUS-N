@@ -136,7 +136,6 @@ export const useFeedbackRequest = () => {
       queryClient.invalidateQueries({ queryKey: ['feedback-sent'] });
     },
     onError: (error) => {
-      console.log(error);
       showToast(error.message);
     },
   });

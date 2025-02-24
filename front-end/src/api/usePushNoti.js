@@ -47,10 +47,6 @@ export default function usePushNoti() {
       // 알림 권한 요청 및 구독 설정
       if ('Notification' in window) {
         await askForNotificationPermission();
-      } else {
-        console.log(
-          'Notification을 지원하지 않는 브라우저입니다. 알림을 사용할 수 없습니다.',
-        );
       }
 
       async function askForNotificationPermission() {
