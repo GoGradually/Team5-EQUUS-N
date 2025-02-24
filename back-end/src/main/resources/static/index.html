@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>피드백 10개 보내기</title>
+</head>
+<body>
+<form id="loginForm">
+    <input type="email" name="email" id="email" placeholder="이메일"/>
+    <input type="password" name="password" id="password" placeholder="비밀번호"/>
+    <input type="number" name="teamId" id="teamId" placeholder="teamId"/>
+    <input type="number" name="receiverId" id="receiverId" placeholder="receiverId"/>
+    <button type="submit">피드백 10개 전송</button>
+</form>
+<textarea id="result" disabled></textarea>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const loginForm = document.getElementById("loginForm");
+        loginForm.addEventListener("submit",
+            async (e) => {
+                e.preventDefault();
+                const email = loginForm.email.value;
+                const password = loginForm.password.value;
+                const teamId = loginForm.teamId.value;
+                const receiverId = loginForm.receiverId.value;
+                const result = document.getElementById("result");
+
+                await login(email, password);
+                try {
+                    await sendFeedbacks(receiverId, teamId);
+                    result.value = "success";
+                    console.log("feedback send success ")
+                } catch (e) {
+                    result.value = "error: " + e.toString();
+                    console.error("feedback send error ", e)
+                }
+
+            })
+    });
+
+    const url = {
+        login: "/api/auth/email/login",
+        sendFeedback: "/api/feedbacks/frequent",
+    }
+
+    async function login(email, password) {
+        const data = {
+            email, password
+        }
+        const res = await fetch(url.login, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include"
+        });
+        if (res.status !== 200)
+            throw new Error(`Login Failed: ${res.status}, ${res.data}`);
+
+    }
+
+    async function sendFeedbacks(receiverId, teamId) {
+        const isAnonymous = [
+            true, false, true, false, true,
+            false, true, false, true, false
+        ]
+        const feedbackFeeling = [
+            '칭찬해요', '아쉬워요', '칭찬해요', '아쉬워요', '칭찬해요',
+            '아쉬워요', '칭찬해요', '아쉬워요', '칭찬해요', '아쉬워요',
+        ]
+        const subjectiveFeedbacks = [
+            '지난 회의에서 복잡한 문제를 간단하게 설명한 점이 좋았습니다. 논리적으로 말해주셔서 이해하기 쉬웠습니다.',
+            '지난 회의에서 주제가 산만하게 흘러서 이해하기 어려웠습니다. 논리적으로 말해주시면 더 좋을 것 같습니다',
+            '지난번 프로젝트에서 새로운 아이디어를 제안한 점이 매우 인상적이었습니다. 창의적인 접근 방식과 적극적인 참여가 돋보였습니다.',
+            '프로젝트 계획서에서 세부 사항이 부족했습니다. 조금 더 꼼꼼히 준비해주시면 좋겠습니다.',
+            '짧은 시간 안에 많은 일을 처리한 점이 인상적이었습니다. 일처리가 빨라서 프로젝트 진행이 원활했습니다.',
+            '프레젠테이션 도구 사용 시 어려움을 겪는 것 같았습니다. 툴 활용에 조금 더 익숙해지면 좋겠습니다.',
+            '회의 중에 팀원들의 의견을 잘 반영해줬습니다. 다른 사람의 의견을 경청하고 협력하는 모습이 좋았습니다.',
+            '팀원들의 의견을 무시하는 경향이 있었습니다. 다른 사람의 의견을 경청해주시면 좋겠습니다.',
+            '팀을 이끌며 모두가 목표를 향해 나아가도록 도와줬습니다. 리더십과 적극적인 태도가 돋보였습니다.',
+            '프로젝트 진행 시 주도적인 모습이 부족했습니다. 더 주도적으로 참여해주시면 좋겠습니다.',
+            '맡은 일을 끝까지 책임지는 모습이 좋았습니다. 성실하고 노력하는 모습이 인상적이었습니다.',
+            '중요한 업무에서 책임감 있는 모습을 보여주세요. 더 적극적으로 참여해주시면 좋겠습니다.',
+            '새로운 프로젝트에 적극적으로 참여하는 모습이 좋았습니다. 창의적인 아이디어도 많이 제공해주셨습니다.',
+            '회의에서 발언이 적고 소극적인 모습이 보였습니다. 더 적극적으로 참여해주시면 좋겠습니다.',
+            '항상 밝은 모습으로 팀 분위기를 좋게 만들어줬습니다. 긍정적이고 협력적인 태도가 좋았습니다.',
+        ]
+        const objectiveFeedbacks = [
+            ["논리적으로 말해요", "일처리가 빨라요"],
+            ["논리적으로 말해주세요", "구체적으로 말해주세요"],
+            ["창의적이에요", "적극적이에요", "책임감이 있어요"],
+            ["조금 더 꼼꼼히 준비해주세요"],
+            ["일처리가 빨라요", "책임감이 있어요"],
+            ["툴 활용에 미숙해요", "주도적으로 참여해주세요"],
+            ["다른 사람의 의견을 경청해요", "협력을 잘해요"],
+            ["다른 사람의 의견을 경청해주세요"],
+            ["리더십이 돋보여요", "적극적이에요"],
+            ["주도적으로 참여해주세요", "적극적으로 참여해주세요"],
+            ["책임감이 있어요", "성실해요", "노력이 느껴져요"],
+            ["책임감을 발휘해주세요", "적극적으로 참여해주세요"],
+            ["적극적이에요", "창의적이에요"],
+            ["적극적으로 참여해주세요"],
+            ["긍정적이에요", "협력을 잘해요", "다른 사람의 의견을 경청해요"]
+        ]
+
+        const promises = []
+        for (let i = 0; i < isAnonymous.length; i++) {
+            promises.push(
+                sendFeedback(
+                    receiverId, teamId, feedbackFeeling[i],
+                    objectiveFeedbacks[i],
+                    subjectiveFeedbacks[i],
+                    isAnonymous[i]
+                )
+            )
+        }
+        await Promise.all(promises);
+    }
+
+
+    async function sendFeedback(receiverId, teamId, feedbackFeeling, objectiveFeedbacks, subjectiveFeedback, isAnonymous) {
+        const data = {
+            receiverId,
+            teamId,
+            feedbackFeeling,
+            objectiveFeedbacks,
+            subjectiveFeedback,
+            isAnonymous
+        }
+        const res = await fetch(url.sendFeedback, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            withCredentials: true
+        });
+        if (res.status !== 204)
+            throw new Error(`Failed to send feedback: ${res.status}, ${res.data}`);
+    }
+
+</script>
+</body>
+</html>
