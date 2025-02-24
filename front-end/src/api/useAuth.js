@@ -59,8 +59,6 @@ export const useLogin = (teamCode) => {
     onError: (error) => {
       if (error.status === 401) {
         showToast('이메일 또는 비밀번호가 올바르지 않습니다');
-      } else if (error.status === 500) {
-        showToast('서버에 문제가 생겼습니다');
       }
     },
   });
