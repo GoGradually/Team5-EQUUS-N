@@ -31,6 +31,7 @@ import Banner from './components/Banner';
 import { handleFreqFeedbackReq } from './components/Alarm';
 import OnboardingNotice from './components/OnboardingNotice';
 import usePushNoti from '../../api/usePushNoti';
+import { motion } from 'motion/react';
 
 export default function MainPage() {
   const location = useLocation();
@@ -168,92 +169,118 @@ export default function MainPage() {
           )}
         </StickyWrapper>
         {banners?.length > 0 && (
-          <Slider {...sliderSettings} className='my-4 pb-2'>
-            {banners.map((banner, index) => (
-              <div className='px-[6px]' key={index}>
-                <Banner banner={banner} onClose={markAsRead} />
-              </div>
-            ))}
-          </Slider>
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              y: {
+                type: 'spring',
+                stiffness: 400,
+                damping: 12,
+              },
+              duration: 0.23,
+              ease: 'circOut',
+            }}
+          >
+            <Slider {...sliderSettings} className='my-4 pb-2'>
+              {banners.map((banner, index) => (
+                <div className='px-[6px]' key={index}>
+                  <Banner banner={banner} onClose={markAsRead} />
+                </div>
+              ))}
+            </Slider>
+          </motion.div>
         )}
         <div className='h-2' />
         {/* 로컬 스토리지 관련 문제 잡히면 다시 보기 */}
         {timeDiff !== undefined && (
-          <MainCard
-            userId={userId}
-            isInTeam={filteredTeams.length > 0}
-            recentSchedule={recentScheduleData}
-            scheduleDifferece={timeDiff}
-            onClickMainButton={getOnMainButtonClick()}
-            onClickSubButton={() => toggleSchedule()}
-            onClickChevronButton={() => navigate('/calendar')}
-          />
+          <motion.div
+            initial={{ opacity: 0, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.23, ease: 'circOut' }}
+          >
+            <MainCard
+              userId={userId}
+              isInTeam={filteredTeams.length > 0}
+              recentSchedule={recentScheduleData}
+              scheduleDifferece={timeDiff}
+              onClickMainButton={getOnMainButtonClick()}
+              onClickSubButton={() => toggleSchedule()}
+              onClickChevronButton={() => navigate('/calendar')}
+            />
+          </motion.div>
         )}
         <div className='h-8' />
         {matesData && (
-          <TeamMatesCard
-            teamMates={matesData}
-            onReceivedFeedbackClick={() =>
-              navigate(
-                `/feedback/received?teamName=${filteredTeams.find((team) => team.id === selectedTeam).name}`,
-              )
-            }
-            onClick={(mate) =>
-              showModal(
-                <Modal
-                  type={ModalType.PROFILE}
-                  profileImage={
-                    <div className='size-[62px]'>
-                      <ProfileImage
-                        iconName={`@animals/${mate.profileImage.image}`}
-                        color={mate.profileImage.backgroundColor}
-                      />
-                    </div>
-                  }
-                  title={
-                    mate.id === userId ?
-                      `${mate.name}(나)`
-                    : `${mate.name}님에게`
-                  }
-                  mainButton={
-                    <MediumButton
-                      text={
-                        mate.id === userId ? '회고 작성하기' : '피드백 보내기'
-                      }
-                      onClick={() => {
-                        mate.id === userId ?
-                          navigate(`/feedback/self`)
-                        : handleFreqFeedbackReq(navigate, {
-                            teamId: selectedTeam,
-                            senderId: mate.id,
-                            senderName: mate.name,
-                          });
-                        hideModal();
-                      }}
-                      isOutlined={false}
-                      disabled={false}
-                    />
-                  }
-                  subButton={
-                    mate.id === userId ?
-                      null
-                    : <MediumButton
-                        text='피드백 요청하기'
+          <motion.div
+            initial={{ opacity: 0, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.23, ease: 'circOut' }}
+          >
+            <TeamMatesCard
+              teamMates={matesData}
+              onReceivedFeedbackClick={() =>
+                navigate(
+                  `/feedback/received?teamName=${filteredTeams.find((team) => team.id === selectedTeam).name}`,
+                )
+              }
+              onClick={(mate) =>
+                showModal(
+                  <Modal
+                    type={ModalType.PROFILE}
+                    profileImage={
+                      <div className='size-[62px]'>
+                        <ProfileImage
+                          iconName={`@animals/${mate.profileImage.image}`}
+                          color={mate.profileImage.backgroundColor}
+                        />
+                      </div>
+                    }
+                    title={
+                      mate.id === userId ?
+                        `${mate.name}(나)`
+                      : `${mate.name}님에게`
+                    }
+                    mainButton={
+                      <MediumButton
+                        text={
+                          mate.id === userId ? '회고 작성하기' : '피드백 보내기'
+                        }
                         onClick={() => {
-                          navigate(
-                            `/feedback/request?receiverId=${mate.id}&receiverName=${mate.name}`,
-                          );
-
+                          mate.id === userId ?
+                            navigate(`/feedback/self`)
+                          : handleFreqFeedbackReq(navigate, {
+                              teamId: selectedTeam,
+                              senderId: mate.id,
+                              senderName: mate.name,
+                            });
                           hideModal();
                         }}
-                        isOutlined={true}
+                        isOutlined={false}
                         disabled={false}
                       />
-                  }
-                />,
-              )
-            }
-          />
+                    }
+                    subButton={
+                      mate.id === userId ?
+                        null
+                      : <MediumButton
+                          text='피드백 요청하기'
+                          onClick={() => {
+                            navigate(
+                              `/feedback/request?receiverId=${mate.id}&receiverName=${mate.name}`,
+                            );
+
+                            hideModal();
+                          }}
+                          isOutlined={true}
+                          disabled={false}
+                        />
+                    }
+                  />,
+                )
+              }
+            />
+          </motion.div>
         )}
         <div className='h-8' />
       </div>
