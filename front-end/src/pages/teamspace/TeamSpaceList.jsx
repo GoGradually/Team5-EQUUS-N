@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import NavBar2 from '../../components/NavBar2';
+import NavBar from '../../components/NavBar';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import { useNavigate } from 'react-router-dom';
 import TeamElement from './components/TeamElement';
@@ -14,7 +14,7 @@ export default function TeamSpaceList() {
   return (
     <div className='scrollbar-hidden flex h-full flex-col overflow-x-hidden overflow-y-auto'>
       <StickyWrapper>
-        <NavBar2
+        <NavBar
           canPop={true}
           title='팀 스페이스 관리'
           onClickPop={() => {

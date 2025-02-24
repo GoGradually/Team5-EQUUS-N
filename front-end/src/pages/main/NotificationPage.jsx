@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNotification } from '../../api/useMainPage';
-import NavBar2 from '../../components/NavBar2';
+import NavBar from '../../components/NavBar';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import Alarm from './components/Alarm';
 import { useNavigate } from 'react-router-dom';
@@ -30,7 +30,7 @@ export default function NotificationPage() {
   return (
     <div className='flex h-dvh flex-col'>
       <StickyWrapper>
-        <NavBar2
+        <NavBar
           isCloseLeft={true}
           canClose={true}
           title='알림함'

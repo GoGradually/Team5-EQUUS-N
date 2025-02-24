@@ -12,7 +12,7 @@ import { useEmailSignUp, useGoogleSignup } from '../../api/useAuth';
 import { showToast } from '../../utility/handleToast';
 import { useUser } from '../../store/useUser';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
-import NavBar2 from '../../components/NavBar2';
+import NavBar from '../../components/NavBar';
 
 export default function FeedbackFavorite() {
   const navigate = useNavigate();
@@ -90,7 +90,7 @@ export default function FeedbackFavorite() {
           {'선호하는 피드백 유형을\n선택해 주세요'}
         </h1>
       : <StickyWrapper>
-          <NavBar2
+          <NavBar
             canPop={true}
             title='선호 피드백 유형 관리'
             onClickPop={() => {

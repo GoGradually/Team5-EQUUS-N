@@ -1,4 +1,4 @@
-import NavBar from './components/NavBar';
+import AuthHeader from './components/AuthHeader';
 import CustomInput from '../../components/CustomInput';
 import LargeButton from '../../components/buttons/LargeButton';
 import logo from '../../assets/images/logo.png';
@@ -43,7 +43,7 @@ export default function PasswordReset() {
 
   return (
     <div className='relative flex h-screen w-full flex-col justify-start'>
-      <NavBar
+      <AuthHeader
         title={
           <p className='flex items-center justify-between'>
             비밀번호 초기화

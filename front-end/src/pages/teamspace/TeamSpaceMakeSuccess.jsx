@@ -1,4 +1,4 @@
-import NavBar from '../auth/components/NavBar';
+import AuthHeader from '../auth/components/AuthHeader';
 import LargeButton from '../../components/buttons/LargeButton';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useInviteTeam } from '../../api/useTeamspace';
@@ -26,7 +26,7 @@ export default function TeamSpaceMakeSuccess() {
 
   return (
     <div className='relative flex h-dvh w-full flex-col justify-start'>
-      <NavBar title={`${teamName} 팀 생성이 완료되었어요!`} />
+      <AuthHeader title={`${teamName} 팀 생성이 완료되었어요!`} />
       <div className='h-3' />
       <p className='body-1 text-gray-0'>
         아래 링크를 통해 팀원들을 초대해주세요
