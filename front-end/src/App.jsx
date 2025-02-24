@@ -56,7 +56,7 @@ function AnimatedRoutes() {
 
   return (
     <ErrorBoundary fallback={<ErrorFallback />}>
-      <AnimatePresence>
+      <AnimatePresence mode='wait'>
         <Routes key={location.pathname} location={location}>
           <Route element={<Layout />}>
             <Route path='/:teamCode?' element={<Splash />} />
@@ -67,42 +67,98 @@ function AnimatedRoutes() {
             {/* 이 아래는 로그인 해야 이용 가능 */}
             <Route element={<ProtectedRoute />}>
               <Route path='feedback'>
-                <Route path='request' element={<FeedbackRequest />} />
+                <Route
+                  path='request'
+                  element={
+                    <Transition>
+                      <FeedbackRequest />
+                    </Transition>
+                  }
+                />
                 <Route path='send' element={<FeedbackSendLayout />}>
                   <Route index element={<FeedbackSend />} />
                   <Route path='frequent' element={<FeedbackSendFreq />} />
                   <Route path=':step' element={<FeedbackSendStep />} />
                 </Route>
-                <Route path='self' element={<FeedbackSelf />} />
+                <Route
+                  path='self'
+                  element={
+                    <Transition>
+                      <FeedbackSelf />
+                    </Transition>
+                  }
+                />
                 <Route path='complete' element={<FeedbackComplete />} />
                 <Route path='favorite' element={<FeedbackFavorite />} />
-                <Route path='received' element={<FeedbackHistory />} />
-                <Route path='sent' element={<FeedbackHistory />} />
+                <Route
+                  path='received'
+                  element={
+                    <Transition>
+                      <FeedbackHistory />
+                    </Transition>
+                  }
+                />
+                <Route
+                  path='sent'
+                  element={
+                    <Transition>
+                      <FeedbackHistory />
+                    </Transition>
+                  }
+                />
               </Route>
               <Route path='teamspace'>
                 <Route path='make'>
-                  <Route index element={<TeamSpaceMake />} />
+                  <Route
+                    index
+                    element={
+                      <Transition>
+                        <TeamSpaceMake />
+                      </Transition>
+                    }
+                  />
                   <Route
                     path='first'
                     element={<TeamSpaceMake isFirst={true} />}
                   />
                   <Route path='success' element={<TeamSpaceMakeSuccess />} />
                 </Route>
-                <Route path='list' element={<TeamSpaceList />} />
+                <Route
+                  path='list'
+                  element={
+                    <Transition>
+                      <TeamSpaceList />
+                    </Transition>
+                  }
+                />
                 <Route path='manage/:teamId'>
-                  <Route index element={<TeamSpaceManage />} />
+                  <Route
+                    index
+                    element={
+                      <Transition>
+                        <TeamSpaceManage />
+                      </Transition>
+                    }
+                  />
                   <Route path='edit' element={<TeamSpaceEdit />} />
                 </Route>
               </Route>
-              <Route path='calendar' element={<Calendar />} />
+              <Route
+                path='calendar'
+                element={
+                  <Transition>
+                    <Calendar />
+                  </Transition>
+                }
+              />
               <Route path='main'>
                 <Route index element={<MainPage />} />
                 <Route
                   path='notification'
                   element={
-                    <PageWrapper>
+                    <Transition>
                       <NotificationPage />
-                    </PageWrapper>
+                    </Transition>
                   }
                 />
               </Route>
@@ -110,14 +166,35 @@ function AnimatedRoutes() {
                 <Route
                   index
                   element={
-                    <PageWrapper>
+                    <Transition>
                       <MyPageHome />
-                    </PageWrapper>
+                    </Transition>
                   }
                 />
-                <Route path='self' element={<FeedbackHistory />} />
-                <Route path='report' element={<Report />} />
-                <Route path='edit' element={<ProfileEdit />} />
+                <Route
+                  path='self'
+                  element={
+                    <Transition>
+                      <FeedbackHistory />
+                    </Transition>
+                  }
+                />
+                <Route
+                  path='report'
+                  element={
+                    <Transition>
+                      <Report />
+                    </Transition>
+                  }
+                />
+                <Route
+                  path='edit'
+                  element={
+                    <Transition>
+                      <ProfileEdit />
+                    </Transition>
+                  }
+                />
               </Route>
             </Route>
           </Route>
@@ -127,22 +204,20 @@ function AnimatedRoutes() {
   );
 }
 
-function PageWrapper({ children }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: 240 }} // 처음 로드될 때의 상태
-      animate={{ opacity: 1, x: 0 }} // 활성화될 때
-      exit={{ opacity: 0, x: 240, transition: { duration: 0.2 } }} // 제거될 때
-      transition={{
-        x: { ease: 'circOut' },
-        ease: 'linear',
-      }}
-      className='size-full'
-    >
-      {children}
-    </motion.div>
-  );
-}
+const Transition = ({ children }) => (
+  <motion.div
+    initial={{ opacity: 0, x: 240 }} // 처음 로드될 때의 상태
+    animate={{ opacity: 1, x: 0 }} // 활성화될 때
+    exit={{ opacity: 0, x: 240, transition: { duration: 0.1 } }} // 제거될 때
+    transition={{
+      x: { ease: 'circOut' },
+      ease: 'linear',
+    }}
+    className='size-full'
+  >
+    {children}
+  </motion.div>
+);
 
 const ErrorFallback = () => {
   return (
@@ -155,7 +230,6 @@ const ErrorFallback = () => {
             '예상치 못한 에러가 발생했습니다.\n버튼을 눌러 메인화면으로 돌아갈 수 있습니다.'
           }
         </p>
-
         <MediumButton
           isOutlined={false}
           text='메인으로'
