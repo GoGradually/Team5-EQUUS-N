@@ -1,7 +1,7 @@
 import classNames from 'classnames';
-import letter from '../../../assets/images/letter2.webp';
-import file from '../../../assets/images/file2.webp';
-import box from '../../../assets/images/box2.webp';
+import letter from '../../../assets/images/letter.webp';
+import file from '../../../assets/images/file.webp';
+import box from '../../../assets/images/box.webp';
 import Icon from '../../../components/Icon';
 import { useNavigate } from 'react-router-dom';
 import { handleFreqFeedbackReq } from './Alarm';

@@ -11,7 +11,7 @@ import Icon from './Icon';
  * @param {function} props.onClickClose - 닫기 클릭 함수
  * @returns {JSX.Element} - 네비게이션 바 2 컴포넌트
  */
-export default function NavBar2({
+export default function NavBar({
   canPop,
   canClose,
   isCloseLeft,

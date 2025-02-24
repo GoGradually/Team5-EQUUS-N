@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import NavBar2 from '../../components/NavBar2';
+import NavBar from '../../components/NavBar';
 import Tag, { TagType } from '../../components/Tag';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import { useInviteTeam, useTeamInfo } from '../../api/useTeamspace';
@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import Icon from '../../components/Icon';
 import MemberElement from './components/MemberElement';
 import { showToast } from '../../utility/handleToast';
-import { useUser } from '../../useUser';
+import { useUser } from '../../store/useUser';
 import { shareCode } from '../../utility/share';
 
 export default function TeamSpaceManage() {
@@ -35,10 +35,25 @@ export default function TeamSpaceManage() {
     return `${year.slice(2)}.${month}.${day}`;
   }
 
+  const handleEditTeam = () => {
+    navigate(`/teamspace/manage/${teamId}/edit`, {
+      state: team,
+    });
+  };
+
+  const handleInviteTeam = () => {
+    inviteTeam(teamId, {
+      onSuccess: (data) => {
+        const inviteCode = data.token;
+        shareCode(inviteCode);
+      },
+    });
+  };
+
   return (
     <div className='flex flex-col'>
       <StickyWrapper>
-        <NavBar2
+        <NavBar
           canPop={true}
           title='팀 스페이스 관리'
           onClickPop={() => {
@@ -50,13 +65,7 @@ export default function TeamSpaceManage() {
         <div className='header-1 flex items-center gap-2 text-gray-100'>
           <h1 className='text-gray-100'>{team?.teamResponse?.name}</h1>
           {iamLeader && !isEnded && (
-            <button
-              onClick={() => {
-                navigate(`/teamspace/manage/${teamId}/edit`, {
-                  state: team,
-                });
-              }}
-            >
+            <button onClick={handleEditTeam}>
               <Icon name='edit' />
             </button>
           )}
@@ -66,16 +75,7 @@ export default function TeamSpaceManage() {
             {convertDateFormat(team?.teamResponse?.startDate)} ~{' '}
             {convertDateFormat(team?.teamResponse?.endDate)}
           </p>
-        : <button
-            onClick={() => {
-              inviteTeam(teamId, {
-                onSuccess: (data) => {
-                  const inviteCode = data.token;
-                  shareCode(inviteCode);
-                },
-              });
-            }}
-          >
+        : <button onClick={handleInviteTeam}>
             <Tag type={TagType.TEAM_NAME}>초대링크 복사</Tag>
           </button>
         }

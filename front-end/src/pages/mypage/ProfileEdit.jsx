@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import NavBar2 from '../../components/NavBar2';
+import NavBar from '../../components/NavBar';
 import ProfileImage, { getRandomProfile } from '../../components/ProfileImage';
 import AiButton from '../../components/buttons/AiButton';
 import CustomInput from '../../components/CustomInput';
@@ -20,7 +20,7 @@ export default function ProfileEdit() {
 
   return (
     <div className='flex size-full flex-col'>
-      <NavBar2 canClose={true} onClickClose={() => navigate(-1)} />
+      <NavBar canClose={true} onClickClose={() => navigate(-1)} />
       <div className='mx-auto mb-9 flex flex-col items-center'>
         <div className='mb-4 size-20'>
           <ProfileImage
@@ -71,13 +71,6 @@ export default function ProfileEdit() {
         disabled={isDisabled(member, editedMember, isValidName)}
         isOutlined={false}
       />
-      <div className='flex-1' />
-      <a
-        className='body-1 mb-[50px] text-center text-gray-400'
-        onClick={() => console.log('서비스 탈퇴')}
-      >
-        서비스 탈퇴하기
-      </a>
     </div>
   );
 }

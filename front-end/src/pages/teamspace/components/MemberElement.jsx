@@ -8,8 +8,8 @@ import Icon from '../../../components/Icon';
 import Modal from '../../../components/modals/Modal';
 import ProfileImage from '../../../components/ProfileImage';
 import Tag, { TagType } from '../../../components/Tag';
-import { useTeam } from '../../../useTeam';
-import { useUser } from '../../../useUser';
+import { useTeam } from '../../../store/useTeam';
+import { useUser } from '../../../store/useUser';
 import { hideModal, showModal } from '../../../utility/handleModal';
 import { useNavigate } from 'react-router-dom';
 
@@ -66,6 +66,16 @@ export default function MemberElement({ teamId, member, leaderId, iamLeader }) {
     />
   );
 
+  const handleLeaveTeam = () => {
+    leaveTeam(null, {
+      onSuccess: () => {
+        hideModal();
+        reSelectTeam(teamId, selectedTeam, removeSelectedTeam);
+        navigate(-1);
+      },
+    });
+  };
+
   const leaveTeamModal = (
     <Modal
       type='SINGLE'
@@ -74,15 +84,7 @@ export default function MemberElement({ teamId, member, leaderId, iamLeader }) {
         <MediumButton
           text='확인'
           isOutlined={false}
-          onClick={() => {
-            leaveTeam(null, {
-              onSuccess: () => {
-                hideModal();
-                reSelectTeam(teamId, selectedTeam, removeSelectedTeam);
-                navigate(-1);
-              },
-            });
-          }}
+          onClick={handleLeaveTeam}
         />
       }
     />

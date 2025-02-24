@@ -4,7 +4,7 @@ import Icon from '../../../components/Icon';
 import MediumButton from '../../../components/buttons/MediumButton';
 import { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
-import { useUser } from '../../../useUser';
+import { useUser } from '../../../store/useUser';
 
 /**
  *
@@ -67,7 +67,7 @@ export default function ScheduleCard({
       </div>
       <hr className='w-full border-gray-500' />
       {/* 나의 역할 */}
-      {myRole.length > 0 ?
+      {myRole?.length > 0 ?
         <div className='flex flex-col gap-3'>
           <Tag type={TagType.MY_ROLE}></Tag>
           <div className='flex flex-col gap-1'>
@@ -88,7 +88,7 @@ export default function ScheduleCard({
         className={`flex flex-col gap-6 overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'mb-0' : 'mb-[-24px]'}`}
         style={contentRef.current ? { height: `${height}px` } : { height: 0 }}
       >
-        {teamRole.length > 0 ?
+        {teamRole?.length > 0 ?
           teamRole.map((todo, index) => {
             return (
               <div key={index} className='flex flex-col gap-3'>

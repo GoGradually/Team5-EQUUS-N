@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import CustomInput from '../../components/CustomInput';
-import NavBar2 from '../../components/NavBar2';
+import NavBar from '../../components/NavBar';
 import Icon from '../../components/Icon';
 import LargeButton from '../../components/buttons/LargeButton';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -15,7 +15,7 @@ import MediumButton from '../../components/buttons/MediumButton';
 import { hideModal, showModal } from '../../utility/handleModal';
 import { useEditTeam, useLeaveTeam } from '../../api/useTeamspace';
 import { reSelectTeam } from './components/MemberElement';
-import { useTeam } from '../../useTeam';
+import { useTeam } from '../../store/useTeam';
 
 /**
  * @param {object} props
@@ -48,6 +48,16 @@ export default function TeamSpaceEdit({ isFirst = false }) {
     }
   };
 
+  const handleConfirmDeleteTeam = () => {
+    leaveTeam(null, {
+      onSuccess: () => {
+        hideModal();
+        reSelectTeam(teamId, selectedTeam, removeSelectedTeam);
+        navigate(-2);
+      },
+    });
+  };
+
   const deleteTeamModal = (
     <Modal
       type='DOUBLE'
@@ -56,15 +66,7 @@ export default function TeamSpaceEdit({ isFirst = false }) {
         <MediumButton
           text='삭제'
           isOutlined={false}
-          onClick={() => {
-            leaveTeam(null, {
-              onSuccess: () => {
-                hideModal();
-                reSelectTeam(teamId, selectedTeam, removeSelectedTeam);
-                navigate(-2);
-              },
-            });
-          }}
+          onClick={handleConfirmDeleteTeam}
         />
       }
       subButton={
@@ -93,6 +95,14 @@ export default function TeamSpaceEdit({ isFirst = false }) {
     navigate(-1);
   };
 
+  const handleToggleAnonymous = () => {
+    setTeam({
+      ...team,
+      feedbackType:
+        team.feedbackType === 'IDENTIFIED' ? 'ANONYMOUS' : 'IDENTIFIED',
+    });
+  };
+
   useEffect(() => {
     if (location.state) {
       setTeam(location.state?.teamResponse);
@@ -111,7 +121,7 @@ export default function TeamSpaceEdit({ isFirst = false }) {
 
   return (
     <div className='relative flex h-dvh w-full flex-col justify-start'>
-      <NavBar2
+      <NavBar
         canPop={false}
         title='팀 스페이스 수정하기'
         canClose={true}
@@ -165,15 +175,7 @@ export default function TeamSpaceEdit({ isFirst = false }) {
         addOn={
           <button
             className='flex h-full w-full items-center justify-center'
-            onClick={() => {
-              setTeam({
-                ...team,
-                feedbackType:
-                  team.feedbackType === 'IDENTIFIED' ?
-                    'ANONYMOUS'
-                  : 'IDENTIFIED',
-              });
-            }}
+            onClick={handleToggleAnonymous}
           >
             <Icon
               name={

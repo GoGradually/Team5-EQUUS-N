@@ -1,17 +1,25 @@
 import { CertState } from '../components/Certification';
 import { showToast } from './handleToast';
 
-export function transformToBytes(str) {
+export function transformToBytes(str, maxByteCount = 400) {
   let byteCount = 0;
   let overflowedIndex = 0;
-
   for (let i = 0; i < str.length; i++) {
-    if (str.charCodeAt(i) < 128) byteCount++;
-    else byteCount += 2;
-    overflowedIndex++;
+    if (str.charCodeAt(i) < 128) {
+      if (byteCount + 1 > maxByteCount) {
+        return { byteCount, overflowedIndex };
+      }
+      byteCount++;
+      overflowedIndex++;
+    } else {
+      if (byteCount + 2 > maxByteCount) {
+        return { byteCount, overflowedIndex };
+      }
+      byteCount += 2;
+      overflowedIndex++;
+    }
   }
-
-  return { byteCount: byteCount, overflowedIndex: overflowedIndex };
+  return { byteCount, overflowedIndex: -1 };
 }
 
 /**
@@ -112,7 +120,7 @@ export const checkSignInInfos = (email, password) => {
     showToast('이메일 형식이 올바르지 않습니다');
     return false;
   } else if (!isValidPassword(password)) {
-    showToast('비밀번호가 틀렸습니다');
+    showToast('이메일 또는 비밀번호가 올바르지 않습니다');
     return false;
   }
   return true;

@@ -1,4 +1,4 @@
-import NavBar2 from '../../components/NavBar2';
+import NavBar from '../../components/NavBar';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import LargeButton from '../../components/buttons/LargeButton';
 import FooterWrapper from '../../components/wrappers/FooterWrapper';
@@ -11,8 +11,6 @@ export default function FeedbackSendLayout() {
   const location = useLocation();
   const lastPath = location.pathname.split('/').at(-1);
 
-  console.log(location.state);
-
   return (
     <div className='flex size-full flex-col'>
       <StickyWrapper>
@@ -21,7 +19,7 @@ export default function FeedbackSendLayout() {
           totalStep={3}
           isVisible={lastPath !== 'send' && lastPath !== 'frequent'}
         />
-        <NavBar2
+        <NavBar
           canPop={true}
           onClickPop={() => navigate(-1)}
           title={

@@ -2,13 +2,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { useFeedbackReceived, useFeedbackSent } from '../../api/useFeedback';
 import { useGetSelfFeedback } from '../../api/useMyPage';
-import NavBar2 from '../../components/NavBar2';
+import NavBar from '../../components/NavBar';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import { DropdownSmall } from '../../components/Dropdown';
 import Icon from '../../components/Icon';
 import FeedBack, { FeedBackType } from './components/FeedBack';
-import { useUser } from '../../useUser';
-import { useTeam } from '../../useTeam';
+import { useUser } from '../../store/useUser';
+import { useTeam } from '../../store/useTeam';
+import Spinner from '../../components/Spinner';
 
 export default function FeedbackHistory() {
   const location = useLocation();
@@ -105,13 +106,23 @@ export default function FeedbackHistory() {
     refetch();
   }
 
+  const handleOnlyLikeButton = () => {
+    setOnlyLiked(!onlyLiked);
+    refreshData();
+  };
+
+  const handleSortOrderButton = () => {
+    setSortBy(sortBy === 'createdAt:desc' ? 'createdAt:asc' : 'createdAt:desc');
+    refreshData();
+  };
+
   return (
     <div
       className='scrollbar-hidden flex h-full flex-col overflow-x-hidden overflow-y-auto'
       ref={scrollRef}
     >
       <StickyWrapper>
-        <NavBar2
+        <NavBar
           canPop={true}
           canClose={false}
           title={
@@ -136,12 +147,7 @@ export default function FeedbackHistory() {
           <div className='button-2 flex items-center gap-2 text-gray-100'>
             {pageType !== FeedBackType.SELF && (
               <>
-                <button
-                  onClick={() => {
-                    setOnlyLiked(!onlyLiked);
-                    refreshData();
-                  }}
-                >
+                <button onClick={handleOnlyLikeButton}>
                   <p className={onlyLiked ? 'caption-2 text-lime-500' : ''}>
                     {pageType === FeedBackType.RECEIVE ?
                       '도움 받은 피드백'
@@ -153,14 +159,7 @@ export default function FeedbackHistory() {
             )}
             <button
               className='flex items-center gap-1'
-              onClick={() => {
-                setSortBy(
-                  sortBy === 'createdAt:desc' ? 'createdAt:asc' : (
-                    'createdAt:desc'
-                  ),
-                );
-                refreshData();
-              }}
+              onClick={handleSortOrderButton}
             >
               <p>{sortBy === 'createdAt:desc' ? '최신순' : '과거순'}</p>
               <Icon name='swapVert' />
@@ -168,11 +167,19 @@ export default function FeedbackHistory() {
           </div>
         </div>
       </StickyWrapper>
-      {feedbacks.length > 0 ?
+      {isLoading && feedbacks.length === 0 ?
+        <Spinner bgColor='bg-gray-900' />
+      : feedbacks.length > 0 ?
         <ul>
           {feedbacks.map((feedback) => {
             return (
-              <li key={feedback.feedbackId}>
+              <li
+                key={
+                  pageType === FeedBackType.SELF ?
+                    feedback.createdAt
+                  : feedback.feedbackId
+                }
+              >
                 <FeedBack feedbackType={pageType} data={feedback} />
               </li>
             );

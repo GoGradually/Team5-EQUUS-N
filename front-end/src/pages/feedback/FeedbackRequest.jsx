@@ -1,13 +1,13 @@
-import NavBar2 from '../../components/NavBar2';
+import NavBar from '../../components/NavBar';
 import StickyWrapper from '../../components/wrappers/StickyWrapper';
 import TextArea from '../../components/TextArea';
 import LargeButton from '../../components/buttons/LargeButton';
 import FooterWrapper from '../../components/wrappers/FooterWrapper';
 import { useState } from 'react';
 import { showToast } from '../../utility/handleToast';
-import { useFeedbackRequest } from '../../api/useFeedback2';
+import { useFeedbackRequest } from '../../api/useFeedback';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useTeam } from '../../useTeam';
+import { useTeam } from '../../store/useTeam';
 
 export default function FeedbackRequest() {
   const [textLength, setTextLength] = useState(0);
@@ -26,7 +26,7 @@ export default function FeedbackRequest() {
   return (
     <div className='flex size-full flex-col'>
       <StickyWrapper>
-        <NavBar2
+        <NavBar
           canPop={true}
           onClickPop={() => {
             navigate('/main');

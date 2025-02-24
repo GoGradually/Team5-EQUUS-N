@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ProfileImageWithText } from '../../components/ProfileImage';
 import FooterWrapper from '../../components/wrappers/FooterWrapper';
-import { useWhoNeedFreqFeedback } from '../../api/useFeedback2';
+import { useWhoNeedFreqFeedback } from '../../api/useFeedback';
 import { useEffect, useState } from 'react';
 import LargeButton from '../../components/buttons/LargeButton';
 
@@ -33,6 +33,20 @@ export default function FeedbackSendFreq() {
       else setSelectedRequester(freqFeedbackRequester);
     }
   }, [whoNeedFreqFeedback]);
+
+  const handleClickNext = () =>
+    navigate('/feedback/send/1', {
+      state: {
+        receiver: {
+          name: selectedRequester.requester.name,
+          id: selectedRequester.requester.id,
+        },
+        needToRedirectSelectionPage:
+          locationState.memberId == null && whoNeedFreqFeedback?.length > 1,
+        requestedContent: selectedRequester.requestedContent,
+        ...locationState,
+      },
+    });
 
   return (
     <div className='flex size-full flex-col gap-8'>
@@ -86,21 +100,7 @@ export default function FeedbackSendFreq() {
           <LargeButton
             isOutlined={false}
             text='다음'
-            onClick={() =>
-              navigate('/feedback/send/1', {
-                state: {
-                  receiver: {
-                    name: selectedRequester.requester.name,
-                    id: selectedRequester.requester.id,
-                  },
-                  needToRedirectSelectionPage:
-                    locationState.memberId == null &&
-                    whoNeedFreqFeedback?.length > 1,
-                  requestedContent: selectedRequester.requestedContent,
-                  ...locationState,
-                },
-              })
-            }
+            onClick={handleClickNext}
           />
         </FooterWrapper>
       )}

@@ -1,6 +1,6 @@
 // ProtectedRoute.jsx
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import { useUserContext } from './UserContext';
+import { useUserContext } from '../store/UserContext';
 
 function ProtectedRoute() {
   const { state, dispatch } = useUserContext();

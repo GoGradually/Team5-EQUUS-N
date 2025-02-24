@@ -1,7 +1,6 @@
 import { useInviteTeam } from '../api/useTeamspace';
-import { useTeam } from '../useTeam';
-import { useUser } from '../useUser';
-import { showToast } from '../utility/handleToast';
+import { useTeam } from '../store/useTeam';
+import { useUser } from '../store/useUser';
 import { shareCode } from '../utility/share';
 import MediumButton from './buttons/MediumButton';
 import { ProfileImageWithText } from './ProfileImage';
@@ -17,7 +16,7 @@ import { ProfileImageWithText } from './ProfileImage';
  * @param {function} props.onReceivedFeedbackClick - 피드백 보관함 클릭 이벤트
  * @returns {JSX.Element} - 메인 카드 2 컴포넌트
  */
-export default function MainCard2({
+export default function TeamMatesCard({
   teamMates,
   onClick,
   onReceivedFeedbackClick,
@@ -30,6 +29,15 @@ export default function MainCard2({
     teamMates.find((mate) => mate.id === userId),
     ...teamMates.filter((mate) => mate.id !== userId),
   ];
+
+  const handleClickInvite = () => {
+    inviteTeam(selectedTeam, {
+      onSuccess: (data) => {
+        const inviteCode = data.token;
+        shareCode(inviteCode);
+      },
+    });
+  };
 
   return (
     <div className={'rounded-400 mx-5 h-fit bg-gray-800 p-4'}>
@@ -47,17 +55,7 @@ export default function MainCard2({
           );
         })}
         {teamMates.length < 4 && (
-          <ProfileImageWithText
-            text='팀원초대'
-            onClick={() => {
-              inviteTeam(selectedTeam, {
-                onSuccess: (data) => {
-                  const inviteCode = data.token;
-                  shareCode(inviteCode);
-                },
-              });
-            }}
-          />
+          <ProfileImageWithText text='팀원초대' onClick={handleClickInvite} />
         )}
       </div>
       <MediumButton

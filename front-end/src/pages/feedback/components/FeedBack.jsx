@@ -8,7 +8,7 @@ import {
   useFeedbackLikeCancel,
   useFeedbackLike,
 } from '../../../api/useFeedback';
-import { useUser } from '../../../useUser';
+import { useUser } from '../../../store/useUser';
 
 export const FeedBackType = Object.freeze({
   SELF: 'SELF',
@@ -38,6 +38,15 @@ export default function FeedBack({ feedbackType, data }) {
     data.feedbackId,
   );
   const [isLiked, setIsLiked] = useState(data.liked);
+
+  const handleHeartButton = () => {
+    if (isLiked) {
+      cancelLikeFeedback();
+    } else {
+      likeFeedback();
+    }
+    setIsLiked(!isLiked);
+  };
 
   return (
     <div className='flex flex-col gap-5 border-b-8 border-gray-800 bg-gray-900 py-5'>
@@ -102,25 +111,12 @@ export default function FeedBack({ feedbackType, data }) {
           </div>
           <div className='flex items-center justify-between'>
             <p className='caption-1 text-gray-300'>{date}</p>
-            {feedbackType === FeedBackType.RECEIVE &&
+            {feedbackType === FeedBackType.RECEIVE && (
               // 받은 피드백의 경우 하트 토글 가능
-              (isLiked ?
-                <button
-                  onClick={() => {
-                    setIsLiked(false);
-                    cancelLikeFeedback();
-                  }}
-                >
-                  <Icon name='heartFill' />
-                </button>
-              : <button
-                  onClick={() => {
-                    setIsLiked(true);
-                    likeFeedback();
-                  }}
-                >
-                  <Icon name='heartDefault' />
-                </button>)}
+              <button onClick={handleHeartButton}>
+                <Icon name={isLiked ? 'heartFill' : 'heartDefault'} />
+              </button>
+            )}
             {feedbackType === FeedBackType.SEND && isLiked && (
               //보낸 피드백의 경우 하트 받았는지 여부만 표시
               <div className='caption-1 flex items-center gap-1 text-gray-300'>

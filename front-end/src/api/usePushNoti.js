@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { api } from './baseApi';
-import { useUser } from '../useUser';
+import { useUser } from '../store/useUser';
 import { useCallback } from 'react';
 import { registerSW } from 'virtual:pwa-register';
 
