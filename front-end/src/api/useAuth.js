@@ -28,6 +28,7 @@ export const useVerifyToken = () => {
 export const useGetMember = (id) => {
   return useQuery({
     queryKey: ['member', id],
+    gcTime: 0,
     queryFn: () => api.get({ url: '/api/member', params: { id } }),
   });
 };
@@ -56,7 +57,11 @@ export const useLogin = (teamCode) => {
       navigate('/main');
     },
     onError: (error) => {
-      showToast(`로그인 실패: ${error.message}`);
+      if (error.status === 401) {
+        showToast('이메일 또는 비밀번호가 올바르지 않습니다');
+      } else if (error.status === 500) {
+        showToast('서버에 문제가 생겼습니다');
+      }
     },
   });
 };
