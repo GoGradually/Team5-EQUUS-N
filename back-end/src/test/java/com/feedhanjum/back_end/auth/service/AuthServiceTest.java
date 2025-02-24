@@ -206,7 +206,7 @@ class AuthServiceTest {
 
             // when & then
             assertThatThrownBy(() -> authService.authenticateGoogle(googleCode))
-                    .isInstanceOf(InvalidCredentialsException.class);
+                    .isInstanceOf(EmailAlreadyExistsException.class);
         }
 
         @Test

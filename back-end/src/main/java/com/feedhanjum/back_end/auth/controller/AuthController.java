@@ -197,7 +197,8 @@ public class AuthController {
     @Operation(summary = "구글 로그인 or 구글 회원가입 토큰 응답", description = "구글 회원가입된 상태라면 로그인, 아니라면 회원가입 시 필요한 토큰을 발급합니다")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "로그인 or 회원가입 토큰 발급 성공"),
-            @ApiResponse(responseCode = "401", description = "구글 로그인 실패", content = @Content)
+            @ApiResponse(responseCode = "401", description = "구글 로그인 실패", content = @Content),
+            @ApiResponse(responseCode = "409", description = "이미 중복되는 이메일 계정이 존재하는 경우", content = @Content)
     })
     @PostMapping("/google/login")
     public ResponseEntity<GoogleLoginResponse> loginWithGoogle(HttpSession session, @Valid @RequestBody GoogleLoginRequest request) {
