@@ -51,11 +51,13 @@ public class GoogleAuthService {
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
                         (request, response) -> {
+                            log.info("Google Get Access Token Error: {}, {}", response.getStatusCode(), new String(response.getBody().readAllBytes()));
                             throw new InvalidCredentialsException("구글 로그인 정보가 잘못되었습니다");
                         }
                 )
                 .body(GoogleCodeResponse.class);
 
+        log.info("Google Get Access Token Success: {}", codeResponse);
         String accessToken = codeResponse.accessToken();
 
 
@@ -65,11 +67,12 @@ public class GoogleAuthService {
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
                         (request, response) -> {
+                            log.info("Google OAuth Error: {}, {}", response.getStatusCode(), new String(response.getBody().readAllBytes()));
                             throw new InvalidCredentialsException("구글 로그인 정보가 잘못되었습니다");
                         }
                 )
                 .body(GoogleUserInfoResponse.class);
-        log.info("Google OAuth result: {}", userInfo);
+        log.info("Google OAuth Success: {}", userInfo);
         return userInfo;
     }
 
