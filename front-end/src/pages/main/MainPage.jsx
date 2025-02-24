@@ -150,7 +150,13 @@ export default function MainPage() {
   };
 
   return (
-    <div className='relative flex size-full flex-col overflow-hidden'>
+    <motion.div
+      className='relative flex size-full flex-col overflow-hidden'
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.14 }}
+    >
       <div className='scrollbar-hidden size-full overflow-x-hidden overflow-y-auto'>
         <StickyWrapper className='px-5'>
           {filteredTeams && (
@@ -300,7 +306,7 @@ export default function MainPage() {
           selectedSchedule={recentScheduleData}
         />
       )}
-    </div>
+    </motion.div>
   );
 }
 
