@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>QRCode 생성</title>
+</head>
+<body>
+<h1>URL QR 코드 생성기</h1>
+<form id="urlForm">
+    <label for="urlInput">URL 입력:</label>
+    <input type="text" id="urlInput" name="url" required>
+    <button type="submit">QR 코드 생성</button>
+</form>
+<img id="qrCode" alt="QR 코드" style="margin-top: 20px; display: none; height: 60vh">
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlForm = document.getElementById('urlForm');
+        const qrCodeImg = document.getElementById('qrCode');
+        urlForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const url = urlForm.url.value;
+            qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
+            qrCodeImg.style.display = 'block';
+        });
+    })
+</script>
+</body>
+</html>
