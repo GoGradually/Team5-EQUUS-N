@@ -4,7 +4,7 @@
 
 
 # 배포 URL
-## [피드 한 줌](https://feedhanjum.com)
+피드 한 줌: https://feedhanjum.com
 
 
 # 팀원 소개
