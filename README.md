@@ -11,10 +11,10 @@
 
 <table>
 <tr>
-<td align="center"><a href="https://github.com/lsj1137"><img src="https://avatars.githubusercontent.com/u/57708892?v=44" width="100px;" alt=""/><br /><sub><b>임세준</b></sub></a><br />
-<td align="center"><a href="https://github.com/vvsos1"><img src="https://avatars.githubusercontent.com/u/26290830?v=4" width="100px;" alt=""/><br /><sub><b>박명규</b></sub></a><br />
-<td align="center"><a href="https://github.com/GoGradually"><img src="https://avatars.githubusercontent.com/u/62929862?v=4" width="100px;" alt=""/><br /><sub><b>한준호</b></sub></a><br />
-<td align="center"><a href="https://github.com/hammsik"><img src="https://avatars.githubusercontent.com/u/116339092?v=4" width="100px;" alt=""/><br /><sub><b>백현식</b></sub></a><br />
+<td align="center"><a href="https://github.com/lsj1137"><img src="https://avatars.githubusercontent.com/u/57708892?v=44" width="100px;" alt=""/><br /><sub><b>FE-임세준</b></sub></a><br />
+<td align="center"><a href="https://github.com/vvsos1"><img src="https://avatars.githubusercontent.com/u/26290830?v=4" width="100px;" alt=""/><br /><sub><b>BE-박명규</b></sub></a><br />
+<td align="center"><a href="https://github.com/GoGradually"><img src="https://avatars.githubusercontent.com/u/62929862?v=4" width="100px;" alt=""/><br /><sub><b>BE-한준호</b></sub></a><br />
+<td align="center"><a href="https://github.com/hammsik"><img src="https://avatars.githubusercontent.com/u/116339092?v=4" width="100px;" alt=""/><br /><sub><b>FE-백현식</b></sub></a><br />
 </table>
 
 # 프로젝트 목표
@@ -55,10 +55,22 @@ https://www.figma.com/design/16a1adYjBfzzvMkRe3yJc1/Handoff_EQUUS-N?node-id=1-6&
 
 ![github](https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white)
 ![github-actions](https://img.shields.io/badge/github%20actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
-
+![swagger](https://img.shields.io/badge/swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
+![jira](https://img.shields.io/badge/jira-0052CC?style=for-the-badge&logo=jira&logoColor=white)
+![Web Push](https://img.shields.io/badge/Web%20Push-000000?style=for-the-badge)
 
 ### 프론트엔드
+![vite](https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=yellow)
 ![react](https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![react-query](https://img.shields.io/badge/reactquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white)
+![reactrouter](https://img.shields.io/badge/reactrouter-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white)
+![tailwindcss](https://img.shields.io/badge/tailwindcss-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![pwa](https://img.shields.io/badge/pwa-5A0FC8?style=for-the-badge&logo=pwa&logoColor=white)
+![amazonwebservices](https://img.shields.io/badge/cloudfront-232F3E?style=for-the-badge&logo=amazonwebservices&logoColor=orange)
+![amazons3](https://img.shields.io/badge/amazons3-569A31?style=for-the-badge&logo=amazons3&logoColor=white)
+![motion](https://img.shields.io/badge/motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
+![msw](https://img.shields.io/badge/mockserviceworker-FF6A33?style=for-the-badge&logo=mockserviceworker&logoColor=white)
+
 
 
 ### 백엔드
@@ -73,7 +85,6 @@ https://www.figma.com/design/16a1adYjBfzzvMkRe3yJc1/Handoff_EQUUS-N?node-id=1-6&
 ![amazon EC2](https://img.shields.io/badge/EC2-%23FF9900?style=for-the-badge&logo=amazon-ec2&logoColor=white)
 ![AWS RDS](https://img.shields.io/badge/RDS-%23FF9900?style=for-the-badge&logo=amazon-rds&logoColor=white)
 ![AWS CloudWatch](https://img.shields.io/badge/CloudWatch-%23FF9900?style=for-the-badge&logo=amazon-cloudwatch&logoColor=white)
-![Web Push](https://img.shields.io/badge/Web%20Push-000000?style=for-the-badge)
 ![JUnit5](https://img.shields.io/badge/JUnit5-25A162?style=for-the-badge&logo=junit5)
 ![Mockito](https://img.shields.io/badge/mockito-25A162?style=for-the-badge&logo=mocha)
 
