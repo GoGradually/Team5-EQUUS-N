@@ -7,6 +7,8 @@ import { useJoinTeam } from './useTeamspace';
 import { useTeam } from '../store/useTeam';
 import { getRandomProfile } from '../components/ProfileImage';
 import { stopPush } from './usePushNoti';
+import { showModal } from '../utility/handleModal';
+import Modal from '../components/modals/Modal';
 
 export const useSendVerifMail = () => {
   return useMutation({
@@ -86,7 +88,7 @@ export const useGetGoogleUrl = () => {
   });
 };
 
-export const useGoogleLogin = (teamCode) => {
+export const useGoogleLogin = (teamCode, errorModal) => {
   const { setUserId } = useUser();
   const { mutate: joinTeam } = useJoinTeam();
   const navigate = useNavigate();
@@ -107,6 +109,11 @@ export const useGoogleLogin = (teamCode) => {
           replace: true,
           state: { profileImage: getRandomProfile(), token: token },
         });
+      }
+    },
+    onError: (error) => {
+      if (error.status === 409) {
+        showModal(errorModal);
       }
     },
   });
