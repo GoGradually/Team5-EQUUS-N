@@ -153,8 +153,8 @@ public class AuthService {
         memberDetails.changePassword(newHashedPassword);
     }
 
-    public String getGoogleLoginUrl() {
-        return googleAuthService.getGoogleLoginUrl();
+    public String getGoogleLoginUrl(String redirectBaseUrl) {
+        return googleAuthService.getGoogleLoginUrl(redirectBaseUrl);
     }
 
     @Transactional

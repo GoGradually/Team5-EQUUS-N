@@ -26,10 +26,11 @@ public class GoogleAuthService {
     private static final String userInfoUrl = "https://www.googleapis.com/oauth2/v2/userinfo";
     private static final String tokenUrl = "https://oauth2.googleapis.com/token";
 
-    public String getGoogleLoginUrl() {
+    public String getGoogleLoginUrl(String redirectBaseUrl) {
+        String redirectUri = redirectBaseUrl + googleAuthProperties.getRedirectUri();
         return UriComponentsBuilder.fromUriString("https://accounts.google.com/o/oauth2/auth")
                 .queryParam("client_id", googleAuthProperties.getClientId())
-                .queryParam("redirect_uri", googleAuthProperties.getRedirectUri())
+                .queryParam("redirect_uri", redirectUri)
                 .queryParam("response_type", "code")
                 .queryParam("scope", "profile email")
                 .toUriString();
