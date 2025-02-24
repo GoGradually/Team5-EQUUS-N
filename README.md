@@ -41,11 +41,12 @@ https://www.figma.com/design/16a1adYjBfzzvMkRe3yJc1/Handoff_EQUUS-N?node-id=1-6&
 ![도메인 모델](./docs/domain_model.png)
 
 ## 서비스 아키텍처
-### 프론트엔드
-![img.png](docs/frontend_architecture.png)
 
 ### 백엔드
 ![backend_architecture.png](docs/backend_architecture.png)
+
+### 프론트엔드
+![img.png](docs/frontend_architecture.png)
 
 ## CI/CD 워크플로우
 ![img.png](docs/ci_cd_workflow.png)
