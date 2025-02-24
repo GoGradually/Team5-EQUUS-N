@@ -174,8 +174,8 @@ public class AuthService {
     }
 
     @Transactional
-    public GoogleLoginResultDto authenticateGoogle(String googleCode) {
-        GoogleAuthService.GoogleUserInfoResponse userInfo = googleAuthService.getUserInfo(googleCode);
+    public GoogleLoginResultDto authenticateGoogle(String googleCode, String redirectBaseUrl) {
+        GoogleAuthService.GoogleUserInfoResponse userInfo = googleAuthService.getUserInfo(googleCode, redirectBaseUrl);
         String email = userInfo.email();
 
         Optional<MemberDetails> memberDetailsOptional = memberDetailsRepository.findByEmail(email);

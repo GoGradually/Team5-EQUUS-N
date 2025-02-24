@@ -36,12 +36,13 @@ public class GoogleAuthService {
                 .toUriString();
     }
 
-    public GoogleUserInfoResponse getUserInfo(String googleCode) {
+    public GoogleUserInfoResponse getUserInfo(String googleCode, String redirectBaseUrl) {
+        String redirectUri = redirectBaseUrl + googleAuthProperties.getRedirectUri();
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("code", googleCode);
         params.add("client_id", googleAuthProperties.getClientId());
         params.add("client_secret", googleAuthProperties.getClientSecret());
-        params.add("redirect_uri", googleAuthProperties.getRedirectUri());
+        params.add("redirect_uri", redirectUri);
         params.add("grant_type", "authorization_code");
 
         GoogleCodeResponse codeResponse = restClient.post()

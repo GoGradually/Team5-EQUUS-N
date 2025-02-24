@@ -193,18 +193,9 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "조회 성공")
     })
     @GetMapping("/google/login-url")
-    public ResponseEntity<GoogleLoginUrlResponse> getGoogleLoginUrl(@RequestHeader(HttpHeaders.REFERER) String referrer) {
-        String redirectBaseUrl;
-        try {
-            URL url = new URL(referrer);
-            String baseUrl = url.getProtocol() + "://" + url.getHost();
-            if (url.getPort() != -1) {
-                baseUrl += ":" + url.getPort();
-            }
-            redirectBaseUrl = baseUrl;
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("referrer header is not valid url", e);
-        }
+    public ResponseEntity<GoogleLoginUrlResponse> getGoogleLoginUrl(@RequestHeader(HttpHeaders.REFERER) String referer) {
+        String redirectBaseUrl = getBaseUrl(referer);
+
         return ResponseEntity.ok(new GoogleLoginUrlResponse(authService.getGoogleLoginUrl(redirectBaseUrl)));
     }
 
@@ -215,8 +206,8 @@ public class AuthController {
             @ApiResponse(responseCode = "409", description = "이미 중복되는 이메일 계정이 존재하는 경우", content = @Content)
     })
     @PostMapping("/google/login")
-    public ResponseEntity<GoogleLoginResponse> loginWithGoogle(HttpSession session, @Valid @RequestBody GoogleLoginRequest request) {
-        GoogleLoginResultDto loginResult = authService.authenticateGoogle(request.code());
+    public ResponseEntity<GoogleLoginResponse> loginWithGoogle(HttpSession session, @RequestHeader(HttpHeaders.REFERER) String referer, @Valid @RequestBody GoogleLoginRequest request) {
+        GoogleLoginResultDto loginResult = authService.authenticateGoogle(request.code(), getBaseUrl(referer));
 
         if (loginResult.isAuthenticated()) {
             MemberDetails member = loginResult.memberDetails();
@@ -251,5 +242,17 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    private String getBaseUrl(String referer) {
+        try {
+            URL url = new URL(referer);
+            String baseUrl = url.getProtocol() + "://" + url.getHost();
+            if (url.getPort() != -1) {
+                baseUrl += ":" + url.getPort();
+            }
+            return baseUrl;
 
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("referrer header is not valid url", e);
+        }
+    }
 }
