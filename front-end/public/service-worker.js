@@ -70,7 +70,6 @@ self.addEventListener('push', function (event) {
     icon: '/logo.png',
     data: { clickUrl, parameter },
   };
-  console.log('serviceWorker.push: ', notification);
   event.waitUntil(
     // 푸시 알림을 정상적으로 브라우저에 표시할 때까지 작업이 중단되지 않도록 보장하는 역할
     self.registration.showNotification('피드한줌', options), // Service Worker의 registration 객체에서 showNotification() 메서드를 호출하여 푸시 알림을 실제로 표시합니다.
@@ -90,11 +89,5 @@ self.addEventListener('notificationclick', function (event) {
 
   const url = new URL(queryParameter, self.location.origin + '/main').href;
   notification.close();
-  console.log(url);
   event.waitUntil(self.clients.openWindow(url));
-});
-
-// 푸시 알림이 닫힐 때 발생하는 notificationclose 이벤트를 리스닝하고, 해당 알림을 처리합니다.
-self.addEventListener('notificationclose', function (event) {
-  console.log('Notification was closed', event);
 });
