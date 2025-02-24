@@ -17,8 +17,7 @@ public class InAppNotificationQueryRepository {
 
     public List<InAppNotification> getInAppNotifications(Long receiverId) {
         return queryFactory.
-                select(notification)
-                .from(notification)
+                selectFrom(notification)
                 .where(notification.receiverId.eq(receiverId))
                 .orderBy(notification.id.desc())
                 .fetch();
@@ -26,8 +25,8 @@ public class InAppNotificationQueryRepository {
 
     public List<FeedbackReceiveNotification> getUnreadFeedbackReceiveNotifications(LocalDateTime from, LocalDateTime to) {
         QFeedbackReceiveNotification feedbackNotification = QFeedbackReceiveNotification.feedbackReceiveNotification;
-        return queryFactory.select(feedbackNotification)
-                .from(feedbackNotification)
+        return queryFactory
+                .selectFrom(feedbackNotification)
                 .where(feedbackNotification.isRead.isFalse())
                 .where(feedbackNotification.createdAt.between(from, to))
                 .fetch();
@@ -35,12 +34,23 @@ public class InAppNotificationQueryRepository {
 
     public Optional<FrequentFeedbackRequestNotification> getUnreadFrequentFeedbackRequestNotification(Long receiverId, Long teamId, Long senderId) {
         QFrequentFeedbackRequestNotification requestNotification = QFrequentFeedbackRequestNotification.frequentFeedbackRequestNotification;
-        return Optional.ofNullable(queryFactory.select(requestNotification)
-                .from(requestNotification)
+        return Optional.ofNullable(queryFactory
+                .selectFrom(requestNotification)
                 .where(requestNotification.isRead.isFalse())
                 .where(requestNotification.receiverId.eq(receiverId))
                 .where(requestNotification.teamId.eq(teamId))
                 .where(requestNotification.senderId.eq(senderId))
-                .fetchOne());
+                .fetchFirst());
+    }
+
+    public Optional<UnreadFeedbackExistNotification> getLatestUnreadFeedbackExistNotification(Long receiverId) {
+        QUnreadFeedbackExistNotification unreadNotification = QUnreadFeedbackExistNotification.unreadFeedbackExistNotification;
+        return Optional.ofNullable(
+                queryFactory
+                        .selectFrom(unreadNotification)
+                        .where(unreadNotification.receiverId.eq(receiverId))
+                        .orderBy(unreadNotification.id.desc())
+                        .fetchFirst()
+        );
     }
 }

@@ -213,9 +213,8 @@ public class InAppNotificationService {
     }
 
     private void createNotification(FeedbackReceiveNotification unreadNotification, LocalDateTime now) {
-        Optional<InAppNotification> exists = inAppNotificationRepository.findByReceiverIdAndType(
-                unreadNotification.getReceiverId(),
-                NotificationType.UNREAD_FEEDBACK_EXIST);
+        Optional<UnreadFeedbackExistNotification> exists = inAppNotificationQueryRepository.getLatestUnreadFeedbackExistNotification(
+                unreadNotification.getReceiverId());
         if (exists.isPresent()) {
             InAppNotification existNotification = exists.get();
             // 이미 안읽은 미확인 피드백 알림이 있다면 새로 생성하지 않음

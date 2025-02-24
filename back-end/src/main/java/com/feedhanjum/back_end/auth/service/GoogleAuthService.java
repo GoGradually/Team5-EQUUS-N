@@ -1,7 +1,7 @@
 package com.feedhanjum.back_end.auth.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.feedhanjum.back_end.auth.config.GoogleAuthProperty;
+import com.feedhanjum.back_end.auth.config.property.GoogleAuthProperties;
 import com.feedhanjum.back_end.auth.exception.InvalidCredentialsException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Profile({"dev", "prod"})
 @Service
 public class GoogleAuthService {
-    private final GoogleAuthProperty googleAuthProperty;
+    private final GoogleAuthProperties googleAuthProperties;
     private final RestClient restClient;
 
     private static final String userInfoUrl = "https://www.googleapis.com/oauth2/v2/userinfo";
@@ -28,8 +28,8 @@ public class GoogleAuthService {
 
     public String getGoogleLoginUrl() {
         return UriComponentsBuilder.fromUriString("https://accounts.google.com/o/oauth2/auth")
-                .queryParam("client_id", googleAuthProperty.getClientId())
-                .queryParam("redirect_uri", googleAuthProperty.getRedirectUri())
+                .queryParam("client_id", googleAuthProperties.getClientId())
+                .queryParam("redirect_uri", googleAuthProperties.getRedirectUri())
                 .queryParam("response_type", "code")
                 .queryParam("scope", "profile email")
                 .toUriString();
@@ -38,9 +38,9 @@ public class GoogleAuthService {
     public GoogleUserInfoResponse getUserInfo(String googleCode) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("code", googleCode);
-        params.add("client_id", googleAuthProperty.getClientId());
-        params.add("client_secret", googleAuthProperty.getClientSecret());
-        params.add("redirect_uri", googleAuthProperty.getRedirectUri());
+        params.add("client_id", googleAuthProperties.getClientId());
+        params.add("client_secret", googleAuthProperties.getClientSecret());
+        params.add("redirect_uri", googleAuthProperties.getRedirectUri());
         params.add("grant_type", "authorization_code");
 
         GoogleCodeResponse codeResponse = restClient.post()
