@@ -5,7 +5,7 @@ import LargeButton from '../../components/buttons/LargeButton';
 import FooterWrapper from '../../components/wrappers/FooterWrapper';
 import { useState } from 'react';
 import { showToast } from '../../utility/handleToast';
-import { useFeedbackRequest } from '../../api/useFeedback2';
+import { useFeedbackRequest } from '../../api/useFeedback';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTeam } from '../../store/useTeam';
 

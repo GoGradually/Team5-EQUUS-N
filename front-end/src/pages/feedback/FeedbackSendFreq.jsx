@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ProfileImageWithText } from '../../components/ProfileImage';
 import FooterWrapper from '../../components/wrappers/FooterWrapper';
-import { useWhoNeedFreqFeedback } from '../../api/useFeedback2';
+import { useWhoNeedFreqFeedback } from '../../api/useFeedback';
 import { useEffect, useState } from 'react';
 import LargeButton from '../../components/buttons/LargeButton';
 
