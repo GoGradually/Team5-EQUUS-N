@@ -1,5 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { calTimePassed } from '../../../utility/time';
+import mailReceived from '/src/assets/images/mail-received.webp';
+import heartGreen from '/src/assets/images/heart-green.webp';
+import pray from '/src/assets/images/pray.webp';
+import folder from '/src/assets/images/folder.webp';
+import checkBgBlack from '/src/assets/images/check-bg-black.webp';
+import crown from '/src/assets/images/crown.webp';
+import calendar from '/src/assets/images/calendar.webp';
+import pencil from '/src/assets/images/pencil.webp';
 
 export const alarmType = Object.freeze({
   FEEDBACK_RECEIVED: 'feedbackReceive', // 피드백 받음
@@ -68,7 +76,7 @@ const filterDataWithType = ({ data, type }) => {
     case alarmType.FEEDBACK_RECEIVED:
       title = '새로운 피드백이 도착했어요';
       content = `${data.senderName}님(${data.teamName})이 피드백을 보냈어요`;
-      image = '/src/assets/images/mail-received.png';
+      image = mailReceived;
       imageAlt = 'mail';
       handleFunction = (navigate) => handleFeedbackReceived(navigate);
       break;
@@ -76,7 +84,7 @@ const filterDataWithType = ({ data, type }) => {
     case alarmType.HEART_RECEIVED:
       title = '내가 보낸 피드백이 도움됐어요';
       content = `${data.senderName}님(${data.teamName})이 내가 보낸 피드백에 공감을 눌렀어요`;
-      image = '/src/assets/images/heart-green.png';
+      image = heartGreen;
       imageAlt = 'heart';
       handleFunction = (navigate) => handleHeartReaction(navigate);
       break;
@@ -84,7 +92,7 @@ const filterDataWithType = ({ data, type }) => {
     case alarmType.FREQUENT_FEEDBACK_REQUESTED:
       title = `${data.senderName} 님이 피드백을 요청했어요`;
       content = `요청받은 내용을 확인하고 피드백을 보내주세요`;
-      image = '/src/assets/images/pray.png';
+      image = pray;
       imageAlt = 'pray';
       handleFunction = (navigate, data) =>
         handleFreqFeedbackReq(navigate, data);
@@ -93,7 +101,7 @@ const filterDataWithType = ({ data, type }) => {
     case alarmType.REPORT_RECEIVED:
       title = '피드백 리포트가 도착했어요';
       content = `${data.receiverName} 님이 받은 피드백을 정리했어요`;
-      image = '/src/assets/images/folder.png';
+      image = folder;
       imageAlt = 'folder';
       handleFunction = (navigate) => handleReportCreate(navigate);
       break;
@@ -101,7 +109,7 @@ const filterDataWithType = ({ data, type }) => {
     case alarmType.NEED_CHECK_FEEDBACK:
       title = '확인하지 않은 피드백이 있어요';
       content = `${data.senderName}님(${data.teamName})이 보낸 피드백을 확인해 주세요`;
-      image = '/src/assets/images/check-bg-black.png';
+      image = checkBgBlack;
       imageAlt = 'check';
       handleFunction = (navigate) => handleFeedbackReceived(navigate);
       break;
@@ -110,7 +118,7 @@ const filterDataWithType = ({ data, type }) => {
       title = `${data.teamName}의 팀장 권한을 받았어요`;
       content = `${data.teamName}의 새로운 팀장이 되었습니다!
       팀을 이끌 준비가 되셨나요?`;
-      image = '/src/assets/images/crown.png';
+      image = crown;
       imageAlt = 'crown';
       handleFunction = (navigate) => handleGoMain(navigate);
       break;
@@ -118,7 +126,7 @@ const filterDataWithType = ({ data, type }) => {
     case alarmType.SCHEDULE_ADDED:
       title = `${data.teamName}의 새로운 일정이 추가됐어요`;
       content = `추가된 일정을 확인하고 나의 역할을 추가해 주세요`;
-      image = '/src/assets/images/calendar.png';
+      image = calendar;
       imageAlt = 'calendar';
       handleFunction = (navigate) => handleGoMain(navigate);
       break;
@@ -126,7 +134,7 @@ const filterDataWithType = ({ data, type }) => {
     case alarmType.REGULAR_FEEDBACK_REQUESTED:
       title = '피드백을 작성해주세요';
       content = `${data.scheduleName} 피드백을 작성해주세요`;
-      image = '/src/assets/images/pencil.png';
+      image = pencil;
       imageAlt = 'write';
       handleFunction = (navigate, data) => handleRegFeedbackReq(navigate, data);
       break;

@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import guide1 from '../../../assets/images/guide1.webp';
-import guide2 from '../../../assets/images/guide2.webp';
 import { hideModal } from '../../../utility/handleModal';
 
 // showModal(<OnboardingNotice />);
@@ -40,7 +38,11 @@ export default function OnboardingNotice({ setPushNoti }) {
             </div>
           </div>
           <img
-            src={page === 1 ? guide1 : guide2}
+            src={
+              page === 1 ?
+                '/src/assets/images/guide1.webp'
+              : '/src/assets/images/guide2.webp'
+            }
             className='absolute top-[55%] max-h-[250px] -translate-y-1/2 px-7'
           />
           <div className='flex w-full justify-between'>

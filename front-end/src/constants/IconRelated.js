@@ -26,6 +26,7 @@ export const iconNames = [
   'Turtle',
   'Whale',
   'Wolf',
+  'Chick',
 ];
 
 export const bgColors = [
