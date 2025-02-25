@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from 'react-router-dom';
 import { hideModal } from '../utility/handleModal';
 
-const noPaddingPages = ['/main', '/calendar']; // 패딩을 제거할 페이지 리스트
+const noPaddingPages = ['/main', '/main/', '/calendar/', '/calendar']; // 패딩을 제거할 페이지 리스트
 
 function Layout() {
   const location = useLocation();

@@ -34,7 +34,7 @@ import Report from './pages/mypage/Report';
 import PasswordReset from './pages/auth/PasswordReset';
 import { motion, AnimatePresence } from 'motion/react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { ErrorFallback } from './components/ErrorFallBack';
+import { ErrorPage } from './components/ErrorFallBack';
 import { BaseWrapper } from './components/wrappers/BaseWrapper';
 
 const queryClient = new QueryClient();
@@ -44,7 +44,7 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <CombinedProvider>
-          <ErrorBoundary fallback={<ErrorFallback />}>
+          <ErrorBoundary fallback={<ErrorPage />}>
             <BaseWrapper>
               <AnimatedRoutes />
             </BaseWrapper>
@@ -61,6 +61,7 @@ function AnimatedRoutes() {
   return (
     <AnimatePresence mode='wait'>
       <Routes key={location.pathname} location={location}>
+        <Route path='*' element={<ErrorPage isNotFound={true} />} />
         <Route element={<Layout />}>
           <Route path='/:teamCode?' element={<Splash />} />
           <Route path='/login/google' element={<SplashForOAuth />} />
