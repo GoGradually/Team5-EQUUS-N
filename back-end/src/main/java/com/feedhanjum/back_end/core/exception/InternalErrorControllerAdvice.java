@@ -7,6 +7,7 @@ import org.hibernate.NonUniqueResultException;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -32,7 +33,7 @@ public class InternalErrorControllerAdvice {
         return new ResponseEntity<>("Service Unavailable", HttpStatus.SERVICE_UNAVAILABLE);
     }
 
-    @ExceptionHandler(OptimisticLockException.class)
+    @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
     public ResponseEntity<String> handleOptimisticLockException(OptimisticLockException e) {
         log.error("Optimistic lock exception occurred!", e);
         return new ResponseEntity<>("Service Unavailable", HttpStatus.SERVICE_UNAVAILABLE);
