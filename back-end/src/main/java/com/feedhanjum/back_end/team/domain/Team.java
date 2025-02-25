@@ -37,6 +37,9 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    private int version;
+
     private String name;
 
     private LocalDate startDate;
