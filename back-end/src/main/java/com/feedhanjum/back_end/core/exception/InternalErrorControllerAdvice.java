@@ -34,7 +34,7 @@ public class InternalErrorControllerAdvice {
     }
 
     @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
-    public ResponseEntity<String> handleOptimisticLockException(OptimisticLockException e) {
+    public ResponseEntity<String> handleOptimisticLockException(ObjectOptimisticLockingFailureException e) {
         log.error("Optimistic lock exception occurred!", e);
         return new ResponseEntity<>("Service Unavailable", HttpStatus.SERVICE_UNAVAILABLE);
     }
