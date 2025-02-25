@@ -17,11 +17,14 @@
 
 이외에 데모 화면들은 [여기](https://github.com/softeer5th/Team5-EQUUS-N/wiki/%EB%8D%B0%EB%AA%A8-%ED%99%94%EB%A9%B4)서 확인 가능합니다.
 
+<br>
+
 
 # 배포 URL
 피드 한 줌: https://feedhanjum.com <br>
 위 URL에 접속해 서비스 이용이 가능합니다.
-피드 한 줌: https://feedhanjum.com
+
+<br>
 
 # 팀원 소개
 
@@ -33,6 +36,7 @@
 <td align="center"><a href="https://github.com/hammsik"><img src="https://avatars.githubusercontent.com/u/116339092?v=4" width="100px;" alt=""/><br /><sub><b>FE-백현식</b></sub></a><br />
 </table>
 
+<br>
 
 # 브랜치 전략
 
@@ -44,9 +48,13 @@
         - 기능개발 완료 혹은 퇴근 전에 dev 로 pull request 올리기
             - 본인 제외 아무나 1명이 merge 하기
 
+<br>
+
 # 기획 디자인 링크
 
 https://www.figma.com/design/76hKNmM5L0ba1xrDnxbEwd/Handoff_EQUUS-N-(Copy)?node-id=1-6&p=f
+
+<br>
 
 # 도메인 모델
 ![도메인 모델](./docs/domain_model.png)
@@ -56,11 +64,17 @@ https://www.figma.com/design/76hKNmM5L0ba1xrDnxbEwd/Handoff_EQUUS-N-(Copy)?node-
 ## 백엔드
 ![backend_architecture.png](docs/backend_architecture.png)
 
+<br>
+
 ## 프론트엔드
 ![img.png](docs/frontend_architecture.png)
 
+<br>
+
 # CI/CD 워크플로우
 ![img.png](docs/ci_cd_workflow.png)
+
+<br>
 
 # 기술 스택
 ## 공통
@@ -70,6 +84,8 @@ https://www.figma.com/design/76hKNmM5L0ba1xrDnxbEwd/Handoff_EQUUS-N-(Copy)?node-
 ![swagger](https://img.shields.io/badge/swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
 ![jira](https://img.shields.io/badge/jira-0052CC?style=for-the-badge&logo=jira&logoColor=white)
 ![Web Push](https://img.shields.io/badge/Web%20Push-000000?style=for-the-badge)
+
+<br>
 
 ## 프론트엔드
 ![vite](https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=yellow)
@@ -83,6 +99,8 @@ https://www.figma.com/design/76hKNmM5L0ba1xrDnxbEwd/Handoff_EQUUS-N-(Copy)?node-
 ![motion](https://img.shields.io/badge/motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
 ![msw](https://img.shields.io/badge/mockserviceworker-FF6A33?style=for-the-badge&logo=mockserviceworker&logoColor=white)
 
+
+<br>
 
 
 ## 백엔드
@@ -99,5 +117,7 @@ https://www.figma.com/design/76hKNmM5L0ba1xrDnxbEwd/Handoff_EQUUS-N-(Copy)?node-
 ![AWS CloudWatch](https://img.shields.io/badge/CloudWatch-%23FF9900?style=for-the-badge&logo=amazon-cloudwatch&logoColor=white)
 ![JUnit5](https://img.shields.io/badge/JUnit5-25A162?style=for-the-badge&logo=junit5)
 ![Mockito](https://img.shields.io/badge/mockito-25A162?style=for-the-badge&logo=mocha)
+
+<br>
 
 # [📚 프로젝트 위키](https://github.com/softeer5th/Team5-EQUUS-N/wiki)
