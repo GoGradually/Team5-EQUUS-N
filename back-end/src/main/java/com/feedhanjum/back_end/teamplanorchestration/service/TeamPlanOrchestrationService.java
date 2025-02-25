@@ -8,7 +8,6 @@ import com.feedhanjum.back_end.schedule.domain.Schedule;
 import com.feedhanjum.back_end.schedule.domain.ScheduleMember;
 import com.feedhanjum.back_end.schedule.event.ScheduleCreatedEvent;
 import com.feedhanjum.back_end.schedule.exception.ScheduleAlreadyExistException;
-import com.feedhanjum.back_end.schedule.exception.ScheduleIsAlreadyEndException;
 import com.feedhanjum.back_end.schedule.exception.ScheduleMembershipNotFoundException;
 import com.feedhanjum.back_end.schedule.repository.ScheduleMemberRepository;
 import com.feedhanjum.back_end.schedule.repository.ScheduleQueryRepository;
@@ -19,13 +18,12 @@ import com.feedhanjum.back_end.team.exception.TeamMembershipNotFoundException;
 import com.feedhanjum.back_end.team.repository.TeamMemberRepository;
 import com.feedhanjum.back_end.team.repository.TeamRepository;
 import com.feedhanjum.back_end.team.service.dto.TeamUpdateDto;
+import com.feedhanjum.back_end.teamplanorchestration.domain.TeamPlanOrchestrator;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Clock;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
@@ -40,7 +38,7 @@ public class TeamPlanOrchestrationService {
     private final MemberQueryRepository memberQueryRepository;
     private final ScheduleQueryRepository scheduleQueryRepository;
     private final EventPublisher eventPublisher;
-    private final Clock clock;
+    private final TeamPlanOrchestrator teamPlanOrchestrator;
 
     /**
      * @throws IllegalArgumentException 시작 시간이 종료 시간보다 앞서지 않을 경우
@@ -57,19 +55,10 @@ public class TeamPlanOrchestrationService {
         LocalDateTime earliestStartTime = scheduleQueryRepository.findEarliestStartTimeByTeamId(teamId).orElse(null);
         LocalDateTime latestEndTime = scheduleQueryRepository.findLatestEndTimeByTeamId(teamId).orElse(null);
 
-        if (earliestStartTime != null && teamUpdateDto.startDate().atStartOfDay().isAfter(earliestStartTime)) {
-            throw new IllegalArgumentException("팀 시작 날짜는 팀 내 존재하는 일정의 가장 빠른 시작 시점보다 빠를 수 없습니다.");
-        }
-
-        if (latestEndTime != null
-                && teamUpdateDto.endDate() != null
-                && teamUpdateDto.endDate().plusDays(1).atStartOfDay().isBefore(latestEndTime)) {
-            throw new IllegalArgumentException("팀 종료 날짜는 팀 내 존재하는 일정의 가장 늦은 종료 시점보다 느릴 수 없습니다.");
-        }
-
-        team.updateInfo(leader, teamUpdateDto.teamName(), teamUpdateDto.startDate(), teamUpdateDto.endDate(), teamUpdateDto.feedbackType(), LocalDate.now(clock));
+        teamPlanOrchestrator.updateTeamInfo(teamUpdateDto, earliestStartTime, latestEndTime, leader, team);
         return team;
     }
+
 
     /**
      * 일정을 생성하는 메소드
@@ -84,24 +73,19 @@ public class TeamPlanOrchestrationService {
         Team team = teamRepository.findByIdForUpdate(teamId).orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundException("해당 사용자를 찾을 수 없습니다."));
         teamMemberRepository.findByMemberIdAndTeamId(memberId, teamId).orElseThrow(() -> new TeamMembershipNotFoundException("해당 팀에 존재하는 사람만 일정을 생성할 수 있습니다."));
+        Schedule findSchedule = scheduleRepository.findByTeamIdAndStartTime(teamId, requestDto.startTime()).orElse(null);
 
-        validateScheduleDuplicate(teamId, requestDto);
-        validateScheduleTimeIntoTeamTime(requestDto, team);
-        validateEndTimeIsAfterNow(requestDto.endTime());
+        Schedule schedule = scheduleRepository.save(teamPlanOrchestrator.createSchedule(requestDto, findSchedule, member, team));
 
-        Schedule schedule = scheduleRepository.save(
-                new Schedule(
-                        requestDto.name(),
-                        requestDto.startTime(),
-                        requestDto.endTime(),
-                        team,
-                        member));
-
+        // 이벤트로 빼서, 일정에서 등록하도록 하기
         memberQueryRepository.findMembersByTeamId(teamId).forEach(m -> scheduleMemberRepository.save(new ScheduleMember(schedule, m)));
         ScheduleMember scheduleMember = scheduleMemberRepository.findByMemberIdAndScheduleId(memberId, schedule.getId()).orElseThrow(() -> new RuntimeException("내부 서버 에러: 방금 조회한 사용자 ID가 사라짐"));
-        scheduleMember.setTodos(requestDto.todos());
         eventPublisher.publishEvent(new ScheduleCreatedEvent(schedule.getId()));
+
+        // 이벤트로 빼서, 일정에서 해결하도록 하기
+        scheduleMember.setTodos(requestDto.todos());
     }
+
 
     /**
      * @throws SecurityException                   일정 내용을 수정하려는 사람이 팀장, 일정의 주인이 아닌 경우
@@ -112,72 +96,20 @@ public class TeamPlanOrchestrationService {
 
     @Transactional
     public void updateSchedule(Long memberId, Long teamId, Long scheduleId, ScheduleRequestDto requestDto) {
-        Team team = teamRepository.findByIdForUpdate(teamId).orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
+        Team team = teamRepository.findById(teamId).orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundException("해당 사용자를 찾을 수 없습니다."));
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new EntityNotFoundException("해당 일정을 찾을 수 없습니다."));
-        validateIsEnded(schedule);
         ScheduleMember scheduleMember = scheduleMemberRepository.findByMemberIdAndScheduleId(memberId, scheduleId)
                 .orElseThrow(() -> new ScheduleMembershipNotFoundException("해당 일정을 찾을 수 없습니다."));
+        Schedule findSchedule = scheduleRepository.findByTeamIdAndStartTime(teamId, requestDto.startTime()).orElse(null);
 
-        changeScheduleInfo(requestDto, schedule, member, team);
+        teamPlanOrchestrator.updateSchedule(requestDto, schedule, findSchedule, member, team);
+
+        // 이벤트로 빼서, 일정에서 해결하도록 하기
         scheduleMember.setTodos(requestDto.todos());
     }
 
-    private void validateIsEnded(Schedule schedule) {
-        if (schedule.getEndTime().isBefore(LocalDateTime.now(clock))) {
-            throw new ScheduleIsAlreadyEndException("해당 일정은 이미 종료되었습니다.");
-        }
-    }
-
-    private void changeTime(Schedule schedule, ScheduleRequestDto requestDto, Member member, Team team) {
-        if (schedule.isTimeDifferent(requestDto.startTime(), requestDto.endTime())) {
-            validateOwnerOrLeader(schedule, member, team);
-            if (schedule.isStartTimeDifferent(requestDto.startTime())) {
-                validateScheduleDuplicate(team.getId(), requestDto);
-            }
-            validateScheduleTimeIntoTeamTime(requestDto, team);
-            validateEndTimeIsAfterNow(requestDto.endTime());
-            schedule.setTime(requestDto.startTime(), requestDto.endTime());
-        }
-    }
-
-    private void changeName(Schedule schedule, ScheduleRequestDto requestDto, Member member, Team team) {
-        if (schedule.isNameDifferent(requestDto.name())) {
-            validateOwnerOrLeader(schedule, member, team);
-            schedule.changeName(requestDto.name());
-        }
-    }
-
-    private void changeScheduleInfo(ScheduleRequestDto requestDto, Schedule schedule, Member member, Team team) {
-        changeName(schedule, requestDto, member, team);
-        changeTime(schedule, requestDto, member, team);
-    }
-
-    private void validateEndTimeIsAfterNow(LocalDateTime endTime) {
-        if (LocalDateTime.now(clock).isAfter(endTime)) {
-            throw new IllegalArgumentException("일정의 종료 시점은 현재보다 미래여야 합니다.");
-        }
-    }
-
-    private void validateOwnerOrLeader(Schedule schedule, Member member, Team team) {
-        if (!(schedule.getOwner().equals(member) || team.getLeader().equals(member))) {
-            throw new SecurityException("일정을 생성한 사람, 혹은 팀장만 일정을 수정할 수 있습니다.");
-        }
-    }
 
 
-    private void validateScheduleTimeIntoTeamTime(ScheduleRequestDto requestDto, Team team) {
-        if (team.getStartDate().isAfter(requestDto.startTime().toLocalDate())) {
-            throw new IllegalArgumentException("일정 시작 시간이 팀의 시작 시간 이후여야 합니다.");
-        }
-        if (team.getEndDate() != null &&
-                team.getEndDate().isBefore(requestDto.endTime().toLocalDate())) {
-            throw new IllegalArgumentException("일정 종료 시간이 팀의 종료 시간 이전이어야 합니다.");
-        }
-    }
 
-    private void validateScheduleDuplicate(Long teamId, ScheduleRequestDto requestDto) {
-        if (scheduleRepository.findByTeamIdAndStartTime(teamId, requestDto.startTime()).isPresent())
-            throw new ScheduleAlreadyExistException("이미 같은 시작시간에 일정이 있습니다.");
-    }
 }

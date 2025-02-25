@@ -26,21 +26,23 @@ public class GoogleAuthService {
     private static final String userInfoUrl = "https://www.googleapis.com/oauth2/v2/userinfo";
     private static final String tokenUrl = "https://oauth2.googleapis.com/token";
 
-    public String getGoogleLoginUrl() {
+    public String getGoogleLoginUrl(String redirectBaseUrl) {
+        String redirectUri = redirectBaseUrl + googleAuthProperties.getRedirectUri();
         return UriComponentsBuilder.fromUriString("https://accounts.google.com/o/oauth2/auth")
                 .queryParam("client_id", googleAuthProperties.getClientId())
-                .queryParam("redirect_uri", googleAuthProperties.getRedirectUri())
+                .queryParam("redirect_uri", redirectUri)
                 .queryParam("response_type", "code")
                 .queryParam("scope", "profile email")
                 .toUriString();
     }
 
-    public GoogleUserInfoResponse getUserInfo(String googleCode) {
+    public GoogleUserInfoResponse getUserInfo(String googleCode, String redirectBaseUrl) {
+        String redirectUri = redirectBaseUrl + googleAuthProperties.getRedirectUri();
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("code", googleCode);
         params.add("client_id", googleAuthProperties.getClientId());
         params.add("client_secret", googleAuthProperties.getClientSecret());
-        params.add("redirect_uri", googleAuthProperties.getRedirectUri());
+        params.add("redirect_uri", redirectUri);
         params.add("grant_type", "authorization_code");
 
         GoogleCodeResponse codeResponse = restClient.post()
@@ -50,11 +52,13 @@ public class GoogleAuthService {
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
                         (request, response) -> {
+                            log.info("Google Get Access Token Error: {}, {}", response.getStatusCode(), new String(response.getBody().readAllBytes()));
                             throw new InvalidCredentialsException("구글 로그인 정보가 잘못되었습니다");
                         }
                 )
                 .body(GoogleCodeResponse.class);
 
+        log.info("Google Get Access Token Success: {}", codeResponse);
         String accessToken = codeResponse.accessToken();
 
 
@@ -64,11 +68,12 @@ public class GoogleAuthService {
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError,
                         (request, response) -> {
+                            log.info("Google OAuth Error: {}, {}", response.getStatusCode(), new String(response.getBody().readAllBytes()));
                             throw new InvalidCredentialsException("구글 로그인 정보가 잘못되었습니다");
                         }
                 )
                 .body(GoogleUserInfoResponse.class);
-        log.info("Google OAuth result: {}", userInfo);
+        log.info("Google OAuth Success: {}", userInfo);
         return userInfo;
     }
 

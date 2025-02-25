@@ -21,7 +21,7 @@
 # 배포 URL
 피드 한 줌: https://feedhanjum.com <br>
 위 URL에 접속해 서비스 이용이 가능합니다.
-
+피드 한 줌: https://feedhanjum.com
 
 # 팀원 소개
 
@@ -34,7 +34,6 @@
 </table>
 
 
-
 # 브랜치 전략
 
 - GitHub Flow 전략 사용
@@ -45,10 +44,9 @@
         - 기능개발 완료 혹은 퇴근 전에 dev 로 pull request 올리기
             - 본인 제외 아무나 1명이 merge 하기
 
-
 # 기획 디자인 링크
 
-https://www.figma.com/design/16a1adYjBfzzvMkRe3yJc1/Handoff_EQUUS-N?node-id=1-6&t=5jO9HHm3exQykJKP-1
+https://www.figma.com/design/76hKNmM5L0ba1xrDnxbEwd/Handoff_EQUUS-N-(Copy)?node-id=1-6&p=f
 
 # 도메인 모델
 ![도메인 모델](./docs/domain_model.png)
