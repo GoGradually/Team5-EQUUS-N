@@ -153,8 +153,8 @@ public class AuthService {
         memberDetails.changePassword(newHashedPassword);
     }
 
-    public String getGoogleLoginUrl() {
-        return googleAuthService.getGoogleLoginUrl();
+    public String getGoogleLoginUrl(String redirectBaseUrl) {
+        return googleAuthService.getGoogleLoginUrl(redirectBaseUrl);
     }
 
     @Transactional
@@ -174,8 +174,8 @@ public class AuthService {
     }
 
     @Transactional
-    public GoogleLoginResultDto authenticateGoogle(String googleCode) {
-        GoogleAuthService.GoogleUserInfoResponse userInfo = googleAuthService.getUserInfo(googleCode);
+    public GoogleLoginResultDto authenticateGoogle(String googleCode, String redirectBaseUrl) {
+        GoogleAuthService.GoogleUserInfoResponse userInfo = googleAuthService.getUserInfo(googleCode, redirectBaseUrl);
         String email = userInfo.email();
 
         Optional<MemberDetails> memberDetailsOptional = memberDetailsRepository.findByEmail(email);
