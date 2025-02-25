@@ -1,6 +1,7 @@
 package com.feedhanjum.back_end.core.exception;
 
 import jakarta.persistence.LockTimeoutException;
+import jakarta.persistence.OptimisticLockException;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.NonUniqueResultException;
 import org.springframework.core.annotation.Order;
@@ -28,6 +29,12 @@ public class InternalErrorControllerAdvice {
     @ExceptionHandler(LockTimeoutException.class)
     public ResponseEntity<String> handleLockTimeoutException(LockTimeoutException e) {
         log.error("Lock timeout exception occurred!", e);
+        return new ResponseEntity<>("Service Unavailable", HttpStatus.SERVICE_UNAVAILABLE);
+    }
+
+    @ExceptionHandler(OptimisticLockException.class)
+    public ResponseEntity<String> handleOptimisticLockException(OptimisticLockException e) {
+        log.error("Optimistic lock exception occurred!", e);
         return new ResponseEntity<>("Service Unavailable", HttpStatus.SERVICE_UNAVAILABLE);
     }
 }
