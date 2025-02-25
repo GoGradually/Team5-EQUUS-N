@@ -10,12 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface TeamRepository extends JpaRepository<Team, Long> {
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Lock(LockModeType.OPTIMISTIC_FORCE_INCREMENT)
     @Query("select t from Team t where t.id = :id")
-    Optional<Team> findByIdForUpdateExclusiveLock(@Param("id") Long id);
-
-
-    @Lock(LockModeType.PESSIMISTIC_READ)
-    @Query("select t from Team t where t.id = :id")
-    Optional<Team> findByIdForUpdateSharedLock(@Param("id") Long id);
+    Optional<Team> findByIdOptimisticLockForceIncrement(@Param("id") Long id);
 }
