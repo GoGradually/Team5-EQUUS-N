@@ -1,11 +1,11 @@
 # 프로젝트 소개
+
 ![image](https://github.com/user-attachments/assets/cca47e96-12f7-4c30-88ec-a1a07b2eea21)
 피드백 주고 받기를 어려워하는 대학생들이 팀 프로젝트에서 건설적인 피드백을 작성하고 공유하는 과정을 도와주는 서비스입니다.
 
-
 # 배포 URL
-피드 한 줌: https://feedhanjum.com
 
+피드 한 줌: https://feedhanjum.com
 
 # 팀원 소개
 
@@ -21,7 +21,6 @@
 
 - 완성: 기능 요구사항 만족
 
-
 # 브랜치 전략
 
 - GitHub Flow 전략 사용
@@ -32,26 +31,30 @@
         - 기능개발 완료 혹은 퇴근 전에 dev 로 pull request 올리기
             - 본인 제외 아무나 1명이 merge 하기
 
-
 ## 기획 디자인 링크
 
-https://www.figma.com/design/16a1adYjBfzzvMkRe3yJc1/Handoff_EQUUS-N?node-id=1-6&t=5jO9HHm3exQykJKP-1
+https://www.figma.com/design/76hKNmM5L0ba1xrDnxbEwd/Handoff_EQUUS-N-(Copy)?node-id=1-6&p=f
 
 ## 도메인 모델
+
 ![도메인 모델](./docs/domain_model.png)
 
 ## 서비스 아키텍처
 
 ### 백엔드
+
 ![backend_architecture.png](docs/backend_architecture.png)
 
 ### 프론트엔드
+
 ![img.png](docs/frontend_architecture.png)
 
 ## CI/CD 워크플로우
+
 ![img.png](docs/ci_cd_workflow.png)
 
 ## 기술 스택
+
 ### 공통
 
 ![github](https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white)
@@ -61,6 +64,7 @@ https://www.figma.com/design/16a1adYjBfzzvMkRe3yJc1/Handoff_EQUUS-N?node-id=1-6&
 ![Web Push](https://img.shields.io/badge/Web%20Push-000000?style=for-the-badge)
 
 ### 프론트엔드
+
 ![vite](https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=yellow)
 ![react](https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 ![react-query](https://img.shields.io/badge/reactquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white)
@@ -72,9 +76,8 @@ https://www.figma.com/design/16a1adYjBfzzvMkRe3yJc1/Handoff_EQUUS-N?node-id=1-6&
 ![motion](https://img.shields.io/badge/motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
 ![msw](https://img.shields.io/badge/mockserviceworker-FF6A33?style=for-the-badge&logo=mockserviceworker&logoColor=white)
 
-
-
 ### 백엔드
+
 ![Spring Web MVC](https://img.shields.io/badge/Spring%20Web%20MVC-%236DB33F?style=for-the-badge&logo=spring&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-%236DB33F?style=for-the-badge&logo=springboot&logoColor=white)
 ![Spring AI](https://img.shields.io/badge/Spring%20AI-%236DB33F?style=for-the-badge&logo=spring&logoColor=white)
