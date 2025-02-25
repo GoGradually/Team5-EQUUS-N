@@ -1,10 +1,26 @@
 # 프로젝트 소개
-![image](https://github.com/user-attachments/assets/cca47e96-12f7-4c30-88ec-a1a07b2eea21)
 피드백 주고 받기를 어려워하는 대학생들이 팀 프로젝트에서 건설적인 피드백을 작성하고 공유하는 과정을 도와주는 서비스입니다.
+
+![image](https://github.com/user-attachments/assets/cca47e96-12f7-4c30-88ec-a1a07b2eea21)
+
+## 주요 기능
+저희 <피드한줌>의 주요 기능은 **피드백 요청하기/보내기, 일정 관리, 피드백 리포트** 이며, <br>
+이 외에도 **회원가입/로그인, 보낸/받은 피드백 조회, 회고 작성/조회, 팀 스페이스 관리, 피드백 선호도 설정** 등이 가능합니다. <br>
+아래는 주요 기능의 시연 영상입니다.
+
+<table>
+<tr>
+<td><b>피드백 보내기</b><br><video src="https://github.com/user-attachments/assets/993102a0-bad2-40e1-9e85-b79e5b4b12d8" ></video>
+<td><b>일정 추가</b><br><video src="https://github.com/user-attachments/assets/ec202737-1815-41c5-aba3-3688374c839e" ></video>
+<td><b>피드백 리포트를 포함한 마이페이지 기능</b><br><video src="https://github.com/user-attachments/assets/42de714d-d610-44b3-a638-8e718f611981" ></video>
+</table>
+
+이외에 데모 화면들은 [여기](https://github.com/softeer5th/Team5-EQUUS-N/wiki/%EB%8D%B0%EB%AA%A8-%ED%99%94%EB%A9%B4)서 확인 가능합니다.
 
 
 # 배포 URL
-피드 한 줌: https://feedhanjum.com
+피드 한 줌: https://feedhanjum.com <br>
+위 URL에 접속해 서비스 이용이 가능합니다.
 
 
 # 팀원 소개
@@ -17,9 +33,6 @@
 <td align="center"><a href="https://github.com/hammsik"><img src="https://avatars.githubusercontent.com/u/116339092?v=4" width="100px;" alt=""/><br /><sub><b>FE-백현식</b></sub></a><br />
 </table>
 
-# 프로젝트 목표
-
-- 완성: 기능 요구사항 만족
 
 
 # 브랜치 전략
@@ -33,26 +46,26 @@
             - 본인 제외 아무나 1명이 merge 하기
 
 
-## 기획 디자인 링크
+# 기획 디자인 링크
 
 https://www.figma.com/design/16a1adYjBfzzvMkRe3yJc1/Handoff_EQUUS-N?node-id=1-6&t=5jO9HHm3exQykJKP-1
 
-## 도메인 모델
+# 도메인 모델
 ![도메인 모델](./docs/domain_model.png)
 
-## 서비스 아키텍처
+# 서비스 아키텍처
 
-### 백엔드
+## 백엔드
 ![backend_architecture.png](docs/backend_architecture.png)
 
-### 프론트엔드
+## 프론트엔드
 ![img.png](docs/frontend_architecture.png)
 
-## CI/CD 워크플로우
+# CI/CD 워크플로우
 ![img.png](docs/ci_cd_workflow.png)
 
-## 기술 스택
-### 공통
+# 기술 스택
+## 공통
 
 ![github](https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white)
 ![github-actions](https://img.shields.io/badge/github%20actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
@@ -60,7 +73,7 @@ https://www.figma.com/design/16a1adYjBfzzvMkRe3yJc1/Handoff_EQUUS-N?node-id=1-6&
 ![jira](https://img.shields.io/badge/jira-0052CC?style=for-the-badge&logo=jira&logoColor=white)
 ![Web Push](https://img.shields.io/badge/Web%20Push-000000?style=for-the-badge)
 
-### 프론트엔드
+## 프론트엔드
 ![vite](https://img.shields.io/badge/vite-646CFF?style=for-the-badge&logo=vite&logoColor=yellow)
 ![react](https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 ![react-query](https://img.shields.io/badge/reactquery-FF4154?style=for-the-badge&logo=reactquery&logoColor=white)
@@ -74,7 +87,7 @@ https://www.figma.com/design/16a1adYjBfzzvMkRe3yJc1/Handoff_EQUUS-N?node-id=1-6&
 
 
 
-### 백엔드
+## 백엔드
 ![Spring Web MVC](https://img.shields.io/badge/Spring%20Web%20MVC-%236DB33F?style=for-the-badge&logo=spring&logoColor=white)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-%236DB33F?style=for-the-badge&logo=springboot&logoColor=white)
 ![Spring AI](https://img.shields.io/badge/Spring%20AI-%236DB33F?style=for-the-badge&logo=spring&logoColor=white)
