@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from './baseApi';
 import { showToast } from '../utility/handleToast';
+import { useTeam } from '../store/useTeam';
 
 export const useMembers = (teamId) => {
   return useQuery({
@@ -69,13 +70,16 @@ export const useEditTeam = (teamId) => {
 
 export const useJoinTeam = () => {
   const queryClient = useQueryClient();
+  const { selectTeam } = useTeam();
   return useMutation({
     mutationFn: (code) => {
       const sendingData = { token: code };
       return api.post({ url: `/api/team/join`, params: sendingData });
     },
-    onSuccess: () => {
+    onSuccess: (teamData) => {
+      console.log(teamData);
       queryClient.invalidateQueries(['myTeams']);
+      selectTeam(teamData.id);
       showToast('새 팀에 가입했어요');
     },
   });

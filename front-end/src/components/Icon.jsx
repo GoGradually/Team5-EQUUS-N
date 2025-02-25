@@ -30,33 +30,38 @@ import { ReactComponent as UnfoldMore } from '../assets/Icons/unfold_more.svg';
 import { ReactComponent as Logo } from '../assets/Icons/logo.svg';
 import { ReactComponent as Info } from '../assets/Icons/info.svg';
 
-import { ReactComponent as Bear } from '../assets/Icons/animals/Bear.svg';
-import { ReactComponent as DogFace } from '../assets/Icons/animals/Dog Face.svg';
-import { ReactComponent as Fish } from '../assets/Icons/animals/Fish.svg';
-import { ReactComponent as Fox } from '../assets/Icons/animals/Fox.svg';
-import { ReactComponent as Frog } from '../assets/Icons/animals/Frog.svg';
-import { ReactComponent as Hamster } from '../assets/Icons/animals/Hamster.svg';
-import { ReactComponent as Koala } from '../assets/Icons/animals/Koala.svg';
-import { ReactComponent as LadyBeetle } from '../assets/Icons/animals/Lady Beetle.svg';
-import { ReactComponent as Lion } from '../assets/Icons/animals/Lion.svg';
-import { ReactComponent as MonkeyFace } from '../assets/Icons/animals/Monkey Face.svg';
-import { ReactComponent as MouseFace } from '../assets/Icons/animals/Mouse Face.svg';
-import { ReactComponent as Octopus } from '../assets/Icons/animals/Octopus.svg';
-import { ReactComponent as Orangutan } from '../assets/Icons/animals/Orangutan.svg';
-import { ReactComponent as Panda } from '../assets/Icons/animals/Panda.svg';
-import { ReactComponent as Parrot } from '../assets/Icons/animals/Parrot.svg';
-import { ReactComponent as Penguin } from '../assets/Icons/animals/Penguin.svg';
-import { ReactComponent as PigFace } from '../assets/Icons/animals/Pig Face.svg';
-import { ReactComponent as PolarBear } from '../assets/Icons/animals/Polar Bear.svg';
-import { ReactComponent as RabbitFace } from '../assets/Icons/animals/Rabbit Face.svg';
-import { ReactComponent as Rooster } from '../assets/Icons/animals/Rooster.svg';
-import { ReactComponent as Shark } from '../assets/Icons/animals/Shark.svg';
-import { ReactComponent as Skunk } from '../assets/Icons/animals/Skunk.svg';
-import { ReactComponent as SpoutingWhale } from '../assets/Icons/animals/Spouting Whale.svg';
-import { ReactComponent as Swan } from '../assets/Icons/animals/Swan.svg';
-import { ReactComponent as Turtle } from '../assets/Icons/animals/Turtle.svg';
-import { ReactComponent as Whale } from '../assets/Icons/animals/Whale.svg';
-import { ReactComponent as Wolf } from '../assets/Icons/animals/Wolf.svg';
+import Bear from '../assets/Icons/animals/Bear.webp';
+import DogFace from '../assets/Icons/animals/Dog Face.webp';
+import Fish from '../assets/Icons/animals/Fish.webp';
+import Fox from '../assets/Icons/animals/Fox.webp';
+import Frog from '../assets/Icons/animals/Frog.webp';
+import Hamster from '../assets/Icons/animals/Hamster.webp';
+import Koala from '../assets/Icons/animals/Koala.webp';
+import LadyBeetle from '../assets/Icons/animals/Lady Beetle.webp';
+import Lion from '../assets/Icons/animals/Lion.webp';
+import Chick from '../assets/Icons/animals/Chick.webp';
+import MonkeyFace from '../assets/Icons/animals/Monkey Face.webp';
+import MouseFace from '../assets/Icons/animals/Mouse Face.webp';
+import Octopus from '../assets/Icons/animals/Octopus.webp';
+import Orangutan from '../assets/Icons/animals/Orangutan.webp';
+import Panda from '../assets/Icons/animals/Panda.webp';
+import Parrot from '../assets/Icons/animals/Parrot.webp';
+import Penguin from '../assets/Icons/animals/Penguin.webp';
+import PigFace from '../assets/Icons/animals/Pig Face.webp';
+import PolarBear from '../assets/Icons/animals/Polar Bear.webp';
+import RabbitFace from '../assets/Icons/animals/Rabbit Face.webp';
+import Rooster from '../assets/Icons/animals/Rooster.webp';
+import Shark from '../assets/Icons/animals/Shark.webp';
+import Skunk from '../assets/Icons/animals/Skunk.webp';
+import SpoutingWhale from '../assets/Icons/animals/Spouting Whale.webp';
+import Swan from '../assets/Icons/animals/Swan.webp';
+import Turtle from '../assets/Icons/animals/Turtle.webp';
+import Whale from '../assets/Icons/animals/Whale.webp';
+import Wolf from '../assets/Icons/animals/Wolf.webp';
+
+const webpComponent = (webpData) => {
+  return (props) => <img src={webpData} {...props} />;
+};
 
 const icons = {
   heartFill: HeartActivate,
@@ -90,33 +95,34 @@ const icons = {
   logo: Logo,
   info: Info,
 
-  '@animals/Bear': Bear,
-  '@animals/DogFace': DogFace,
-  '@animals/Fish': Fish,
-  '@animals/Fox': Fox,
-  '@animals/Frog': Frog,
-  '@animals/Hamster': Hamster,
-  '@animals/Koala': Koala,
-  '@animals/LadyBeetle': LadyBeetle,
-  '@animals/Lion': Lion,
-  '@animals/MonkeyFace': MonkeyFace,
-  '@animals/MouseFace': MouseFace,
-  '@animals/Octopus': Octopus,
-  '@animals/Orangutan': Orangutan,
-  '@animals/Panda': Panda,
-  '@animals/Parrot': Parrot,
-  '@animals/Penguin': Penguin,
-  '@animals/PigFace': PigFace,
-  '@animals/PolarBear': PolarBear,
-  '@animals/RabbitFace': RabbitFace,
-  '@animals/Rooster': Rooster,
-  '@animals/Shark': Shark,
-  '@animals/Skunk': Skunk,
-  '@animals/SpoutingWhale': SpoutingWhale,
-  '@animals/Swan': Swan,
-  '@animals/Turtle': Turtle,
-  '@animals/Whale': Whale,
-  '@animals/Wolf': Wolf,
+  '@animals/Bear': webpComponent(Bear),
+  '@animals/DogFace': webpComponent(DogFace),
+  '@animals/Fish': webpComponent(Fish),
+  '@animals/Fox': webpComponent(Fox),
+  '@animals/Frog': webpComponent(Frog),
+  '@animals/Hamster': webpComponent(Hamster),
+  '@animals/Koala': webpComponent(Koala),
+  '@animals/LadyBeetle': webpComponent(LadyBeetle),
+  '@animals/Lion': webpComponent(Lion),
+  '@animals/MonkeyFace': webpComponent(MonkeyFace),
+  '@animals/MouseFace': webpComponent(MouseFace),
+  '@animals/Octopus': webpComponent(Octopus),
+  '@animals/Orangutan': webpComponent(Orangutan),
+  '@animals/Panda': webpComponent(Panda),
+  '@animals/Parrot': webpComponent(Parrot),
+  '@animals/Penguin': webpComponent(Penguin),
+  '@animals/PigFace': webpComponent(PigFace),
+  '@animals/PolarBear': webpComponent(PolarBear),
+  '@animals/RabbitFace': webpComponent(RabbitFace),
+  '@animals/Rooster': webpComponent(Rooster),
+  '@animals/Shark': webpComponent(Shark),
+  '@animals/Skunk': webpComponent(Skunk),
+  '@animals/SpoutingWhale': webpComponent(SpoutingWhale),
+  '@animals/Swan': webpComponent(Swan),
+  '@animals/Turtle': webpComponent(Turtle),
+  '@animals/Whale': webpComponent(Whale),
+  '@animals/Wolf': webpComponent(Wolf),
+  '@animals/Chick': webpComponent(Chick),
 };
 
 /**
