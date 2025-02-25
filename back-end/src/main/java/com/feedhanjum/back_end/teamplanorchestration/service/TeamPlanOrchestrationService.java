@@ -47,7 +47,7 @@ public class TeamPlanOrchestrationService {
      */
     @Transactional
     public Team updateTeamInfo(Long leaderId, Long teamId, TeamUpdateDto teamUpdateDto) {
-        Team team = teamRepository.findByIdForUpdateExclusiveLock(teamId)
+        Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
         Member leader = memberRepository.findById(leaderId)
                 .orElseThrow(() -> new EntityNotFoundException("멤버를 찾을 수 없습니다"));
@@ -70,7 +70,7 @@ public class TeamPlanOrchestrationService {
      */
     @Transactional
     public void createSchedule(Long memberId, Long teamId, ScheduleRequestDto requestDto) {
-        Team team = teamRepository.findByIdForUpdateSharedLock(teamId).orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
+        Team team = teamRepository.findByIdOptimisticLockForceIncrement(teamId).orElseThrow(() -> new EntityNotFoundException("팀을 찾을 수 없습니다."));
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new EntityNotFoundException("해당 사용자를 찾을 수 없습니다."));
         teamMemberRepository.findByMemberIdAndTeamId(memberId, teamId).orElseThrow(() -> new TeamMembershipNotFoundException("해당 팀에 존재하는 사람만 일정을 생성할 수 있습니다."));
         Schedule findSchedule = scheduleRepository.findByTeamIdAndStartTime(teamId, requestDto.startTime()).orElse(null);
