@@ -24,8 +24,7 @@ export default function FeedbackFavorite() {
   const [selectedContent, setSelectedContent] = useState([]);
 
   const { data: keywords } = useFeedbackFavorite();
-  const { data: selectedKeywords } =
-    userId ? useFeedbackFavoriteByUser(userId) : { data: null };
+  const { data: selectedKeywords } = useFeedbackFavoriteByUser(userId);
 
   const mutation =
     process === 'signup' ?

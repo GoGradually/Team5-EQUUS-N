@@ -89,11 +89,15 @@ export const useEditFavorite = () => {
   });
 };
 
-export const useFeedbackFavoriteByUser = (data) => {
+export const useFeedbackFavoriteByUser = (userId) => {
+  if (userId == null) {
+    return { data: null };
+  }
+
   return useQuery({
     queryKey: ['feedback-favorite-by-user'],
     queryFn: () =>
-      api.get({ url: `/api/member/feedback-prefer?findMemberId=${data}` }),
+      api.get({ url: `/api/member/feedback-prefer?findMemberId=${userId}` }),
     gcTime: 0, // 지난번 거랑 바뀌는게 보기 좋지 않아서 그냥 캐싱 X
   });
 };

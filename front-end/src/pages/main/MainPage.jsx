@@ -131,7 +131,7 @@ export default function MainPage() {
   }, [teams]);
 
   const getOnMainButtonClick = () => {
-    if (teams.length === 0) {
+    if (filteredTeams?.length === 0) {
       return () => navigate('/teamspace/make');
     }
     if (!recentScheduleData) {

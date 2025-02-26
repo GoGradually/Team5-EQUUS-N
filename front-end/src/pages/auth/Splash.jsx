@@ -19,7 +19,7 @@ export default function Splash() {
   const navigate = useNavigate();
   const { userId, setUserId } = useUser();
   const { data: member } = useGetMember(userId);
-  const { mutate: joinTeam } = useJoinTeam();
+  const { mutate: joinTeam } = useJoinTeam(teamCode);
   const { data: googleAuthUrl } = useGetGoogleUrl();
 
   /**
@@ -34,7 +34,7 @@ export default function Splash() {
     setTimeout(() => {
       if (member) {
         setUserId(member.id);
-        if (teamCode) {
+        if (teamCode && joinTeam) {
           joinTeam(teamCode);
         }
         moveTo('/main');
