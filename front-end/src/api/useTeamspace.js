@@ -68,7 +68,9 @@ export const useEditTeam = (teamId) => {
   });
 };
 
-export const useJoinTeam = () => {
+export const useJoinTeam = (teamCode) => {
+  if (!teamCode) return { mutation: null };
+
   const queryClient = useQueryClient();
   const { selectTeam } = useTeam();
   return useMutation({
