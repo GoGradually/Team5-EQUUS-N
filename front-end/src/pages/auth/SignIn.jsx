@@ -44,6 +44,7 @@ export default function SignIn() {
         content={email}
         setContent={setEmail}
         type='email'
+        onEnter={handleLoginButton}
       />
       {/* 비밀번호 입력 */}
       <div className='h-6' />
@@ -65,6 +66,7 @@ export default function SignIn() {
             />
           </button>
         }
+        onEnter={handleLoginButton}
       />
       {/* 로그인 버튼 */}
       <div className='absolute right-0 bottom-[34px] left-0 bg-gray-900'>

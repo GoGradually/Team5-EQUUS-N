@@ -16,6 +16,8 @@ import { forwardRef } from 'react';
  * @param {boolean} props.disabled - 비활성화 여부
  * @param {boolean} props.isOutlined - 테두리/배경 여부
  * @param {boolean} props.isForRetrospect - 회고 작성용
+ * @param {string} props.bgColor - 배경색
+ * @param {function} props.onEnter - 엔터 키 눌렀을 때 호출되는 함수
  * @param {React.Ref} ref - ref 매개변수
  * @returns
  */
@@ -34,9 +36,16 @@ const CustomInput = forwardRef(function CustomInput(
     isOutlined = true,
     isForRetrospect = false,
     bgColor = 'gray-800',
+    onEnter = () => {},
   },
   ref,
 ) {
+  const handleEnter = (event) => {
+    if (event.key === 'Enter') {
+      onEnter();
+    }
+  };
+
   return (
     <div className='flex flex-col gap-2'>
       {/* 제목 */}
@@ -62,6 +71,7 @@ const CustomInput = forwardRef(function CustomInput(
           inputMode={keyboardType}
           onChange={(e) => setContent(e.target.value)}
           disabled={disabled}
+          onKeyDown={handleEnter}
         ></input>
         {/* 하단 조건 */}
         {condition && (
