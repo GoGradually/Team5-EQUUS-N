@@ -1,0 +1,50 @@
+{
+  "name": "front-end",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@tanstack/react-query": "^5.66.0",
+    "classnames": "^2.5.1",
+    "lottie-react": "^2.4.1",
+    "motion": "^12.4.5",
+    "react": "^18.3.1",
+    "react-datepicker": "^8.0.0",
+    "react-dom": "^18.3.1",
+    "react-error-boundary": "^5.0.0",
+    "react-router-dom": "^7.1.5",
+    "react-slick": "^0.30.3",
+    "slick-carousel": "^1.8.1",
+    "tailwindcss": "^4.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@svgr/rollup": "^8.1.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "globals": "^15.14.0",
+    "msw": "^2.7.0",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.11",
+    "vite": "^6.0.5",
+    "vite-plugin-pwa": "^0.21.1",
+    "workbox-precaching": "^7.3.0"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
+  }
+}

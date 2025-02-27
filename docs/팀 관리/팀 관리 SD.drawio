@@ -1,0 +1,298 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.4 Chrome/128.0.6613.186 Electron/32.2.5 Safari/537.36" version="26.0.4" pages="8">
+  <diagram name="팀 생성 SD" id="WqGUPnwtfew-3TMVvwuj">
+    <mxGraphModel dx="1434" dy="836" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="yBl6WgBOMRmgnKSCipBI-1" value="클라이언트" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="40" y="40" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="yBl6WgBOMRmgnKSCipBI-2" value="서버" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="670" y="40" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="yBl6WgBOMRmgnKSCipBI-4" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="yBl6WgBOMRmgnKSCipBI-2" vertex="1">
+          <mxGeometry x="45" y="80" width="10" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="yBl6WgBOMRmgnKSCipBI-11" value="팀 프로젝트 기간 검증" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" parent="yBl6WgBOMRmgnKSCipBI-2" source="yBl6WgBOMRmgnKSCipBI-4" target="yBl6WgBOMRmgnKSCipBI-10" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="110" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="90" y="100" />
+              <mxPoint x="90" y="150" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yBl6WgBOMRmgnKSCipBI-10" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="yBl6WgBOMRmgnKSCipBI-2" vertex="1">
+          <mxGeometry x="50" y="130" width="10" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="yBl6WgBOMRmgnKSCipBI-5" value="팀 생성 요청(사용자 ID, 팀 이름, 팀 프로젝트 기간, 기본 피드백 방식)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" parent="1" target="yBl6WgBOMRmgnKSCipBI-4" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="125" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="yBl6WgBOMRmgnKSCipBI-6" value="팀 객체 or 팀 생성 실패 반환" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="89.81034482758605" y="239.99999999999977" as="targetPoint" />
+            <mxPoint x="714.9999999999998" y="239.99999999999977" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="B7GeYeSksg6a0UglceZL" name="내가 속한 팀 조회 SD">
+    <mxGraphModel dx="1434" dy="836" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="v3UwEI2oDAU8YouxRu8a-1" value="클라이언트" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="40" y="40" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="v3UwEI2oDAU8YouxRu8a-2" value="서버" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="620" y="40" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="v3UwEI2oDAU8YouxRu8a-3" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="v3UwEI2oDAU8YouxRu8a-2" vertex="1">
+          <mxGeometry x="45" y="80" width="10" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="v3UwEI2oDAU8YouxRu8a-4" value="속한 팀 정보 요청(사용자 ID)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" parent="1" target="v3UwEI2oDAU8YouxRu8a-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="125" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v3UwEI2oDAU8YouxRu8a-5" value="속한 모든 팀ID, 팀 이름, 활성화 여부 리스트 반환" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" parent="1" source="v3UwEI2oDAU8YouxRu8a-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="195" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="n-YzSSF1Td-E5hcq4ZIg" name="팀 초대링크 생성 SD">
+    <mxGraphModel dx="1434" dy="836" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bTsV-JUKjIOMVBcmsb9T-1" value="클라이언트" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="80" y="80" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="bTsV-JUKjIOMVBcmsb9T-2" value="서버" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="650" y="80" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="bTsV-JUKjIOMVBcmsb9T-4" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="bTsV-JUKjIOMVBcmsb9T-2" vertex="1">
+          <mxGeometry x="45" y="80" width="10" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="bTsV-JUKjIOMVBcmsb9T-5" value="팀 초대링크 생성(사용자 ID, 팀 ID)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" parent="1" target="bTsV-JUKjIOMVBcmsb9T-4" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="130" y="165" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bTsV-JUKjIOMVBcmsb9T-6" value="팀 초대링크 생성 성공 여부 반환(24시간동안 유효한 팀 초대링크 or 실패)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" parent="1" source="bTsV-JUKjIOMVBcmsb9T-4" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="130" y="235" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="2Pn5p0IjeWH3EDd4KFWp" name="팀 정보 수정 SD">
+    <mxGraphModel dx="1434" dy="836" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="tIWlBvweGYcJZLN53G8W-1" value="클라이언트" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="80" y="120" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="tIWlBvweGYcJZLN53G8W-2" value="서버" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="520" y="120" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="hYZcRpwfUbxxgncI4WN4-1" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="tIWlBvweGYcJZLN53G8W-2" vertex="1">
+          <mxGeometry x="45" y="70" width="10" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="hYZcRpwfUbxxgncI4WN4-4" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="tIWlBvweGYcJZLN53G8W-2" vertex="1">
+          <mxGeometry x="50" y="110" width="10" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="hYZcRpwfUbxxgncI4WN4-5" value="팀장 권한 검증&lt;div&gt;프로젝트 기간 검증&lt;/div&gt;" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;exitX=1;exitY=0;exitDx=0;exitDy=5;exitPerimeter=0;" parent="tIWlBvweGYcJZLN53G8W-2" source="hYZcRpwfUbxxgncI4WN4-1" target="hYZcRpwfUbxxgncI4WN4-4" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="95" y="110" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="90" y="95" />
+              <mxPoint x="90" y="140" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hYZcRpwfUbxxgncI4WN4-2" value="팀 정보 수정 요청(사용자 ID,&amp;nbsp;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: light-dark(#ffffff, var(--ge-dark-color, #121212));&quot;&gt;팀 이름, 프로젝트 기간, 피드백 방식)&lt;/span&gt;" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" parent="1" source="tIWlBvweGYcJZLN53G8W-1" target="hYZcRpwfUbxxgncI4WN4-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="130" y="215" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hYZcRpwfUbxxgncI4WN4-3" value="수정 성공 여부 반환" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" parent="1" source="hYZcRpwfUbxxgncI4WN4-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="130" y="285" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="eOBpnQnDiSVMjFb1AwSm" name="팀장 권한 위임 SD">
+    <mxGraphModel dx="1434" dy="836" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="JCQ22TeH_XqVTIg0Pf_9-1" value="클라이언트" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="40" y="120" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="JCQ22TeH_XqVTIg0Pf_9-2" value="서버" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="630" y="120" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="JCQ22TeH_XqVTIg0Pf_9-3" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="JCQ22TeH_XqVTIg0Pf_9-2" vertex="1">
+          <mxGeometry x="45" y="80" width="10" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="JCQ22TeH_XqVTIg0Pf_9-9" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="JCQ22TeH_XqVTIg0Pf_9-2" vertex="1">
+          <mxGeometry x="50" y="130" width="10" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="JCQ22TeH_XqVTIg0Pf_9-10" value="위임 가능 여부 확인" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" parent="JCQ22TeH_XqVTIg0Pf_9-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="55" y="90" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="90" y="90" />
+              <mxPoint x="90" y="130" />
+            </Array>
+            <mxPoint x="60" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JCQ22TeH_XqVTIg0Pf_9-4" value="팀장 권한 위임 요청(사용자 ID, 팀 ID, 새 팀장 ID)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" parent="1" target="JCQ22TeH_XqVTIg0Pf_9-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="205" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="JCQ22TeH_XqVTIg0Pf_9-5" value="성공 여부 반환" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" parent="1" source="JCQ22TeH_XqVTIg0Pf_9-3" target="JCQ22TeH_XqVTIg0Pf_9-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="275" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="hXrKjCtxg_lBeFtMiroO" name="팀 탈퇴 SD">
+    <mxGraphModel dx="1434" dy="836" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bp_FewQUjY11ON8itmIt-1" value="클라이언트" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="90" y="120" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="bp_FewQUjY11ON8itmIt-2" value="서버" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="550" y="120" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="bp_FewQUjY11ON8itmIt-3" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="bp_FewQUjY11ON8itmIt-2" vertex="1">
+          <mxGeometry x="45" y="70" width="10" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="bp_FewQUjY11ON8itmIt-7" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="bp_FewQUjY11ON8itmIt-2" vertex="1">
+          <mxGeometry x="50" y="120" width="10" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="bp_FewQUjY11ON8itmIt-8" value="팀 탈퇴 가능 여부 확인&lt;br&gt;(팀에 속해 있는지 + 팀장이 아닌지&lt;br&gt;or 팀에 혼자 있는지)" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" parent="bp_FewQUjY11ON8itmIt-2" target="bp_FewQUjY11ON8itmIt-7" edge="1">
+          <mxGeometry x="0.0061" relative="1" as="geometry">
+            <mxPoint x="55" y="100" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="85" y="130" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bp_FewQUjY11ON8itmIt-4" value="팀 삭제 요청(사용자 ID,팀 ID)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" parent="1" target="bp_FewQUjY11ON8itmIt-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="140" y="195" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bp_FewQUjY11ON8itmIt-5" value="팀 삭제 성공 여부 반환" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="140" y="380" as="targetPoint" />
+            <mxPoint x="595" y="380" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bp_FewQUjY11ON8itmIt-6" value="dispatch" style="html=1;verticalAlign=bottom;startArrow=oval;startFill=1;endArrow=block;startSize=8;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="60" relative="1" as="geometry">
+            <mxPoint x="80" y="180" as="sourcePoint" />
+            <mxPoint x="140" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="yfpAq7Dj69rJN6PFJo15" name="팀 참가 SD">
+    <mxGraphModel dx="1434" dy="836" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="RcBjcEYQb886rSM172Ua-1" value="클라이언트" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="90" y="120" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="RcBjcEYQb886rSM172Ua-2" value="서버" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="590" y="120" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="RcBjcEYQb886rSM172Ua-3" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="RcBjcEYQb886rSM172Ua-2" vertex="1">
+          <mxGeometry x="45" y="70" width="10" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="RcBjcEYQb886rSM172Ua-6" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="RcBjcEYQb886rSM172Ua-2" vertex="1">
+          <mxGeometry x="50" y="130" width="10" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="RcBjcEYQb886rSM172Ua-7" value="&lt;div&gt;사용자가&lt;/div&gt;지정한 링크에 팀에&amp;nbsp;&lt;div&gt;가입할 수 있는지 검증&lt;/div&gt;" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" parent="RcBjcEYQb886rSM172Ua-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="55" y="110" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="85" y="140" />
+            </Array>
+            <mxPoint x="60.000000000000114" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RcBjcEYQb886rSM172Ua-4" value="팀 참가 요청(사용자 ID)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" parent="1" target="RcBjcEYQb886rSM172Ua-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="140" y="195" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RcBjcEYQb886rSM172Ua-5" value="가입 성공 여부, 가입한 팀 ID 반환" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" parent="1" source="RcBjcEYQb886rSM172Ua-3" target="RcBjcEYQb886rSM172Ua-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="140" y="265" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="THCMBo28nk-AbAnq5IEb" name="팀원 제거 SD">
+    <mxGraphModel dx="1434" dy="836" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="F-YKg_7KA2KbPSNgwYET-1" value="클라이언트" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="70" y="160" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="F-YKg_7KA2KbPSNgwYET-2" value="서버" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="630" y="160" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="F-YKg_7KA2KbPSNgwYET-3" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="F-YKg_7KA2KbPSNgwYET-2" vertex="1">
+          <mxGeometry x="45" y="100" width="10" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="F-YKg_7KA2KbPSNgwYET-14" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="F-YKg_7KA2KbPSNgwYET-2" vertex="1">
+          <mxGeometry x="50" y="160" width="10" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="F-YKg_7KA2KbPSNgwYET-15" value="해당 팀원 제거 가능 여부 검증" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" parent="F-YKg_7KA2KbPSNgwYET-2" target="F-YKg_7KA2KbPSNgwYET-14" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="55" y="140" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="85" y="170" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="F-YKg_7KA2KbPSNgwYET-4" value="팀원 제거 요청&amp;nbsp;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;(사용자 ID, 팀 ID, 삭제할 팀원 ID)&lt;/span&gt;" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" parent="1" target="F-YKg_7KA2KbPSNgwYET-3" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="265" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="F-YKg_7KA2KbPSNgwYET-5" value="팀원 제거 성공 여부 반환" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" parent="1" source="F-YKg_7KA2KbPSNgwYET-3" target="F-YKg_7KA2KbPSNgwYET-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="120" y="335" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,27 @@
+.slick-dots {
+  transform: translateY(-18px);
+}
+
+.slick-dots li {
+  width: fit-content;
+  height: fit-content;
+  margin: 0 2px;
+}
+
+.slick-dots li button {
+  width: fit-content;
+  height: fit-content;
+}
+
+.slick-dots li button:before {
+  color: var(--color-gray-700);
+  width: fit-content;
+  height: fit-content;
+  font-size: 8px; /* 비활성화된 dot 크기 */
+  opacity: 1;
+}
+
+.slick-dots li.slick-active button:before {
+  color: var(--color-gray-300);
+  font-size: 8px; /* 활성화된 dot 크기 */
+}

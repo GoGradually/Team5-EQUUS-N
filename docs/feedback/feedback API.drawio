@@ -1,0 +1,557 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.7 Chrome/128.0.6613.186 Electron/32.2.5 Safari/537.36" version="26.0.7" pages="12">
+  <diagram name="받은 피드백 조회하기" id="2YBvvXClWsGukQMizWep">
+    <mxGraphModel dx="1413" dy="1015" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="aM9ryv3xv72pqoxQDRHE-1" value="Client" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="40" y="40" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="aM9ryv3xv72pqoxQDRHE-3" value="dispatch" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" parent="aM9ryv3xv72pqoxQDRHE-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-15" y="70" as="sourcePoint" />
+            <mxPoint x="45" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aM9ryv3xv72pqoxQDRHE-5" value="Server" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="678" y="40" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="s-9JvTO0UeIPesGZr4ma-1" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="aM9ryv3xv72pqoxQDRHE-5" vertex="1">
+          <mxGeometry x="45" y="90" width="10" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="s-9JvTO0UeIPesGZr4ma-2" value="받은 피드백 조회(받은 사람 id, 팀 스페이스 필터, 좋아요 필터, 정렬 기준)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" parent="1" target="s-9JvTO0UeIPesGZr4ma-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="135" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="s-9JvTO0UeIPesGZr4ma-3" value="조회 목록(익명 여부에 따라[보낸 사람 이름, 보낸 사람 프로필 사진], 팀 스페이스 이름, 객관식 내용, 주관식 내용, 좋아요 여부)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" parent="1" source="s-9JvTO0UeIPesGZr4ma-1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="90" y="290" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="90" y="290" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="lcf-EK3ZAOv7RCgoDrcX-2" value="&lt;b&gt;받은 피드백 조회하기&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="325" y="40" width="120" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="Kp5R_LXOT8-5ZwDLZzYL" name="보낸 피드백 조회하기">
+    <mxGraphModel dx="1413" dy="1015" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="dkmC50aeuiwO-QU_w2Op-1" value="Client" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="300" y="140" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="dkmC50aeuiwO-QU_w2Op-2" value="dispatch" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="dkmC50aeuiwO-QU_w2Op-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-15" y="70" as="sourcePoint" />
+            <mxPoint x="45" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dkmC50aeuiwO-QU_w2Op-3" value="Server" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="938" y="140" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="dkmC50aeuiwO-QU_w2Op-4" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="dkmC50aeuiwO-QU_w2Op-3">
+          <mxGeometry x="45" y="90" width="10" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="dkmC50aeuiwO-QU_w2Op-5" value="보낸 피드백 조회(보낸 사람 id, 팀 스페이스 필터, 정렬 기준)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" edge="1" parent="1" target="dkmC50aeuiwO-QU_w2Op-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="350" y="235" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dkmC50aeuiwO-QU_w2Op-6" value="조회 목록(받은 사람 이름, 받은 사람 프로필 사진, 팀 스페이스 이름, 객관식 내용, 주관식 내용, 좋아요 여부, 익명 여부)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" edge="1" parent="1" source="dkmC50aeuiwO-QU_w2Op-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="350" y="390" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="350" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="dkmC50aeuiwO-QU_w2Op-7" value="&lt;b&gt;보낸 피드백 조회하기&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="586" y="140" width="120" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="Vw_HuNbZzEUWXS8rF-7q" name="수시 피드백 보내기">
+    <mxGraphModel dx="1413" dy="1015" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="MOzmviFzJnh4Iqiewz44-1" value="Client" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="380" y="260" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="MOzmviFzJnh4Iqiewz44-2" value="dispatch" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="MOzmviFzJnh4Iqiewz44-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-15" y="70" as="sourcePoint" />
+            <mxPoint x="45" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOzmviFzJnh4Iqiewz44-3" value="Server" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="980" y="260" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="MOzmviFzJnh4Iqiewz44-4" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="MOzmviFzJnh4Iqiewz44-3">
+          <mxGeometry x="45" y="90" width="10" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="MOzmviFzJnh4Iqiewz44-5" value="피드백 방향에 따른&amp;nbsp;&lt;div&gt;객관식 유효성 검증&lt;/div&gt;" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" edge="1" parent="MOzmviFzJnh4Iqiewz44-3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="50" y="110" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="80" y="140" />
+            </Array>
+            <mxPoint x="55" y="140.0000000000001" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOzmviFzJnh4Iqiewz44-6" value="수시 피드백 보내기(받는 사람 ID, 팀 스페이스 ID, 피드백 방향, 객관식 내용, 주관식 내용, 익명 여부 )" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" edge="1" parent="1" target="MOzmviFzJnh4Iqiewz44-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="430" y="355" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOzmviFzJnh4Iqiewz44-7" value="완료 여부 반환" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" edge="1" parent="1" source="MOzmviFzJnh4Iqiewz44-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="430" y="510" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="430" y="510" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOzmviFzJnh4Iqiewz44-8" value="&#39;피드백 생성&#39; 이벤트 발행" style="html=1;verticalAlign=bottom;endArrow=open;curved=0;rounded=0;endFill=0;" edge="1" parent="1" source="MOzmviFzJnh4Iqiewz44-4">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="1050" y="490" as="sourcePoint" />
+            <mxPoint x="1170" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MOzmviFzJnh4Iqiewz44-9" value="&lt;b&gt;수시 피드백 보내기&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="670" y="260" width="110" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="t0Bgt9Zdm48LsBPRDMPG" name="정기 피드백 건너뛰기">
+    <mxGraphModel dx="1413" dy="1015" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="KNi__RMbyHBlT5ikfDXt-1" value="Client" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="460" y="290" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="KNi__RMbyHBlT5ikfDXt-2" value="dispatch" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="KNi__RMbyHBlT5ikfDXt-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-15" y="70" as="sourcePoint" />
+            <mxPoint x="45" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KNi__RMbyHBlT5ikfDXt-3" value="Server" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="1060" y="290" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="KNi__RMbyHBlT5ikfDXt-4" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="KNi__RMbyHBlT5ikfDXt-3">
+          <mxGeometry x="45" y="90" width="10" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="KNi__RMbyHBlT5ikfDXt-5" value="정기 피드백 건너뛰기(일정 ID)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" edge="1" parent="1" target="KNi__RMbyHBlT5ikfDXt-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="510" y="385" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KNi__RMbyHBlT5ikfDXt-6" value="피드백 건너뛰기 결과 반환" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" edge="1" parent="1" source="KNi__RMbyHBlT5ikfDXt-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="510" y="540" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="510" y="540" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KNi__RMbyHBlT5ikfDXt-7" value="&lt;b&gt;정기 피드백 건너뛰기&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="745" y="290" width="120" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="VulN-yhPXSYKGdvZ1mZQ" name="정기 피드백 미완료 팀원 조회하기">
+    <mxGraphModel dx="1413" dy="1015" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="L7PThfKvN5xsNRosawcn-1" value="Client" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="490" y="370" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="L7PThfKvN5xsNRosawcn-2" value="dispatch" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="L7PThfKvN5xsNRosawcn-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-15" y="70" as="sourcePoint" />
+            <mxPoint x="45" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L7PThfKvN5xsNRosawcn-3" value="Server" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="1090" y="370" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="L7PThfKvN5xsNRosawcn-4" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="L7PThfKvN5xsNRosawcn-3">
+          <mxGeometry x="45" y="90" width="10" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="L7PThfKvN5xsNRosawcn-5" value="정기 피드백 미완료 팀원 조회(일정 ID)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" edge="1" parent="1" target="L7PThfKvN5xsNRosawcn-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="465" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L7PThfKvN5xsNRosawcn-6" value="아직 피드백을 작성하지 않은 팀원들의 (id, 이름, 프로필 사진) 반환&amp;nbsp;" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" edge="1" parent="1" source="L7PThfKvN5xsNRosawcn-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="620" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="540" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="L7PThfKvN5xsNRosawcn-7" value="&lt;b&gt;정기 피드백 미완료 팀원 조회하기&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="744" y="370" width="180" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="9W0iGbh6O9V2vdu4KYqa" name="정기 피드백 보내기">
+    <mxGraphModel dx="1413" dy="1015" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="SZYdlw0xP13SpRUJrkkW-1" value="Client" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="440" y="190" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="SZYdlw0xP13SpRUJrkkW-2" value="dispatch" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="SZYdlw0xP13SpRUJrkkW-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-15" y="70" as="sourcePoint" />
+            <mxPoint x="45" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SZYdlw0xP13SpRUJrkkW-3" value="Server" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="1040" y="190" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="SZYdlw0xP13SpRUJrkkW-4" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="SZYdlw0xP13SpRUJrkkW-3">
+          <mxGeometry x="45" y="90" width="10" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="SZYdlw0xP13SpRUJrkkW-5" value="피드백 방향에 따른&amp;nbsp;&lt;div&gt;객관식 유효성 검증&lt;/div&gt;" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" edge="1" parent="SZYdlw0xP13SpRUJrkkW-3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="50" y="110" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="80" y="140" />
+            </Array>
+            <mxPoint x="55" y="140.0000000000001" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SZYdlw0xP13SpRUJrkkW-6" value="정기 피드백 보내기(일정 ID, 받는 사람 ID, 팀 스페이스 ID, 피드백 방향, 객관식 내용, 주관식 내용, 익명 여부 )" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" edge="1" parent="1" target="SZYdlw0xP13SpRUJrkkW-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="490" y="285" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SZYdlw0xP13SpRUJrkkW-7" value="완료 여부 반환" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" edge="1" parent="1" source="SZYdlw0xP13SpRUJrkkW-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="490" y="440" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="490" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SZYdlw0xP13SpRUJrkkW-8" value="&#39;피드백 생성&#39; 이벤트 발행" style="html=1;verticalAlign=bottom;endArrow=open;curved=0;rounded=0;endFill=0;" edge="1" parent="1" source="SZYdlw0xP13SpRUJrkkW-4">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="1110" y="420" as="sourcePoint" />
+            <mxPoint x="1230" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="SZYdlw0xP13SpRUJrkkW-9" value="&lt;b&gt;정기 피드백 보내기&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="730" y="190" width="110" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="0x5W5qtpJ4vnARLyG3fH" name="피드백 내용 AI 다듬기">
+    <mxGraphModel dx="1413" dy="1015" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ttk8kgKUxnNj2eYU_Km--1" value="Client" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="390" y="360" width="100" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="ttk8kgKUxnNj2eYU_Km--2" value="dispatch" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="ttk8kgKUxnNj2eYU_Km--1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-15" y="70" as="sourcePoint" />
+            <mxPoint x="45" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ttk8kgKUxnNj2eYU_Km--3" value="Server" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="735" y="360" width="100" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="ttk8kgKUxnNj2eYU_Km--4" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="ttk8kgKUxnNj2eYU_Km--3">
+          <mxGeometry x="45" y="80" width="10" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="ttk8kgKUxnNj2eYU_Km--5" value="이전 요청 횟수 3회 미만 검증" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" edge="1" parent="ttk8kgKUxnNj2eYU_Km--3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="50" y="90" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="80" y="120" />
+            </Array>
+            <mxPoint x="55" y="120" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ttk8kgKUxnNj2eYU_Km--6" value="피드백 다듬기 요청(객관식 내용, 주관식 내용, 수신자 ID)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" edge="1" parent="1" target="ttk8kgKUxnNj2eYU_Km--4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="440" y="445" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ttk8kgKUxnNj2eYU_Km--7" value="AI 서버" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="1050" y="360" width="100" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="ttk8kgKUxnNj2eYU_Km--8" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="ttk8kgKUxnNj2eYU_Km--7">
+          <mxGeometry x="45" y="150" width="10" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="ttk8kgKUxnNj2eYU_Km--9" value="다듬기 결과 반환(남은 요청 횟수, 다듬은 주관식 내용)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" edge="1" parent="1" source="ttk8kgKUxnNj2eYU_Km--4" target="ttk8kgKUxnNj2eYU_Km--1">
+          <mxGeometry x="-0.0015" relative="1" as="geometry">
+            <mxPoint x="440" y="515" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ttk8kgKUxnNj2eYU_Km--10" value="AI 다듬기 API 호출" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" edge="1" parent="1" target="ttk8kgKUxnNj2eYU_Km--8">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="785" y="515" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ttk8kgKUxnNj2eYU_Km--11" value="다듬기 결과 반환" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" edge="1" parent="1" source="ttk8kgKUxnNj2eYU_Km--8">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="785" y="585" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ttk8kgKUxnNj2eYU_Km--12" value="&lt;b&gt;피드백 내용 AI 다듬기&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="707.5" y="320" width="155" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="pW6AoVzt6mv1C4MsbdI9" name="피드백 리포트 조회하기">
+    <mxGraphModel dx="1413" dy="1015" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="i4US0uSQQL3sDcrPP484-1" value="Client" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="380" y="280" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="i4US0uSQQL3sDcrPP484-2" value="dispatch" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="i4US0uSQQL3sDcrPP484-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-15" y="70" as="sourcePoint" />
+            <mxPoint x="45" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="i4US0uSQQL3sDcrPP484-3" value="Server" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="998" y="280" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="i4US0uSQQL3sDcrPP484-4" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="i4US0uSQQL3sDcrPP484-3">
+          <mxGeometry x="45" y="90" width="10" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="i4US0uSQQL3sDcrPP484-5" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="i4US0uSQQL3sDcrPP484-3">
+          <mxGeometry x="50" y="130" width="10" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="i4US0uSQQL3sDcrPP484-6" value="피드백 리포트&amp;nbsp;&lt;div&gt;존재여부 검증&lt;/div&gt;" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" edge="1" parent="i4US0uSQQL3sDcrPP484-3" target="i4US0uSQQL3sDcrPP484-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="55" y="110" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="85" y="140" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="i4US0uSQQL3sDcrPP484-7" value="피드백 리포트 조회하기(받은 사람 ID)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" edge="1" parent="1" target="i4US0uSQQL3sDcrPP484-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="430" y="375" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="i4US0uSQQL3sDcrPP484-8" value="조회결과 반환(한눈에 보기 리스트(카테고리, 칭찬해요 개수, 아쉬워요 개수), 전체보기 리스트(키워드, 칭찬해요 개수, 아쉬워요 개수) )" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" edge="1" parent="1" source="i4US0uSQQL3sDcrPP484-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="430" y="530" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="430" y="530" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="i4US0uSQQL3sDcrPP484-9" value="&lt;b&gt;피드백 리포트 조회하기&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="660" y="280" width="130" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="QiHniy4A_r20_KZMKfZF" name="피드백 요청하기">
+    <mxGraphModel dx="1413" dy="1015" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Ju9tjWAuhf83DQURyoAj-1" value="Client" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="450" y="380" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="Ju9tjWAuhf83DQURyoAj-2" value="dispatch" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="Ju9tjWAuhf83DQURyoAj-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-15" y="70" as="sourcePoint" />
+            <mxPoint x="45" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ju9tjWAuhf83DQURyoAj-3" value="Server" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="1050" y="380" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="Ju9tjWAuhf83DQURyoAj-4" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="Ju9tjWAuhf83DQURyoAj-3">
+          <mxGeometry x="45" y="90" width="10" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="Ju9tjWAuhf83DQURyoAj-5" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="Ju9tjWAuhf83DQURyoAj-3">
+          <mxGeometry x="50" y="150" width="10" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Ju9tjWAuhf83DQURyoAj-6" value="이미 요청한 적 있는지 확인" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" edge="1" parent="Ju9tjWAuhf83DQURyoAj-3" target="Ju9tjWAuhf83DQURyoAj-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="55" y="130" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="85" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ju9tjWAuhf83DQURyoAj-7" value="피드백 요청(요청할 사용자 id, 요청사항 본문)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" edge="1" parent="1" target="Ju9tjWAuhf83DQURyoAj-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="500" y="475" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ju9tjWAuhf83DQURyoAj-8" value="요청 결과 반환" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" edge="1" parent="1" source="Ju9tjWAuhf83DQURyoAj-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="500" y="630" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="500" y="630" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ju9tjWAuhf83DQURyoAj-9" value="&#39;피드백 요청&#39; 이벤트 발행" style="html=1;verticalAlign=bottom;endArrow=open;curved=0;rounded=0;endFill=0;" edge="1" parent="1" source="Ju9tjWAuhf83DQURyoAj-4">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="1120" y="610" as="sourcePoint" />
+            <mxPoint x="1240" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Ju9tjWAuhf83DQURyoAj-10" value="&lt;b&gt;피드백 요청하기&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="760" y="380" width="100" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="w2yt2YA7I8c4Mtw6yKzz" name="피드백 좋아요/취소">
+    <mxGraphModel dx="1413" dy="1015" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="YpDQgMqMNaTcLVmHzmz4-1" value="Client" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="530" y="420" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="YpDQgMqMNaTcLVmHzmz4-2" value="dispatch" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="YpDQgMqMNaTcLVmHzmz4-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-15" y="70" as="sourcePoint" />
+            <mxPoint x="45" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YpDQgMqMNaTcLVmHzmz4-3" value="Server" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="1130" y="420" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="YpDQgMqMNaTcLVmHzmz4-4" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="YpDQgMqMNaTcLVmHzmz4-3">
+          <mxGeometry x="45" y="90" width="10" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="YpDQgMqMNaTcLVmHzmz4-5" value="피드백 좋아요 요청(좋아요/취소 여부, 피드백 id)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" edge="1" parent="1" target="YpDQgMqMNaTcLVmHzmz4-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="580" y="515" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YpDQgMqMNaTcLVmHzmz4-6" value="피드백 좋아요 처리 결과 반환(좋아요/취소 반영 후 상태)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" edge="1" parent="1" source="YpDQgMqMNaTcLVmHzmz4-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="580" y="670" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="580" y="670" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YpDQgMqMNaTcLVmHzmz4-7" value="&lt;span class=&quot;notion-enable-hover&quot; data-token-index=&quot;0&quot; style=&quot;&quot;&gt;&#39;피드백 변경&#39; 이벤트 발행&lt;/span&gt;" style="html=1;verticalAlign=bottom;endArrow=open;curved=0;rounded=0;endFill=0;" edge="1" parent="1" source="YpDQgMqMNaTcLVmHzmz4-4">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="1200" y="650" as="sourcePoint" />
+            <mxPoint x="1320" y="650" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="YpDQgMqMNaTcLVmHzmz4-8" value="&lt;b&gt;피드백 좋아요/취소&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="830" y="420" width="110" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="OoImam2XuC8tR1X23xOY" name="회고 작성하기">
+    <mxGraphModel dx="1413" dy="1015" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="QB_lO8_gJk6iq8D-0d7t-1" value="Client" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="390" y="480" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="QB_lO8_gJk6iq8D-0d7t-2" value="dispatch" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="QB_lO8_gJk6iq8D-0d7t-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-15" y="70" as="sourcePoint" />
+            <mxPoint x="45" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QB_lO8_gJk6iq8D-0d7t-3" value="Server" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="990" y="480" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="QB_lO8_gJk6iq8D-0d7t-4" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="QB_lO8_gJk6iq8D-0d7t-3">
+          <mxGeometry x="45" y="90" width="10" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="QB_lO8_gJk6iq8D-0d7t-5" value="회고 작성하기(내용)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" edge="1" parent="1" target="QB_lO8_gJk6iq8D-0d7t-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="440" y="575" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QB_lO8_gJk6iq8D-0d7t-6" value="회고 작성 완료 여부 반환" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" edge="1" parent="1" source="QB_lO8_gJk6iq8D-0d7t-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="440" y="730" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="440" y="730" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QB_lO8_gJk6iq8D-0d7t-7" value="&lt;b&gt;회고 작성하기&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="690" y="480" width="90" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="cHa8HsVPh0ziRVfmNuqM" name="회고 조회하기">
+    <mxGraphModel dx="1413" dy="1015" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="4RDxh085Y6oiRy48s4HM-1" value="Client" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="290" y="500" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="4RDxh085Y6oiRy48s4HM-2" value="dispatch" style="html=1;verticalAlign=bottom;startArrow=oval;endArrow=block;startSize=8;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;" edge="1" parent="4RDxh085Y6oiRy48s4HM-1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-15" y="70" as="sourcePoint" />
+            <mxPoint x="45" y="70" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4RDxh085Y6oiRy48s4HM-3" value="Server" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="1">
+          <mxGeometry x="890" y="500" width="100" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="4RDxh085Y6oiRy48s4HM-4" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" vertex="1" parent="4RDxh085Y6oiRy48s4HM-3">
+          <mxGeometry x="45" y="90" width="10" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="4RDxh085Y6oiRy48s4HM-5" value="회고 조회하기(작성자 id)" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0;entryY=0;entryDx=0;entryDy=5;" edge="1" parent="1" target="4RDxh085Y6oiRy48s4HM-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="595" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4RDxh085Y6oiRy48s4HM-6" value="조회한 회고 목록 반환(내용)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=1;exitDx=0;exitDy=-5;" edge="1" parent="1" source="4RDxh085Y6oiRy48s4HM-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="340" y="750" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="340" y="750" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4RDxh085Y6oiRy48s4HM-7" value="&lt;b&gt;회고 조회하기&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="590" y="500" width="90" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

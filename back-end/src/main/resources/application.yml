@@ -1,0 +1,39 @@
+# 공통 설정 파일
+# 개발환경 설정 파일은 application-dev.yml
+# 운영환경 설정 파일은 application-prod.yml
+
+spring.application.name: back-end
+spring:
+  profiles:
+    default: dev
+  mail:
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true #
+          timeout: 5000
+          starttls:
+            enable: true
+  session:
+    timeout: 2147483647
+    redis:
+      save-mode: always
+      flush-mode: immediate
+
+springdoc:
+  swagger-ui:
+    path: /swagger # swagger-ui 접근 경로. 해당 경로로 접근 시 /swagger/index.html로 리다이렉션 됨
+
+
+server:
+  servlet:
+    session:
+      cookie:
+        max-age: 2147483647
+        http-only: true
+        name: JSESSIONID
+
+logging:
+  level:
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
