@@ -46,7 +46,7 @@ export const useEmailSignUp = () => {
 export const useLogin = (teamCode) => {
   const navigate = useNavigate();
   const { setUserId } = useUser();
-  const { mutate: joinTeam } = useJoinTeam();
+  const { mutate: joinTeam } = useJoinTeam(teamCode);
   return useMutation({
     mutationFn: (data) =>
       api.post({ url: '/api/auth/email/login', body: data }),
@@ -54,7 +54,7 @@ export const useLogin = (teamCode) => {
       const { email, message, userId } = data;
       setUserId(userId);
       if (teamCode) {
-        joinTeam(teamCode);
+        joinTeam();
       }
       navigate('/main');
     },
@@ -88,9 +88,8 @@ export const useGetGoogleUrl = () => {
   });
 };
 
-export const useGoogleLogin = (teamCode, errorModal) => {
+export const useGoogleLogin = (errorModal) => {
   const { setUserId } = useUser();
-  const { mutate: joinTeam } = useJoinTeam();
   const navigate = useNavigate();
   return useMutation({
     mutationFn: (code) =>
@@ -98,10 +97,6 @@ export const useGoogleLogin = (teamCode, errorModal) => {
     onSuccess: (data) => {
       if (data.isAuthenticated) {
         setUserId(data.loginResponse.userId);
-        if (teamCode) {
-          joinTeam(teamCode);
-          localStorage.removeItem('tempTeamCode');
-        }
         navigate('/main', { replace: true });
       } else {
         const token = data.googleSignupToken.token;
