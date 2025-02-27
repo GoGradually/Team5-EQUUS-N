@@ -44,7 +44,9 @@ export default function CalendarWeeks({
       const containerLeft = container.scrollLeft;
       if (containerLeft === 0) {
         flipCalender(container, false);
-      } else if (containerLeft === container.clientWidth * 2) {
+      } else if (
+        Math.round(containerLeft) === Math.round(container.clientWidth * 2)
+      ) {
         flipCalender(container, true);
       }
     };
