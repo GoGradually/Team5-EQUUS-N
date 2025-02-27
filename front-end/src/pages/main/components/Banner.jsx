@@ -62,6 +62,7 @@ export default function Banner({ banner, onClose }) {
             handleFreqFeedbackReq(navigate, {
               teamId: notification.teamId,
               senderId: ids.length > 1 ? null : notification.senderId,
+              senderName: ids.length > 1 ? null : notification.senderName,
             }),
           needColorfulWave: true,
         };

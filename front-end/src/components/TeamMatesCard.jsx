@@ -59,7 +59,7 @@ export default function TeamMatesCard({
         )}
       </div>
       <MediumButton
-        text='피드백 보관함'
+        text='받은 피드백 보관함'
         onClick={onReceivedFeedbackClick}
         disabled={true}
       />
