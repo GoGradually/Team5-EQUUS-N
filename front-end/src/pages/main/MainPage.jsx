@@ -82,10 +82,10 @@ export default function MainPage() {
         } else if (scheduleId) {
           state = { scheduleId, isRegular: true };
         } else if (scheduleDate) {
-          state = { scheduleDate };
+          state = { scheduleDate: new Date(scheduleDate) };
         }
         navigate(redirect, { state });
-      }, 500);
+      }, 1500);
     }
   }, []);
 
