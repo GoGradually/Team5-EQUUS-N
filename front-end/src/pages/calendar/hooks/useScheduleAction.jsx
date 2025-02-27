@@ -7,16 +7,10 @@ export default function useScheduleAction(date, selectedSchedule) {
   const { userId } = useUser();
   const [doingAction, setDoingAction] = useState(false);
   const [actionType, setActionType] = useState(ScheduleActionType.ADD);
-
-  const {
-    curHour,
-    curMinute,
-  } = () => {
-    const nearestTime = getNearest10MinTime(new Date());
-    return {
-      curHour: nearestTime.getHours(),
-      curMinute: nearestTime.getMinutes(),
-    };
+  const nearestTime = getNearest10MinTime(new Date());
+  const { curHour, curMinute } = {
+    curHour: nearestTime.getHours(),
+    curMinute: nearestTime.getMinutes(),
   };
 
   const [selectedDate, setSelectedDate] = useState(new Date(date));
