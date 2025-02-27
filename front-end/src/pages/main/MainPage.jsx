@@ -75,14 +75,16 @@ export default function MainPage() {
     let state = {};
     if (redirect) {
       navigate('/main', { replace: true });
-      if (teamId) {
-        state = { teamId, senderId, isRegular: false };
-      } else if (scheduleId) {
-        state = { scheduleId, isRegular: true };
-      } else if (scheduleDate) {
-        state = { scheduleDate };
-      }
-      navigate(redirect, { state });
+      setTimeout(() => {
+        if (teamId) {
+          state = { teamId, senderId, isRegular: false };
+        } else if (scheduleId) {
+          state = { scheduleId, isRegular: true };
+        } else if (scheduleDate) {
+          state = { scheduleDate };
+        }
+        navigate(redirect, { state });
+      }, 500);
     }
   }, []);
 
