@@ -30,7 +30,7 @@ export default function TeamSpaceMake({ isFirst = false }) {
   const [isDatePickerOpen2, setIsDatePickerOpen2] = useState(false);
   const navigate = useNavigate();
   const { mutate: makeTeam } = useMakeTeam();
-  const { selectTeam } = useTeam();
+  const { selectTeam, setTeams, teams } = useTeam();
 
   if (location.pathname === '/teamspace/make/first') {
     useHandlePop(() => {
@@ -57,6 +57,7 @@ export default function TeamSpaceMake({ isFirst = false }) {
                   { from: '/first', teamId: teamData.id }
                 : { from: '/', teamId: teamData.id },
             });
+            setTeams([...teams, teamData]);
             selectTeam(teamData.id);
           },
         },
