@@ -35,7 +35,7 @@ export default function Splash() {
       if (member) {
         setUserId(member.id);
         if (teamCode && joinTeam) {
-          joinTeam(teamCode);
+          joinTeam();
         }
         moveTo('/main');
       } else {
@@ -45,10 +45,7 @@ export default function Splash() {
   }, [member]);
 
   const handleGoogleButton = () => {
-    if (teamCode) {
-      localStorage.setItem('tempTeamCode', teamCode);
-    }
-    window.location.href = googleAuthUrl.loginUrl;
+    window.location.href = googleAuthUrl.loginUrl + `&state=${teamCode}`;
   };
 
   return (
