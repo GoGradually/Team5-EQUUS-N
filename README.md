@@ -29,11 +29,29 @@
 # 팀원 소개
 
 <table>
+<tbody><tr>
+    <td width="25%" align="center"><a href="https://github.com/GoGradually"><b>BE - 한준호</b></a></td>
+    <td width="25%" align="center"><a href="https://github.com/vvsos1"><b>BE - 박명규</b></a></td>
+    <td width="25%" align="center"><a href="https://github.com/lsj1137"><b>FE - 임세준</b></a></td>
+    <td width="25%" align="center"><a href="https://github.com/hammsik"><b>FE - 백현식</b></a></td>
+</tr>
 <tr>
-<td align="center"><a href="https://github.com/lsj1137"><img src="https://avatars.githubusercontent.com/u/57708892?v=44" width="100px;" alt=""/><br /><sub><b>FE-임세준</b></sub></a><br />
-<td align="center"><a href="https://github.com/vvsos1"><img src="https://avatars.githubusercontent.com/u/26290830?v=4" width="100px;" alt=""/><br /><sub><b>BE-박명규</b></sub></a><br />
-<td align="center"><a href="https://github.com/GoGradually"><img src="https://avatars.githubusercontent.com/u/62929862?v=4" width="100px;" alt=""/><br /><sub><b>BE-한준호</b></sub></a><br />
-<td align="center"><a href="https://github.com/hammsik"><img src="https://avatars.githubusercontent.com/u/116339092?v=4" width="100px;" alt=""/><br /><sub><b>FE-백현식</b></sub></a><br />
+<td align="center"><a href="https://github.com/GoGradually"><img src="https://avatars.githubusercontent.com/u/62929862?v=4" width="180px;" alt=""/><br /></a><br />
+<td align="center"><a href="https://github.com/vvsos1"><img src="https://avatars.githubusercontent.com/u/26290830?v=4" width="180px;" alt=""/><br /></a><br />
+<td align="center"><a href="https://github.com/lsj1137"><img src="https://avatars.githubusercontent.com/u/57708892?v=44" width="180px;" alt=""/><br /></a><br />
+<td align="center"><a href="https://github.com/hammsik"><img src="https://avatars.githubusercontent.com/u/116339092?v=4" width="180px;" alt=""/><br /></a><br />
+</td>
+</tr>
+<tr>
+    <td align="start">- 사용자 도메인<br>- 팀 도메인<br>- 일정 도메인<br>- AI 다듬기 </td>
+    <td align="start">- 피드백 도메인<br>- 알림 도메인<br>- 구글 로그인<br>- CI/CD 구축</td>
+    <td align="start">- 회원가입/로그인 페이지<br>- 일정 페이지<br>- 팀 스페이스 만들기 페이지<br>- 팀 스페이스 관리 페이지<br>- 받은 피드백 조회 페이지<br>- 보낸 피드백 조회 페이지<br>- 회고 조회 페이지<br>- 비밀번호 초기화 페이지<br>- PWA, 웹 푸시알림</td>
+    <td align="start">- 메인 페이지<br>- 피드백 보내기 페이지<br>- 피드백 요청하기 페이지<br>- 마이페이지<br>- 프로필 수정 페이지<br>- 피드백 리포트 페이지<br>- API 모듈화 및 Mocking</td></tr>
+</tbody>
+</table>
+<br/>
+
+<table>
 </table>
 
 <br>
