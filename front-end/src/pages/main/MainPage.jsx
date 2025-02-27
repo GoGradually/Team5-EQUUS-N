@@ -30,7 +30,7 @@ import useHandlePop from '../../utility/useHandlePop';
 import Banner from './components/Banner';
 import { handleFreqFeedbackReq } from './components/Alarm';
 import OnboardingNotice from './components/OnboardingNotice';
-import usePushNoti from '../../api/usePushNoti';
+import { usePushNoti, useServiceWorkerMessage } from '../../api/usePushNoti';
 import { motion } from 'motion/react';
 
 export default function MainPage() {
@@ -53,10 +53,14 @@ export default function MainPage() {
 
   const { teams, selectedTeam, selectTeam } = useTeam(true);
   const { userId } = useUser();
-  const { data: recentScheduleData, isPending: isMainCardPending } =
+  const { data: recentScheduleData, invalidateMainCard } =
     useMainCard(selectedTeam);
   const { data: matesData } = useMainCard2(selectedTeam);
-  const { data: notificationsData, markAsRead } = useNotification(selectedTeam);
+  const {
+    data: notificationsData,
+    markAsRead,
+    invalidateNotification,
+  } = useNotification(selectedTeam);
 
   const [selectedDate, setSelectedDate] = useState(
     new Date(new Date().setSeconds(0, 0)),
@@ -67,10 +71,21 @@ export default function MainPage() {
     recentScheduleData,
   );
 
-  // TODO: 로딩 중 혹은 에러 발생 시 처리
   useHandlePop(() => {
     navigate(location.pathname, { replace: true });
   });
+
+  // Service Worker가 push message를 받으면, 클라리언트에 푸시 알람을 띄우는데,
+  // 이를 감지하여 현재 메인페이지에 사용되는 쿼리 캐시 초기화
+  useServiceWorkerMessage(invalidateNotification, [
+    'regularFeedbackRequest',
+    'frequentFeedbackRequest',
+    'feedbackReceive',
+  ]);
+  useServiceWorkerMessage(invalidateMainCard, [
+    'scheduleCreate',
+    'regularFeedbackRequest',
+  ]);
 
   useEffect(() => {
     let state = {};
