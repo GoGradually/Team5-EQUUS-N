@@ -69,12 +69,10 @@ export const useNotification = (teamId) => {
     enabled: !!teamId,
   });
 
-  const invalidateNotification = () =>
-    useCallback(
-      () =>
-        queryClient.invalidateQueries({ queryKey: ['notification', teamId] }),
-      [queryClient, teamId],
-    );
+  const invalidateNotification = useCallback(
+    () => queryClient.invalidateQueries({ queryKey: ['notification', teamId] }),
+    [queryClient, teamId],
+  );
 
   const markAsReadMutation = useMutation({
     mutationFn: (data) =>
