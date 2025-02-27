@@ -1,8 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { api } from './baseApi';
 import { useUser } from '../store/useUser';
-import { useCallback } from 'react';
-import { registerSW } from 'virtual:pwa-register';
+import { useCallback, useEffect, useMemo } from 'react';
 
 const useSubscribe = () => {
   return useMutation({
@@ -35,7 +34,7 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
-export default function usePushNoti() {
+export function usePushNoti() {
   const { data, isLoading } = useAppServerKey();
   const { mutate: subscribe } = useSubscribe();
   const { userId } = useUser();
@@ -94,3 +93,39 @@ export function stopPush() {
     });
   }
 }
+
+/**
+ * Service Worker로부터 메시지를 받는 Hook
+ * @param {function} onMessage - 메시지를 받았을 때 실행할 함수
+ * @param {string[]} messageTypes - 받을 메시지 타입
+ */
+export const useServiceWorkerMessage = (onMessage, messageTypes) => {
+  const allMessageType = useMemo(() => !messageTypes, [!!messageTypes]);
+
+  useEffect(() => {
+    const handleServiceWorkerMessage = (event) => {
+      const data = event.data;
+      if (allMessageType) {
+        onMessage(data);
+      } else if (messageTypes.includes(data.type)) {
+        onMessage(data);
+      }
+    };
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener(
+        'message',
+        handleServiceWorkerMessage,
+      );
+    }
+
+    return () => {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.removeEventListener(
+          'message',
+          handleServiceWorkerMessage,
+        );
+      }
+    };
+  }, [messageTypes, allMessageType, onMessage]);
+};

@@ -71,8 +71,11 @@ self.addEventListener('push', function (event) {
     data: { clickUrl, parameter },
   };
   event.waitUntil(
-    // 푸시 알림을 정상적으로 브라우저에 표시할 때까지 작업이 중단되지 않도록 보장하는 역할
-    self.registration.showNotification('피드한줌', options), // Service Worker의 registration 객체에서 showNotification() 메서드를 호출하여 푸시 알림을 실제로 표시합니다.
+    Promise.allSettled([
+      sendMessageToClients(notificationType),
+      // 푸시 알림을 정상적으로 브라우저에 표시할 때까지 작업이 중단되지 않도록 보장하는 역할
+      self.registration.showNotification('피드한줌', options), // Service Worker의 registration 객체에서 showNotification() 메서드를 호출하여 푸시 알림을 실제로 표시합니다.
+    ]),
   );
 });
 
@@ -91,3 +94,14 @@ self.addEventListener('notificationclick', function (event) {
   notification.close();
   event.waitUntil(self.clients.openWindow(url));
 });
+
+async function sendMessageToClients(type) {
+  const clients = await self.clients.matchAll({
+    type: 'window',
+    includeUncontrolled: true,
+  });
+  const data = { type };
+  for (const client of clients) {
+    client.postMessage(data);
+  }
+}

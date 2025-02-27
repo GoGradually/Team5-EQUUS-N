@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import TextButton, { TextButtonType } from './buttons/TextButton';
 import Icon from './Icon';
 import { useNavigate } from 'react-router-dom';
-import usePushNoti from '../api/usePushNoti';
-import { checkIsFinished } from '../utility/time';
+import { usePushNoti } from '../api/usePushNoti';
 
 /**
  * @param {object} props

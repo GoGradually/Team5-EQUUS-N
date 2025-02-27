@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { api } from './baseApi';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -16,13 +17,29 @@ export const useMyTeams = ({ enabled }) => {
 /**
  * 메인카드 데이터를 가져오는 훅
  * @param {number} teamId
+ * @returns {data, invalidateMainCard}
  */
 export const useMainCard = (teamId) => {
-  return useQuery({
+  // 훅을 최상위 레벨에서 호출
+  const queryClient = useQueryClient();
+
+  const { data } = useQuery({
     queryKey: ['mainCard', teamId],
-    queryFn: () => api.get({ url: `/api/team/${teamId}/schedule` }), // 임시
+    queryFn: () => api.get({ url: `/api/team/${teamId}/schedule` }),
     enabled: !!teamId,
   });
+
+  // 함수 메모이제이션
+  const invalidateMainCard = useCallback(() => {
+    queryClient.invalidateQueries({
+      queryKey: ['mainCard', teamId],
+    });
+  }, [queryClient, teamId]);
+
+  return {
+    data,
+    invalidateMainCard,
+  };
 };
 
 /**
@@ -39,6 +56,8 @@ export const useMainCard2 = (teamId) => {
 
 /**
  * 사용자의 알람 데이터를 가져오고, 알람을 읽음으로 표시하는 훅
+ * @param {number} teamId
+ * @returns {data, isLoading, isError, markAsRead, invalidateNotification}
  */
 export const useNotification = (teamId) => {
   const queryClient = useQueryClient();
@@ -50,12 +69,15 @@ export const useNotification = (teamId) => {
     enabled: !!teamId,
   });
 
+  const invalidateNotification = useCallback(
+    () => queryClient.invalidateQueries({ queryKey: ['notification', teamId] }),
+    [queryClient, teamId],
+  );
+
   const markAsReadMutation = useMutation({
     mutationFn: (data) =>
       api.post({ url: '/api/notification/mark-as-read', body: data }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notification'] });
-    },
+    onSuccess: invalidateNotification,
   });
 
   return {
@@ -63,5 +85,6 @@ export const useNotification = (teamId) => {
     isLoading,
     isError,
     markAsRead: markAsReadMutation.mutate,
+    invalidateNotification,
   };
 };

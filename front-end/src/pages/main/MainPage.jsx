@@ -30,7 +30,7 @@ import useHandlePop from '../../utility/useHandlePop';
 import Banner from './components/Banner';
 import { handleFreqFeedbackReq } from './components/Alarm';
 import OnboardingNotice from './components/OnboardingNotice';
-import usePushNoti from '../../api/usePushNoti';
+import { usePushNoti, useServiceWorkerMessage } from '../../api/usePushNoti';
 import { motion } from 'motion/react';
 
 export default function MainPage() {
@@ -53,10 +53,14 @@ export default function MainPage() {
 
   const { teams, selectedTeam, selectTeam } = useTeam(true);
   const { userId } = useUser();
-  const { data: recentScheduleData, isPending: isMainCardPending } =
+  const { data: recentScheduleData, invalidateMainCard } =
     useMainCard(selectedTeam);
   const { data: matesData } = useMainCard2(selectedTeam);
-  const { data: notificationsData, markAsRead } = useNotification(selectedTeam);
+  const {
+    data: notificationsData,
+    markAsRead,
+    invalidateNotification,
+  } = useNotification(selectedTeam);
 
   const [selectedDate, setSelectedDate] = useState(
     new Date(new Date().setSeconds(0, 0)),
@@ -67,10 +71,21 @@ export default function MainPage() {
     recentScheduleData,
   );
 
-  // TODO: 로딩 중 혹은 에러 발생 시 처리
   useHandlePop(() => {
     navigate(location.pathname, { replace: true });
   });
+
+  // Service Worker가 push message를 받으면, 클라리언트에 푸시 알람을 띄우는데,
+  // 이를 감지하여 현재 메인페이지에 사용되는 쿼리 캐시 초기화
+  useServiceWorkerMessage(invalidateNotification, [
+    'regularFeedbackRequest',
+    'frequentFeedbackRequest',
+    'feedbackReceive',
+  ]);
+  useServiceWorkerMessage(invalidateMainCard, [
+    'scheduleCreate',
+    'regularFeedbackRequest',
+  ]);
 
   useEffect(() => {
     let state = {};
@@ -151,13 +166,16 @@ export default function MainPage() {
     return () => toggleTodoAdd();
   };
 
+  // 레이아웃 쉬프팅 시간 동안을 커버할 수 있는 customEasing 적용
+  const customEasing = [0.82, -0.04, 0.88, 0.36];
+
   return (
     <motion.div
       className='relative flex size-full flex-col overflow-hidden'
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.14 }}
+      transition={{ duration: 0.14, ease: customEasing }}
     >
       <div className='scrollbar-hidden size-full overflow-x-hidden overflow-y-auto'>
         <StickyWrapper className='px-5'>
@@ -178,7 +196,7 @@ export default function MainPage() {
         </StickyWrapper>
         {banners?.length > 0 && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
               y: {
@@ -186,8 +204,9 @@ export default function MainPage() {
                 stiffness: 400,
                 damping: 12,
               },
-              duration: 0.23,
-              ease: 'circOut',
+              opacity: {
+                ease: customEasing,
+              },
             }}
           >
             <Slider {...sliderSettings} className='my-4 pb-2'>
@@ -205,7 +224,7 @@ export default function MainPage() {
           <motion.div
             initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.23, ease: 'circOut' }}
+            transition={{ duration: 0.23, ease: customEasing }}
           >
             <MainCard
               userId={userId}
@@ -223,7 +242,7 @@ export default function MainPage() {
           <motion.div
             initial={{ opacity: 0, y: 0 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.23, ease: 'circOut' }}
+            transition={{ duration: 0.23, ease: customEasing }}
           >
             <TeamMatesCard
               teamMates={matesData}
