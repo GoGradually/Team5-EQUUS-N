@@ -12,5 +12,11 @@ import java.util.Optional;
 public interface TeamRepository extends JpaRepository<Team, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select t from Team t where t.id = :id")
-    Optional<Team> findByIdForUpdate(@Param("id") Long id);
+    Optional<Team> findByIdForUpdateExclusiveLock(@Param("id") Long id);
+
+
+    @Lock(LockModeType.PESSIMISTIC_READ)
+    @Query("select t from Team t where t.id = :id")
+    Optional<Team> findByIdForUpdateSharedLock(@Param("id") Long id);
+
 }

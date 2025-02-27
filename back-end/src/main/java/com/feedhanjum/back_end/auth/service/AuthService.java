@@ -114,7 +114,7 @@ public class AuthService {
     @Transactional(readOnly = true)
     public Optional<PasswordResetToken> sendPasswordResetEmail(String email) {
         Optional<MemberDetails> memberDetails = memberDetailsRepository.findByEmail(email);
-        if (memberDetails.isEmpty()) {
+        if (memberDetails.isEmpty() || !memberDetails.get().getAccountType().equals(MemberDetails.Type.EMAIL)) {
             return Optional.empty();
         }
 
@@ -153,8 +153,8 @@ public class AuthService {
         memberDetails.changePassword(newHashedPassword);
     }
 
-    public String getGoogleLoginUrl() {
-        return googleAuthService.getGoogleLoginUrl();
+    public String getGoogleLoginUrl(String redirectBaseUrl) {
+        return googleAuthService.getGoogleLoginUrl(redirectBaseUrl);
     }
 
     @Transactional
@@ -174,8 +174,8 @@ public class AuthService {
     }
 
     @Transactional
-    public GoogleLoginResultDto authenticateGoogle(String googleCode) {
-        GoogleAuthService.GoogleUserInfoResponse userInfo = googleAuthService.getUserInfo(googleCode);
+    public GoogleLoginResultDto authenticateGoogle(String googleCode, String redirectBaseUrl) {
+        GoogleAuthService.GoogleUserInfoResponse userInfo = googleAuthService.getUserInfo(googleCode, redirectBaseUrl);
         String email = userInfo.email();
 
         Optional<MemberDetails> memberDetailsOptional = memberDetailsRepository.findByEmail(email);
@@ -187,7 +187,9 @@ public class AuthService {
         }
 
         MemberDetails memberDetails = memberDetailsOptional.get();
-        memberDetails.validateGoogleAccount();
+        if (!memberDetails.getAccountType().equals(MemberDetails.Type.GOOGLE)) {
+            throw new EmailAlreadyExistsException("이메일로 회원가입한 계정이 이미 존재합니다.");
+        }
         return GoogleLoginResultDto.authenticated(memberDetails);
     }
 

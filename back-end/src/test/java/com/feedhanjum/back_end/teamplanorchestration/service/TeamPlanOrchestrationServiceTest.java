@@ -21,7 +21,9 @@ import com.feedhanjum.back_end.team.exception.TeamMembershipNotFoundException;
 import com.feedhanjum.back_end.team.repository.TeamMemberRepository;
 import com.feedhanjum.back_end.team.repository.TeamRepository;
 import com.feedhanjum.back_end.team.service.dto.TeamUpdateDto;
+import com.feedhanjum.back_end.teamplanorchestration.domain.TeamPlanOrchestrator;
 import jakarta.persistence.EntityNotFoundException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -29,6 +31,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.*;
 import java.util.Collections;
@@ -72,8 +75,18 @@ class TeamPlanOrchestrationServiceTest {
     @Mock
     MemberQueryRepository memberQueryRepository;
 
+    TeamPlanOrchestrator teamPlanOrchestrator;
+
     @InjectMocks
     TeamPlanOrchestrationService teamPlanOrchestrationService;
+
+    @BeforeEach
+    void setUp() {
+        // clock 목은 이미 MockitoExtension에 의해 초기화됨
+        teamPlanOrchestrator = spy(new TeamPlanOrchestrator(clock));
+        // 서비스의 필드에 주입
+        ReflectionTestUtils.setField(teamPlanOrchestrationService, "teamPlanOrchestrator", teamPlanOrchestrator);
+    }
 
     @Nested
     @DisplayName("팀 정보 업데이트")
@@ -91,7 +104,7 @@ class TeamPlanOrchestrationServiceTest {
             TeamUpdateDto teamUpdateDto = new TeamUpdateDto("haha", startDate, endDate, FeedbackType.IDENTIFIED);
             Team team = createTeamWithId("team", leader, startDate, endDate, LocalDate.now(clock));
 
-            when(teamRepository.findByIdForUpdate(team.getId())).thenReturn(Optional.of(team));
+            when(teamRepository.findByIdForUpdateExclusiveLock(team.getId())).thenReturn(Optional.of(team));
             when(memberRepository.findById(leader.getId())).thenReturn(Optional.of(leader));
 
             // when
@@ -116,7 +129,7 @@ class TeamPlanOrchestrationServiceTest {
             Team team = createTeamWithId("team", member);
             TeamUpdateDto teamUpdateDto = new TeamUpdateDto("haha", startDate, endDate, FeedbackType.IDENTIFIED);
 
-            when(teamRepository.findByIdForUpdate(team.getId())).thenReturn(Optional.of(team));
+            when(teamRepository.findByIdForUpdateExclusiveLock(team.getId())).thenReturn(Optional.of(team));
             when(memberRepository.findById(member.getId())).thenReturn(Optional.of(member));
 
             // when, then
@@ -134,7 +147,7 @@ class TeamPlanOrchestrationServiceTest {
             LocalDate endDate = LocalDate.of(2025, 1, 2);
             TeamUpdateDto teamUpdateDto = new TeamUpdateDto("haha", startDate, endDate, FeedbackType.ANONYMOUS);
 
-            when(teamRepository.findByIdForUpdate(teamId)).thenReturn(Optional.empty());
+            when(teamRepository.findByIdForUpdateExclusiveLock(teamId)).thenReturn(Optional.empty());
 
             // when, then
             assertThatThrownBy(() -> teamPlanOrchestrationService.updateTeamInfo(memberId, teamId, teamUpdateDto))
@@ -155,7 +168,7 @@ class TeamPlanOrchestrationServiceTest {
             TeamUpdateDto teamUpdateDto = new TeamUpdateDto("hoho", startDate, endDate, FeedbackType.ANONYMOUS);
 
             when(memberRepository.findById(notLeader.getId())).thenReturn(Optional.of(notLeader));
-            when(teamRepository.findByIdForUpdate(team.getId())).thenReturn(Optional.of(team));
+            when(teamRepository.findByIdForUpdateExclusiveLock(team.getId())).thenReturn(Optional.of(team));
 
             // when, then
             assertThatThrownBy(() -> teamPlanOrchestrationService.updateTeamInfo(notLeader.getId(), team.getId(), teamUpdateDto))
@@ -175,7 +188,7 @@ class TeamPlanOrchestrationServiceTest {
             TeamUpdateDto teamUpdateDto = new TeamUpdateDto("haha", startDate, endDate, FeedbackType.IDENTIFIED);
             Team team = createTeamWithId("team", leader, startDate, endDate, LocalDate.now(clock));
 
-            when(teamRepository.findByIdForUpdate(team.getId())).thenReturn(Optional.of(team));
+            when(teamRepository.findByIdForUpdateExclusiveLock(team.getId())).thenReturn(Optional.of(team));
             when(memberRepository.findById(leader.getId())).thenReturn(Optional.of(leader));
             when(scheduleQueryRepository.findLatestEndTimeByTeamId(team.getId())).thenReturn(Optional.of(LocalDateTime.of(2025, 1, 4, 0, 10, 0)));
 
@@ -197,7 +210,7 @@ class TeamPlanOrchestrationServiceTest {
             TeamUpdateDto teamUpdateDto = new TeamUpdateDto("haha", startDate, endDate, FeedbackType.IDENTIFIED);
             Team team = createTeamWithId("team", leader, startDate, endDate, LocalDate.now(clock));
 
-            when(teamRepository.findByIdForUpdate(team.getId())).thenReturn(Optional.of(team));
+            when(teamRepository.findByIdForUpdateExclusiveLock(team.getId())).thenReturn(Optional.of(team));
             when(memberRepository.findById(leader.getId())).thenReturn(Optional.of(leader));
             when(scheduleQueryRepository.findEarliestStartTimeByTeamId(team.getId())).thenReturn(Optional.of(LocalDateTime.of(2025, 1, 1, 0, 10, 0)));
 
@@ -228,7 +241,7 @@ class TeamPlanOrchestrationServiceTest {
             when(requestDto.todos()).thenReturn(List.of(hehe));
 
             Team team = mock(Team.class);
-            when(teamRepository.findByIdForUpdate(teamId)).thenReturn(Optional.of(team));
+            when(teamRepository.findByIdForUpdateSharedLock(teamId)).thenReturn(Optional.of(team));
             when(team.getStartDate()).thenReturn(LocalDate.of(2025, 2, 28));
             when(team.getEndDate()).thenReturn(LocalDate.of(2025, 3, 2));
 
@@ -274,7 +287,7 @@ class TeamPlanOrchestrationServiceTest {
             Long memberId = 1L;
             Long teamId = 1L;
             ScheduleRequestDto requestDto = mock(ScheduleRequestDto.class);
-            when(teamRepository.findByIdForUpdate(teamId)).thenReturn(Optional.empty());
+            when(teamRepository.findByIdForUpdateSharedLock(teamId)).thenReturn(Optional.empty());
 
             // when, then
             assertThatThrownBy(() ->
@@ -291,7 +304,7 @@ class TeamPlanOrchestrationServiceTest {
             Long teamId = 1L;
             ScheduleRequestDto requestDto = mock(ScheduleRequestDto.class);
             Team team = mock(Team.class);
-            when(teamRepository.findByIdForUpdate(teamId)).thenReturn(Optional.of(team));
+            when(teamRepository.findByIdForUpdateSharedLock(teamId)).thenReturn(Optional.of(team));
             when(memberRepository.findById(memberId)).thenReturn(Optional.empty());
 
             // when, then
@@ -309,7 +322,7 @@ class TeamPlanOrchestrationServiceTest {
             Long teamId = 1L;
             ScheduleRequestDto requestDto = mock(ScheduleRequestDto.class);
             Team team = mock(Team.class);
-            when(teamRepository.findByIdForUpdate(teamId)).thenReturn(Optional.of(team));
+            when(teamRepository.findByIdForUpdateSharedLock(teamId)).thenReturn(Optional.of(team));
             Member member = mock(Member.class);
             when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
             when(teamMemberRepository.findByMemberIdAndTeamId(memberId, teamId))
@@ -331,7 +344,7 @@ class TeamPlanOrchestrationServiceTest {
             ScheduleRequestDto requestDto = mock(ScheduleRequestDto.class);
             when(requestDto.startTime()).thenReturn(LocalDateTime.of(2025, 3, 1, 10, 0));
             Team team = mock(Team.class);
-            when(teamRepository.findByIdForUpdate(teamId)).thenReturn(Optional.of(team));
+            when(teamRepository.findByIdForUpdateSharedLock(teamId)).thenReturn(Optional.of(team));
             Member member = mock(Member.class);
             when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
             when(teamMemberRepository.findByMemberIdAndTeamId(memberId, teamId))
@@ -369,7 +382,7 @@ class TeamPlanOrchestrationServiceTest {
             when(requestDto.todos()).thenReturn(List.of(hehe));
 
             Team team = mock(Team.class);
-            when(teamRepository.findByIdForUpdate(teamId)).thenReturn(Optional.of(team));
+            when(teamRepository.findById(teamId)).thenReturn(Optional.of(team));
 
             Member member = mock(Member.class);
             when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
@@ -404,13 +417,17 @@ class TeamPlanOrchestrationServiceTest {
             ScheduleRequestDto requestDto = mock(ScheduleRequestDto.class);
 
             Team team = mock(Team.class);
-            when(teamRepository.findByIdForUpdate(teamId)).thenReturn(Optional.of(team));
+            when(teamRepository.findById(teamId)).thenReturn(Optional.of(team));
 
             Member member = mock(Member.class);
             when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
 
             Schedule schedule = mock(Schedule.class);
             when(scheduleRepository.findById(scheduleId)).thenReturn(Optional.of(schedule));
+
+            ScheduleMember scheduleMember = mock(ScheduleMember.class);
+            when(scheduleMemberRepository.findByMemberIdAndScheduleId(memberId, scheduleId)).thenReturn(Optional.of(scheduleMember));
+
             // 종료 시간이 현재 시간보다 이전
             LocalDateTime pastTime = LocalDateTime.of(2025, 1, 1, 10, 0);
             when(schedule.getEndTime()).thenReturn(pastTime);

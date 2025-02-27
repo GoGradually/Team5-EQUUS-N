@@ -174,14 +174,14 @@ class AuthServiceTest {
             GoogleAuthService.GoogleUserInfoResponse userInfo = new GoogleAuthService.GoogleUserInfoResponse("test@email.com", "name1");
             MemberDetails existGoogleUser = MemberDetails.createGoogleUser(1L, "test@email.com");
             String googleCode = "googleCode";
-
-            when(googleAuthService.getUserInfo(googleCode))
+            String referer = "https://test.com";
+            when(googleAuthService.getUserInfo(googleCode, referer))
                     .thenReturn(userInfo);
             when(memberDetailsRepository.findByEmail(existGoogleUser.getEmail()))
                     .thenReturn(Optional.of(existGoogleUser));
 
             // when
-            GoogleLoginResultDto result = authService.authenticateGoogle(googleCode);
+            GoogleLoginResultDto result = authService.authenticateGoogle(googleCode, referer);
 
             // then
             assertThat(result.isAuthenticated()).isTrue();
@@ -198,15 +198,15 @@ class AuthServiceTest {
             GoogleAuthService.GoogleUserInfoResponse userInfo = new GoogleAuthService.GoogleUserInfoResponse("test@email.com", "name1");
             MemberDetails existEmailUser = MemberDetails.createEmailUser(1L, "test@email.com", "password");
             String googleCode = "googleCode";
-
-            when(googleAuthService.getUserInfo(googleCode))
+            String referer = "https://test.com";
+            when(googleAuthService.getUserInfo(googleCode, referer))
                     .thenReturn(userInfo);
             when(memberDetailsRepository.findByEmail(existEmailUser.getEmail()))
                     .thenReturn(Optional.of(existEmailUser));
 
             // when & then
-            assertThatThrownBy(() -> authService.authenticateGoogle(googleCode))
-                    .isInstanceOf(InvalidCredentialsException.class);
+            assertThatThrownBy(() -> authService.authenticateGoogle(googleCode, referer))
+                    .isInstanceOf(EmailAlreadyExistsException.class);
         }
 
         @Test
@@ -216,13 +216,15 @@ class AuthServiceTest {
             String email = "test@email.com";
             GoogleAuthService.GoogleUserInfoResponse userInfo = new GoogleAuthService.GoogleUserInfoResponse(email, "name1");
             String googleCode = "googleCode";
+            String referer = "https://test.com";
 
-            when(googleAuthService.getUserInfo(googleCode))
+
+            when(googleAuthService.getUserInfo(googleCode, referer))
                     .thenReturn(userInfo);
             when(memberDetailsRepository.findByEmail(email))
                     .thenReturn(Optional.empty());
 
-            GoogleLoginResultDto result = authService.authenticateGoogle(googleCode);
+            GoogleLoginResultDto result = authService.authenticateGoogle(googleCode, referer);
 
             ArgumentCaptor<GoogleSignupToken> captor = ArgumentCaptor.captor();
             verify(googleSignupTokenService).save(captor.capture());

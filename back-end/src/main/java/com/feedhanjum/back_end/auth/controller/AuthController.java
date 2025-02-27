@@ -21,11 +21,14 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -190,18 +193,21 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "조회 성공")
     })
     @GetMapping("/google/login-url")
-    public ResponseEntity<GoogleLoginUrlResponse> getGoogleLoginUrl() {
-        return ResponseEntity.ok(new GoogleLoginUrlResponse(authService.getGoogleLoginUrl()));
+    public ResponseEntity<GoogleLoginUrlResponse> getGoogleLoginUrl(@RequestHeader(HttpHeaders.REFERER) String referer) {
+        String redirectBaseUrl = getBaseUrl(referer);
+
+        return ResponseEntity.ok(new GoogleLoginUrlResponse(authService.getGoogleLoginUrl(redirectBaseUrl)));
     }
 
     @Operation(summary = "구글 로그인 or 구글 회원가입 토큰 응답", description = "구글 회원가입된 상태라면 로그인, 아니라면 회원가입 시 필요한 토큰을 발급합니다")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "로그인 or 회원가입 토큰 발급 성공"),
-            @ApiResponse(responseCode = "401", description = "구글 로그인 실패", content = @Content)
+            @ApiResponse(responseCode = "401", description = "구글 로그인 실패", content = @Content),
+            @ApiResponse(responseCode = "409", description = "이미 중복되는 이메일 계정이 존재하는 경우", content = @Content)
     })
     @PostMapping("/google/login")
-    public ResponseEntity<GoogleLoginResponse> loginWithGoogle(HttpSession session, @Valid @RequestBody GoogleLoginRequest request) {
-        GoogleLoginResultDto loginResult = authService.authenticateGoogle(request.code());
+    public ResponseEntity<GoogleLoginResponse> loginWithGoogle(HttpSession session, @RequestHeader(HttpHeaders.REFERER) String referer, @Valid @RequestBody GoogleLoginRequest request) {
+        GoogleLoginResultDto loginResult = authService.authenticateGoogle(request.code(), getBaseUrl(referer));
 
         if (loginResult.isAuthenticated()) {
             MemberDetails member = loginResult.memberDetails();
@@ -236,5 +242,17 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    private String getBaseUrl(String referer) {
+        try {
+            URL url = new URL(referer);
+            String baseUrl = url.getProtocol() + "://" + url.getHost();
+            if (url.getPort() != -1) {
+                baseUrl += ":" + url.getPort();
+            }
+            return baseUrl;
 
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("referrer header is not valid url", e);
+        }
+    }
 }
