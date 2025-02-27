@@ -69,13 +69,13 @@ export const useEditTeam = (teamId) => {
 };
 
 export const useJoinTeam = (teamCode) => {
-  if (!teamCode) return { mutation: null };
+  if (!teamCode) return { mutate: () => {} };
 
   const queryClient = useQueryClient();
   const { selectTeam } = useTeam();
   return useMutation({
-    mutationFn: (code) => {
-      const sendingData = { token: code };
+    mutationFn: () => {
+      const sendingData = { token: teamCode };
       return api.post({ url: `/api/team/join`, params: sendingData });
     },
     onSuccess: (teamData) => {
