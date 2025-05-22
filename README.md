@@ -138,4 +138,4 @@ https://www.figma.com/design/76hKNmM5L0ba1xrDnxbEwd/Handoff_EQUUS-N-(Copy)?node-
 
 <br>
 
-# [📚 프로젝트 위키](https://github.com/softeer5th/Team5-EQUUS-N/wiki)
+# [📚 프로젝트 위키](https://github.com/GoGradually/Team5-EQUUS-N/wiki)
